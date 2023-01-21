@@ -1,0 +1,11 @@
+<div class="content-section">
+    <div class="row mx-auto justify-content-center">
+        <div class="card-4" style="width: 90%;">
+            <div id="chart1"></div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.plot.ly/plotly-2.16.1.min.js"></script>
+<script type="text/javascript">
+    var graph1 = {{ quantity_update_graph| safe }}
+    plotly.plot("chart1", graph1, {})

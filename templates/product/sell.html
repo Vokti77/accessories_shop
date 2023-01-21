@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1 align="center"> Sell Quantity </h1>
+<form action="{% url 'confirm_sell' product_id %}" method="POST" novalidate style="margin-top: 50px" enctype="multipart/form-data" >
+    {% csrf_token %}
+    Quantity : <input type="number" name="quantity" style="padding-right: 30px;">
+      
+      <br><br>
+    <input class="btn btn-outline-dark btn-block" type="submit" value="Sold">
+</form>
+{% endblock %}
