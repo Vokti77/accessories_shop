@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1 align="center"> Product Selling Info. </h1>
+<div class=" display: flex; justify-content: center;">
+  <form action="{% url 'dashboard:confirm-sell' product_id %}" method="POST" novalidate style="margin-top: 50px;" enctype="multipart/form-data"  >
+      {% csrf_token %}
+      {{product_id.name}}
+      Quantity : <input type="number" id="input1" name="quantity" onkeyup="mul()" style="padding-left: 50px;" ><br><br>
+      Sell Price : <input type="number" id="input2" name="price" onkeyup="mul()" style="padding-left: 50px;">
+      <br><br>
+      <span id="total" style="font-size: 20px; font-weight: bold; text-align: center;"></span>
+        <br><br>
+      <input class="btn btn-outline-dark btn-block" type="submit" value="Sold">
+  </form>
+</div>
+<script>
+  function mul(){
+    var input1 = document.getElementById('input1').value;
+    var input2 = document.getElementById('input2').value;
+    var total = input1 * input2;
+    document.getElementById('total').innerHTML = "Total : " + total;
+  }
+</script>
+{% endblock %}

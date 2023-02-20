@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+{% block extra_css %}
+    <style xmlns="http://www.w3.org/1999/html">
+    </style>
+{% endblock %}
+{% block page_title %}
+ Form
+{% endblock %}
+{% block content %}
+<div class="page-breadcrumb">
+    <div class="row">
+        <div class="col-12 d-flex no-block align-items-center">
+            <h4 class="page-title">Servicing Info.</h4>
+            <div class="ml-auto text-right">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Library</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <form class="form-horizontal" method="post">
+                    {% csrf_token %} 
+                    <div class="card-body">
+                        <h4 class="card-title"></h4>
+                        <div class="form-group row">
+                            <label for="fname" class="col-sm-3 text-right control-label col-form-label">Servicer Name
+                            </label>
+                            <div class="col-sm-9">
+                                <input type="text" name="product_name" class="form-control" id="fname" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="lname" class="col-sm-3 text-right control-label col-form-label">Servicing
+                                Name</label>
+                            <div class="col-sm-9">
+                                <input type="text" name="brand_name" class="form-control" id="lname" placeholder="">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group row">
+                            <label for="lname"
+                                    class="col-sm-3 text-right control-label col-form-label">Servicing Cost</label>
+                            <div class="col-sm-9">
+                                <input type="number" name="buying_price" class="form-control" id="lname" placeholder="">
+                            </div>
+                        </div> 
+                    </div>
+                    <div class="border-top">
+                        <div class="card-body">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+               
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    $(".select2").select2();
+    $('.demo').each(function () {
+        
+        $(this).minicolors({
+            control: $(this).attr('data-control') || 'hue',
+            position: $(this).attr('data-position') || 'bottom left',
+
+            change: function (value, opacity) {
+                if (!value) return;
+                if (opacity) value += ', ' + opacity;
+                if (typeof console === 'object') {
+                    console.log(value);
+                }
+            },
+            theme: 'bootstrap'
+        });
+
+    });
+    /*datwpicker*/
+    jQuery('.mydatepicker').datepicker();
+    jQuery('#datepicker-autoclose').datepicker({
+        autoclose: true,
+        todayHighlight: true
+    });
+
+    var quill = new Quill('#editor', {
+        theme: 'snow'
+    });
+</script>
+        
+{% endblock %}
+
+

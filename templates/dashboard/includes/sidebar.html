@@ -1,0 +1,20 @@
+{% load static %}
+
+<aside class="left-sidebar scrollable ps-container ps-theme-default ps-active-y" data-sidebarbg="skin5">
+    <div class="scroll-sidebar">
+        <nav class="sidebar-nav">
+            <ul id="sidebarnav" class="p-t-30">
+                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{% url 'dashboard:dashboard' %}" aria-expanded="false"><i class="mdi mdi-view-dashboard"></i><span class="hide-menu">Dashboard</span></a></li>
+                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{% url 'dashboard:tables' %}" aria-expanded="false"><i class="mdi mdi-border-inside"></i><span class="hide-menu">Products</span></a></li>
+                <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-blur-linear"></i><span class="hide-menu">Reports </span></a>
+                    <ul aria-expanded="false" class="collapse  first-level">
+                        <li class="sidebar-item"><a href="{% url 'dashboard:report' type='daily' %}" class="sidebar-link"><i class="mdi mdi-numeric-1-box-outline"></i><span class="hide-menu"> Daily </span></a></li>
+                        <li class="sidebar-item"><a href="{% url 'dashboard:report' type='weekly' %}" class="sidebar-link"><i class="mdi mdi-numeric-7-box-outline"></i><span class="hide-menu"> Weekly </span></a></li>
+                        <li class="sidebar-item"><a href="{% url 'dashboard:report' type='monthly' %}" class="sidebar-link"><i class="mdi mdi-numeric-9-plus-box-outline"></i><span class="hide-menu"> Monthly </span></a></li>
+                    </ul>
+                </li>
+                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{% url 'dashboard:chat' %}" aria-expanded="false"><i class="mdi mdi-border-inside"></i><span class="hide-menu">Chat</span></a></li>
+            </ul>
+        </nav>
+    </div>
+</aside>

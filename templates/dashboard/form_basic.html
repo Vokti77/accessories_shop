@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+{% block extra_css %}
+    <style xmlns="http://www.w3.org/1999/html">
+    </style>
+{% endblock %}
+{% block page_title %}
+ Form
+{% endblock %}
+{% block content %}
+    <div class="page-breadcrumb">
+        <div class="row">
+            <div class="col-12 d-flex no-block align-items-center">
+                <h4 class="page-title">Form Basic</h4>
+                <div class="ml-auto text-right">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Library</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <!-- ============================================================== -->
+        <!-- Start Page Content -->
+        <!-- ============================================================== -->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <form class="form-horizontal" method="post">
+                        {% csrf_token %} 
+                        <div class="card-body">
+                            <h4 class="card-title">Add New Product</h4>
+                            <div class="form-group row">
+                                <label for="fname" class="col-sm-3 text-right control-label col-form-label">Product
+                                    Name</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="product_name" class="form-control" id="fname" placeholder="Product Name Here">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="lname" class="col-sm-3 text-right control-label col-form-label">Brand
+                                    Name</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="brand_name" class="form-control" id="lname" placeholder="Product Brand Name Here">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="lname"
+                                       class="col-sm-3 text-right control-label col-form-label">Quantity</label>
+                                <div class="col-sm-9">
+                                    <input type="number" name="product_quantity" class="form-control" id="lname" placeholder="Quantity Here">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="lname"
+                                       class="col-sm-3 text-right control-label col-form-label">Buying Price</label>
+                                <div class="col-sm-9">
+                                    <input type="number" name="buying_price" class="form-control" id="lname" placeholder="Buying Price Here">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="cono1" class="col-sm-3 text-right control-label col-form-label">Expected Sell Price
+                                    </label>
+                                <div class="col-sm-9">
+                                    <input type="number" name="expecting_selling_price" class="form-control" id="cono1" placeholder="Expected Sell Price">
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="border-top">
+                            <div class="card-body">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+               
+    </div>
+
+
+{% endblock %}
+
+{% block extra_js %}
+           <script>
+            //***********************************//
+            // For select 2
+            //***********************************//
+            $(".select2").select2();
+
+            /*colorpicker*/
+            $('.demo').each(function () {
+                //
+                // Dear reader, it's actually very easy to initialize MiniColors. For example:
+                //
+                //  $(selector).minicolors();
+                //
+                // The way I've done it below is just for the demo, so don't get confused
+                // by it. Also, data- attributes aren't supported at this time...they're
+                // only used for this demo.
+                //
+                $(this).minicolors({
+                    control: $(this).attr('data-control') || 'hue',
+                    position: $(this).attr('data-position') || 'bottom left',
+
+                    change: function (value, opacity) {
+                        if (!value) return;
+                        if (opacity) value += ', ' + opacity;
+                        if (typeof console === 'object') {
+                            console.log(value);
+                        }
+                    },
+                    theme: 'bootstrap'
+                });
+
+            });
+            /*datwpicker*/
+            jQuery('.mydatepicker').datepicker();
+            jQuery('#datepicker-autoclose').datepicker({
+                autoclose: true,
+                todayHighlight: true
+            });
+
+            var quill = new Quill('#editor', {
+                theme: 'snow'
+            });
+        </script>
+        
+{% endblock %}
+
+
