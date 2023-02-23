@@ -169,12 +169,16 @@ def report(request, type):
     total_buying_price = 0
     total_profit = 0
     total_sold = 0
+    sellprice = 0
 
     for product in products:
         total_quantity += product.product_quantity
         total_sold += product.remining_quantity
-        total_buying_price +=  product.product_quantity * product.buying_price
-        total_selling_price += product.expecting_selling_price * product.product_quantity
+
+        total_buying_price +=  product.buying_price * product.product_quantity
+    
+        total_selling_price += product.expecting_selling_price * product.remining_quantity
+
         total_profit += product.remining_quantity * (product.expecting_selling_price - product.buying_price)
 
     context = {
@@ -185,7 +189,9 @@ def report(request, type):
         'values': values,
         'products': products,
         'total_sold' : total_sold,
+
     }
+
 
     return render(request, 'dashboard/report.html', context)
 
@@ -201,18 +207,6 @@ def chat(request):
         'df1' : df1,
     }
     return render(request, "dashboard/chat.html", context)
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
