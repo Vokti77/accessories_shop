@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Service
 from .forms import ServicingForm
 
@@ -6,7 +6,7 @@ def add_service(request):
     form = ServicingForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         form.save()
-        return redirect('/')
+        return redirect('service-info')
     else:
         form = ServicingForm()
     context = {

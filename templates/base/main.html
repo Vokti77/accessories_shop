@@ -50,15 +50,22 @@
                   </li>
                </ul>
                <form class="form-inline my-2 my-lg-0">
+                  
                   <div class="login_menu">
                      <ul>
-                        <li><a href="{% url 'account:login' %}">Login</a></li>
-                        <li><a href="{% url 'account:register' %}">Register</a></li>
+                        {% if request.user.is_authenticated %}
+                     <li><a href="{% url 'dashboard:dashboard' %}">Dashboard</a></li>
+                     <li><a href="{% url 'logout' %}">Logout</a></li>
+                  {% else %}
+                     <li><a href="{% url 'account:login' %}">Login</a></li>
+                     <li><a href="{% url 'account:register' %}">Register</a></li>
+                     {% endif %}
+                        
                         <!-- <li><a href="#"><img src="{% static 'images/trolly-icon.png' %}"></a></li>
                         <li><a href="#"><img src="{% static 'images/search-icon.png' %}"></a></li> -->
                      </ul>
                   </div>
-                  <div></div>
+                  
                </form>
             </div>
             <div id="main">
