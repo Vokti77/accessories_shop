@@ -16,6 +16,7 @@ class Product(models.Model):
 
     def __str__(self):
         return f"{self.product_quantity} X {self.product_name}"
+    
 
 class Sell(models.Model):
     product = models.ForeignKey('Product', on_delete=models.CASCADE, blank=True, default=1)

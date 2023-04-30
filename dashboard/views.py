@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from accessories.models import Product, Sell
@@ -21,6 +22,7 @@ def index(request):
     total_sell_amount = 0
     total_profit = 0
     total_sold = 0
+    profit = 0
     product_item = Product.objects.all()
     for product in product_item:
         total_quantity += product.product_quantity
@@ -35,7 +37,8 @@ def index(request):
         'total_amount': total_amount,
         'total_profit' : total_profit,
         'total_sold' : total_sold,
-        'total_sell_amount':total_sell_amount
+        'total_sell_amount':total_sell_amount,
+        'profit' : profit,
     } 
     return render(request, 'dashboard/index.html', context)
 
@@ -45,6 +48,7 @@ def tables(request):
     total_quantity = 0
     total_amount = 0
     total_sell_amount = 0
+    profit = 0
     total_profit = 0
     total_sold = 0
     if 'quary_set' in request.GET:
@@ -56,6 +60,9 @@ def tables(request):
     else:
         product_item = Product.objects.all()
         for product in product_item:
+            if product.product_quantity < 5:
+                messages.warning(request, f"The quantity of {product.product_name} is less than 5.")
+
             total_quantity += product.product_quantity
             profit = product.actual_sell_price - (product.sale_quantity * product.buying_price)
             total_amount += product.buying_price*product.product_quantity
@@ -76,15 +83,18 @@ def tables(request):
             # fall back to last page
             product_item = paginator.page(paginator.num_pages)
 
+    if product.product_quantity < 5:
+        messages.warning(request, f"The quantity of {product.product_name} is less than 5.")
+        
     context = {
         'product_item' : product_item,
         'total_quantity': total_quantity,
         'total_amount': total_amount,
+        'profit' : profit,
         'total_profit' : total_profit,
         'total_sold' : total_sold,
         'total_sell_amount':total_sell_amount
     }
-
     return render(request, ['dashboard/tables.html', 'dashboard/index.html'], context)
 
 
@@ -150,6 +160,7 @@ def confirm_sell(request, product_id):
         if sell_q.product_quantity >= quantity:
             sell_q.product_quantity -= quantity
             sell_q.sale_quantity += quantity
+            sell_q.remining_quantity = sell_price
             sell_q.actual_sell_price += (sell_price*quantity)
             sell_q.save()
             return redirect('dashboard:tables')
@@ -189,17 +200,20 @@ def report(request, type):
     total_buying_price = 0
     total_profit = 0
     total_sold = 0
-    sellprice = 0
+    profit = 0
 
+    # products = Product.objects.all()
     for product in products:
         total_quantity += product.product_quantity
-        total_sold += product.remining_quantity
+        total_sold += product.sale_quantity
 
         total_buying_price +=  product.buying_price * product.product_quantity
     
-        total_selling_price += product.expecting_selling_price * product.remining_quantity
+        total_selling_price += product.expecting_selling_price * product.sale_quantity
 
-        total_profit += product.remining_quantity * (product.expecting_selling_price - product.buying_price)
+        profit = product.actual_sell_price - (product.sale_quantity * product.buying_price)
+
+        total_profit += profit
 
     context = {
         'total_quantity': total_quantity,

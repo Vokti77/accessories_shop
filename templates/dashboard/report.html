@@ -21,7 +21,7 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{% url 'dashboard:dashboard' %}">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Library</li>
+                        
                     </ol>
                 </nav>
             </div>
@@ -55,10 +55,10 @@
                         <td>{{product.buying_price}}</td>
                         <td>{{product.expecting_selling_price}}</td>
                         <td>{% widthratio product.buying_price 1 product.product_quantity %}</td>
-                        <td>{{product.remining_quantity}}</td>
-                        <td>{{product.remining_quantity|mul:product.expecting_selling_price}}</td>
+                        <td>{{product.sale_quantity}}</td>
+                        <td>{{product.sale_quantity|mul:product.expecting_selling_price}}</td>
                         <!-- <td>{{product.remining_quantity|mul:product.buying_price}}</td> -->
-                        <td>{{product.expecting_selling_price|sub:product.buying_price|mul:product.remining_quantity}}</td>
+                        <td>{{ product.sale_quantity|mul:product.buying_price|sub:product.actual_sell_price }}</td>
                     </tr>
                 {% endfor %}     
             </tbody>
@@ -73,7 +73,6 @@
                     <th>{{ total_sold }}</th>
                     <th>{{ total_selling_price }}</th>
                     <th>{{ total_profit }}</th>
-                    <th></th>  
                 </tr>
             </tfoot> 
         </table>
