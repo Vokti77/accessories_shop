@@ -39,6 +39,7 @@
                     <th>Servicing Info</th>
                     <th>Cost</th>
                     <th>Date</th>
+                    <th>Action</th>
                     
                 </tr>
             </thead>
@@ -49,6 +50,16 @@
                         <td>{{instance.servicing_name}}</td>
                         <td>{{instance.sevicing_cost}}</td>
                         <td>{{instance.date_added}}</td>
+                        <td>
+                            <a href="{% url 'upadate-service' instance.id %}" data-toggle="tooltip" data-placement="top" title="Update">
+                                <i class="mdi mdi-check"></i>
+                            </a>
+                            
+
+
+                            <a href="{% url 'delete-service' instance.id %}" data-toggle="tooltip" data-placement="top" title="Delete">
+                                </i><i class="mdi mdi-close"></i>
+                        </td>
                     </tr>
                 {% endfor %}     
             </tbody>

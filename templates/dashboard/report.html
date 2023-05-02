@@ -47,18 +47,18 @@
                 </tr>
             </thead>
             <tbody>
-                {% for product in products %}
+                {% for sell in sells %}
                     <tr>
-                        <td>{{product.product_name}}</td>
-                        <td>{{product.brand_name}}</td>
-                        <td>{{product.product_quantity}}</td>
-                        <td>{{product.buying_price}}</td>
-                        <td>{{product.expecting_selling_price}}</td>
-                        <td>{% widthratio product.buying_price 1 product.product_quantity %}</td>
-                        <td>{{product.sale_quantity}}</td>
+                        <td>{{sell.product.product_name}}</td>
+                        <td>{{sell.product.brand_name}}</td>
+                        <td>{{sell.product.product_quantity}}</td>
+                        <td>{{sell.product.buying_price}}</td>
+                        <td>{{sell.product.expecting_selling_price}}</td>
+                        <td>{% widthratio sell.product.buying_price 1 sell.product.product_quantity %}</td>
+                        <td>{{sell.sale_quantity}}</td>
                         <td>{{product.sale_quantity|mul:product.expecting_selling_price}}</td>
                         <!-- <td>{{product.remining_quantity|mul:product.buying_price}}</td> -->
-                        <td>{{ product.sale_quantity|mul:product.buying_price|sub:product.actual_sell_price }}</td>
+                        <td>{{ sell.product.sale_quantity|mul:product.buying_price|sub:product.actual_sell_price }}</td>
                     </tr>
                 {% endfor %}     
             </tbody>
@@ -66,11 +66,11 @@
                 <tr>
                     <th>Total = </th>
                     <th></th>
-                    <th>{{ total_quantity }}</th>
+                    <th></th>
                     <th></th>
                     <th></th>
                     <th>{{ total_buying_price }}</th>
-                    <th>{{ total_sold }}</th>
+                    <th></th>
                     <th>{{ total_selling_price }}</th>
                     <th>{{ total_profit }}</th>
                 </tr>

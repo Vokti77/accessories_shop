@@ -16,18 +16,6 @@
 <div class="page-breadcrumb">
     <div class="row">
         <div class="col-12 d-flex no-block align-items-center">
-            
-            {% for message in messages %}
-        <div class="container-fluid p-0">
-        <div class="alert {{ message.tags }} alert-warning" role="alert" >
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="True">&times;</span>
-            </button>
-            {{ message }}
-        </div>
-        </div>
-        {% endfor %}
-            
             <div class="ml-auto text-right">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
@@ -68,7 +56,11 @@
                     <tr>
                         <td>{{product.product_name}}</td>
                         <td>{{product.brand_name}}</td>
+                        {% if product.product_quantity < 5 %}
+                        <td class="text-danger">{{product.product_quantity}}</td>
+                        {% else %}
                         <td>{{product.product_quantity}}</td>
+                        {% endif %}
                         <td>{{product.buying_price}}</td>
                         <td>{{product.expecting_selling_price}}</td>
                         <td>{% widthratio product.buying_price 1 product.product_quantity %}</td>
@@ -97,15 +89,14 @@
                     <tr>
                         <th>Total = </th>
                         <th></th>
-                        <th>{{ total_quantity }}</th>
+                        <th></th>
                         <th></th>
                         <th></th>
                         <th>{{ total_amount }}</th>
-                        <th>{{ total_sold }}</th>
+                        <th></th>
                         <th>{{ total_sell_amount }}</th>
                         <th>{{ total_profit }}</th>
-                        <th></th>
-                        <th></th>  
+                        
                     </tr>
                 </tfoot>
                 

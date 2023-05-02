@@ -9,7 +9,7 @@ from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import pandas as pd
 import datetime
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 from django.http import HttpResponse
 import csv
 import decimal
@@ -17,40 +17,39 @@ import math
 
 @login_required
 def index(request):
-    total_quantity = 0
     total_amount = 0
     total_sell_amount = 0
     total_profit = 0
-    total_sold = 0
     profit = 0
+
     product_item = Product.objects.all()
+    low_quantity_products = Product.objects.filter(product_quantity__lt=5).count()
     for product in product_item:
-        total_quantity += product.product_quantity
+        if product.product_quantity < 5:
+            messages.warning(request, f"The quantity of {product.product_name} is less than 5 !")
+
         profit = product.actual_sell_price - (product.sale_quantity * product.buying_price)
         total_amount += product.buying_price*product.product_quantity
         total_sell_amount += product.actual_sell_price
-        total_sold += product.sale_quantity
         total_profit += profit
     context = {
         'product_item' : product_item,
-        'total_quantity': total_quantity,
         'total_amount': total_amount,
         'total_profit' : total_profit,
-        'total_sold' : total_sold,
         'total_sell_amount':total_sell_amount,
         'profit' : profit,
+        'low_quantity_products': low_quantity_products
     } 
     return render(request, 'dashboard/index.html', context)
 
 
 @login_required
 def tables(request):
-    total_quantity = 0
     total_amount = 0
     total_sell_amount = 0
     profit = 0
     total_profit = 0
-    total_sold = 0
+   
     if 'quary_set' in request.GET:
         quary_set = request.GET['quary_set']
         # product_item = Product.objects.filter(product_name__icontains=quary_set, brand_name_name__icontains=quary_set)
@@ -59,15 +58,15 @@ def tables(request):
         
     else:
         product_item = Product.objects.all()
+        low_quantity_products = Product.objects.filter(product_quantity__lt=5).count()
+
         for product in product_item:
             if product.product_quantity < 5:
-                messages.warning(request, f"The quantity of {product.product_name} is less than 5.")
+                messages.warning(request, f"The quantity of {product.product_name} is less than 5 !")
 
-            total_quantity += product.product_quantity
             profit = product.actual_sell_price - (product.sale_quantity * product.buying_price)
             total_amount += product.buying_price*product.product_quantity
             total_sell_amount += product.actual_sell_price
-            total_sold += product.sale_quantity
             total_profit += profit 
 
         page = request.GET.get('page', 1)
@@ -88,12 +87,11 @@ def tables(request):
         
     context = {
         'product_item' : product_item,
-        'total_quantity': total_quantity,
         'total_amount': total_amount,
         'profit' : profit,
         'total_profit' : total_profit,
-        'total_sold' : total_sold,
-        'total_sell_amount':total_sell_amount
+        'total_sell_amount': total_sell_amount,
+        'low_quantity_products': low_quantity_products
     }
     return render(request, ['dashboard/tables.html', 'dashboard/index.html'], context)
 
@@ -155,7 +153,8 @@ def confirm_sell(request, product_id):
             sale.sell_price += (sell_price*quantity)
             sale.save()
         else:
-            Sell(sell_quantity=quantity, sell_price=sell_price, product=sell_q).save()
+            sell = Sell(sell_quantity=quantity, sell_price=sell_price, product=sell_q, sell_at=date.today())
+            sell.save()
 
         if sell_q.product_quantity >= quantity:
             sell_q.product_quantity -= quantity
@@ -185,55 +184,55 @@ def product_csv(request):
 @login_required
 def report(request, type):
     values = type.split(',')
+    # today = date.today()
+    # sales = Sell.objects.filter(sell_at=today)
+    # total_sales = sum([sale.sell_quantity for sale in sales])
+
     today = datetime.now().date()
     if type == 'daily':
-        products = Product.objects.filter(Q(added_at=today) | Q(update_at=today))  #(Q(date_added__gte=week_ago) | Q(date_sold__gte=week_ago)
+        total_sales = 0
+        sells = Sell.objects.filter(Q(sell_at=today) | Q(update_at=today))  #(Q(date_added__gte=week_ago) | Q(date_sold__gte=week_ago)
+        total_sales = sum([sale.sell_quantity for sale in sells])
+
+
     elif type == 'weekly':
         week_ago = today - timedelta(days=7)
-        products = Product.objects.filter(Q(added_at__range=(week_ago, today)) | Q(update_at__range=(week_ago, today)))
+        sells = Sell.objects.filter(Q(sell_at__range=(week_ago, today)) | Q(update_at__range=(week_ago, today)))
     elif type == 'monthly':
         month_ago = today - timedelta(days=30)
-        products = Product.objects.filter(Q(added_at__range=(month_ago, today)) | Q(update_at__range=(month_ago, today)))
+        sells = Sell.objects.filter(Q(sell_at__range=(month_ago, today)) | Q(update_at__range=(month_ago, today)))
 
-    total_quantity = 0
     total_selling_price = 0
     total_buying_price = 0
     total_profit = 0
-    total_sold = 0
     profit = 0
 
     # products = Product.objects.all()
-    for product in products:
-        total_quantity += product.product_quantity
-        total_sold += product.sale_quantity
-
-        total_buying_price +=  product.buying_price * product.product_quantity
+    for sell in sells:
+  
+        # total_buying_price +=  product.buying_price * product.product_quantity
     
-        total_selling_price += product.expecting_selling_price * product.sale_quantity
+        # total_selling_price += product.expecting_selling_price * product.sale_quantity
 
-        profit = product.actual_sell_price - (product.sale_quantity * product.buying_price)
+        # profit = product.actual_sell_price - (product.sale_quantity * product.buying_price)
 
         total_profit += profit
 
     context = {
-        'total_quantity': total_quantity,
-        'total_selling_price': total_selling_price,
-        'total_buying_price': total_buying_price,
-        'total_profit': total_profit,
+        # 'total_selling_price': total_selling_price,
+        # 'total_buying_price': total_buying_price,
+        # 'total_profit': total_profit,
         'values': values,
-        'products': products,
-        'total_sold' : total_sold,
+        # 'sells': sells,
+        'total_sales': total_sales,
 
     }
-
-
     return render(request, 'dashboard/report.html', context)
+
 
 from django.db.models.functions import TruncDay, ExtractWeek
 from django.db.models import Sum
 import json
-
-
 def chat(request):
     data = Sell.objects.annotate(day=TruncDay('sell_at')).values('day').annotate(sell_quantity=Sum('sell_quantity'))
     

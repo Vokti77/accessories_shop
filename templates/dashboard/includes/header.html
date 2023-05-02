@@ -100,8 +100,8 @@
                         <!-- ============================================================== -->
                         <!-- Messages -->
                         <!-- ============================================================== -->
-                        <!-- <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" id="2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="font-24 mdi mdi-comment-processing"></i>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" id="2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="mdi mdi-bell font-24"></i><span style="position: absolute; border-radius: 50%; font-size: 13; height: 20px;">{{low_quantity_products}}</span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right mailbox animated bounceInDown" aria-labelledby="2">
                                 <ul class="list-style-none">
@@ -112,8 +112,16 @@
                                                 <div class="d-flex no-block align-items-center p-10">
                                                     <span class="btn btn-success btn-circle"><i class="ti-calendar"></i></span>
                                                     <div class="m-l-10">
-                                                        <h5 class="m-b-0">Event today</h5> 
-                                                        <span class="mail-desc">Just a reminder that event</span> 
+                                                        {% for message in messages %}
+                                                        <div class="container-fluid p-0">
+                                                        <div class="alert {{ message.tags }} alert-warning" role="alert" >
+                                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                            <span aria-hidden="True">&times;</span>
+                                                            </button>
+                                                            {{ message }}
+                                                        </div>
+                                                        </div>
+                                                        {% endfor %}
                                                     </div>
                                                 </div>
                                             </a>
@@ -122,7 +130,7 @@
                                     </li>
                                 </ul>
                             </div>
-                        </li> -->
+                        </li>
                         <!-- ============================================================== -->
                         <!-- End Messages -->
                         <!-- ============================================================== -->
