@@ -13,6 +13,18 @@
 
 {% block content %}
 
+<!-- {% if product.delete %}
+{% for message in messages %}
+    <div class="container-fluid p-0">
+    <div class="alert {{ message.tags }} alert-success" role="alert" >
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="True">&times;</span>
+        </button>
+        {{ message }}
+    </div>
+    </div>
+    {% endfor %} -->
+
 <div class="page-breadcrumb">
     <div class="row">
         <div class="col-12 d-flex no-block align-items-center">
@@ -67,10 +79,10 @@
                         <td>{{product.sale_quantity }}</td>
                         <td>{{product.actual_sell_price}}</td>
                         <!-- <td>{{product.remining_quantity|mul:product.expecting_selling_price}}</td> -->
-                        <td>{{ profit }}</td>
+                        
 
 
-                        <!-- <td>{{ product.sale_quantity|mul:product.buying_price|sub:product.actual_sell_price }}</td> -->
+                        <td>{{ product.actual_sell_price|sub:product.remining_quantity }}</td>
                         <td>
                             <a href="{% url 'dashboard:upadate-product' product.id %}" data-toggle="tooltip" data-placement="top" title="Update">
                                 <i class="mdi mdi-check"></i>

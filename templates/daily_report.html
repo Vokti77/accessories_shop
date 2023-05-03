@@ -1,0 +1,26 @@
+<h1>Daily Report - {{ date }}</h1>
+<p>Total amount received: {{ total_amount }}</p>
+<p>Total profit: {{ total_profit }}</p>
+<table>
+    <thead>
+        <tr>
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th>Selling Price</th>
+            <th>Product Buy</th>
+        
+            <th>Profit</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for quantity in quantities %}
+        <tr>
+            <td>{{ quantity.product__product_name }}</td>
+            <td>{{ quantity.total_quantity }}</td>
+            <td>{{ quantity.sell_price }}</td>
+            <td>{{ quantity.product.buying_price }}</td>
+            <td>{{ quantity.total_profit }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

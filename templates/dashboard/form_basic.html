@@ -12,7 +12,18 @@
     <div class="page-breadcrumb">
         <div class="row">
             <div class="col-12 d-flex no-block align-items-center">
-                <h4 class="page-title">Form Basic</h4>
+                <h4 class="page-title">
+                    {% for message in messages %}
+                    <div class="container-fluid p-0">
+                    <div class="alert {{ message.tags }} alert-success" role="alert" >
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="True">&times;</span>
+                    </button>
+                    {{ message }}
+                    </div>
+                    </div>
+                    {% endfor %}
+                </h4>
                 <div class="ml-auto text-right">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">

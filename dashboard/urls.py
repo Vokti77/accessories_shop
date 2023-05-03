@@ -12,6 +12,7 @@ urlpatterns = [
     path('product_csv/', views.product_csv, name='product-csv'),
     path('calculate_profit/', views.calculate_profit, name='calculate-profit'),
     path('report/<str:type>/', views.report, name='report'),
+    path('daily_report/', views.daily_report, name='daily-report'),
     
 
 
