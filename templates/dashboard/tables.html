@@ -13,8 +13,8 @@
 
 {% block content %}
 
-<!-- {% if product.delete %}
-{% for message in messages %}
+
+<!-- {% for message in messages %}
     <div class="container-fluid p-0">
     <div class="alert {{ message.tags }} alert-success" role="alert" >
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -99,7 +99,7 @@
                 </tbody>
                 <tfoot style="background-color: rgb(221, 215, 215);">
                     <tr>
-                        <th>Total = </th>
+                        <th>Total ={{total_item}} </th>
                         <th></th>
                         <th></th>
                         <th></th>
@@ -108,6 +108,7 @@
                         <th></th>
                         <th>{{ total_sell_amount }}</th>
                         <th>{{ total_profit }}</th>
+                        
                         
                     </tr>
                 </tfoot>

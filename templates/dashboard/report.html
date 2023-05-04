@@ -16,7 +16,7 @@
 <div class="page-breadcrumb">
     <div class="row">
         <div class="col-12 d-flex no-block align-items-center">
-            <h4 class="page-title">Reports</h4>
+            <h4 class="page-title">Report</h4>
             <div class="ml-auto text-right">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
@@ -40,27 +40,26 @@
                     <th>Quantity</th>
                     <th>Buy Price</th>
                     <th>Sell Price</th>
-                    <th>Total Amount</th>
                     <th>Sell Quantity</th>
                     <th>Total Sell Amount</th>
                     <th>Total Profit</th>
                 </tr>
             </thead>
             <tbody>
-                {% for sell in sells %}
-                    <tr>
-                        <td>{{sell.product.product_name}}</td>
-                        <td>{{sell.product.brand_name}}</td>
-                        <td>{{sell.product.product_quantity}}</td>
-                        <td>{{sell.product.buying_price}}</td>
-                        <td>{{sell.product.expecting_selling_price}}</td>
-                        <td>{% widthratio sell.product.buying_price 1 sell.product.product_quantity %}</td>
-                        <td>{{sell.sale_quantity}}</td>
-                        <td>{{product.sale_quantity|mul:product.expecting_selling_price}}</td>
-                        <!-- <td>{{product.remining_quantity|mul:product.buying_price}}</td> -->
-                        <td>{{ sell.product.sale_quantity|mul:product.buying_price|sub:product.actual_sell_price }}</td>
-                    </tr>
-                {% endfor %}     
+                {% for quantity in quantities %}
+                <tr>
+                    <td>{{ quantity.product__product_name }}</td>
+                    <td>{{ quantity.product__brand_name }}</td>
+                    <td>{{ quantity.product__product_quantity }}</td>
+                    <td>{{ quantity.product__buying_price }}</td>
+                    <td>{{ quantity.product__expecting_selling_price }}</td>
+                    
+                    <td>{{ quantity.total_quantity }}</td>
+                    <td>{{ quantity.total_sale_amount }}</td>
+                    <td>{{ quantity.total_profit }}</td>
+                    
+                </tr>
+                {% endfor %}   
             </tbody>
             <tfoot style="background-color: rgb(221, 215, 215); font-family: garamond; ">
                 <tr>
@@ -70,8 +69,7 @@
                     <th></th>
                     <th></th>
                     <th>{{ total_buying_price }}</th>
-                    <th></th>
-                    <th>{{ total_selling_price }}</th>
+                    <th>{{ total_amount }}</th>
                     <th>{{ total_profit }}</th>
                 </tr>
             </tfoot> 

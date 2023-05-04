@@ -14,6 +14,8 @@ urlpatterns = [
     path('report/<str:type>/', views.report, name='report'),
     path('daily_report/', views.daily_report, name='daily-report'),
     
+    path('accessories_summary', views.accessories_summary,name="accessories_summary"),
+    path('stats', views.stats_view,name="stats"),
 
 
     path("charts/", views.charts, name="charts"),

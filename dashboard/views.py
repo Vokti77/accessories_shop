@@ -3,6 +3,8 @@ from django.contrib import messages
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from accessories.models import Product, Sell
+from account.models import MyUser
+from django.contrib.auth.models import User
 from dashboard.forms import ProductsForm, SellForm
 from dashboard.models import * 
 from django.db.models import Q, F
@@ -11,6 +13,7 @@ import pandas as pd
 import datetime
 from datetime import datetime, timedelta, date
 from django.http import HttpResponse
+from django.http import JsonResponse
 import csv
 import decimal
 import math
@@ -18,11 +21,14 @@ import math
 @login_required
 def index(request):
     total_amount = 0
+    total_item = 0
     total_sell_amount = 0
     total_profit = 0
     profit = 0
 
     product_item = Product.objects.all()
+    user = MyUser.objects.count()
+    total_item = product_item.count()
     low_quantity_products = Product.objects.filter(product_quantity__lt=5).count()
     for product in product_item:
         if product.product_quantity < 5:
@@ -33,7 +39,9 @@ def index(request):
         total_sell_amount += product.actual_sell_price
         total_profit += profit
     context = {
+        'user': user,
         'product_item' : product_item,
+        'total_item': total_item,
         'total_amount': total_amount,
         'total_profit' : total_profit,
         'total_sell_amount':total_sell_amount,
@@ -46,6 +54,7 @@ def index(request):
 @login_required
 def tables(request):
     total_amount = 0
+    total_item = 0
     total_sell_amount = 0
     profit = 0
     total_profit = 0
@@ -58,6 +67,7 @@ def tables(request):
         
     else:
         product_item = Product.objects.all()
+        total_item = product_item.count()
         low_quantity_products = Product.objects.filter(product_quantity__lt=5).count()
         
 
@@ -66,7 +76,6 @@ def tables(request):
                 messages.warning(request, f"The quantity of {product.product_name} is less than 5 !")
 
             profit = product.actual_sell_price - product.remining_quantity
-            print(profit)
             total_amount += product.buying_price*product.product_quantity
             total_sell_amount += product.actual_sell_price
             total_profit += profit 
@@ -88,7 +97,8 @@ def tables(request):
         messages.warning(request, f"The quantity of {product.product_name} is less than 5.")
         
     context = {
-        'product_item' : product_item,
+        'product_item': product_item,
+        'total_item': total_item,
         'total_amount': total_amount,
         'profit' : profit,
         'total_profit' : total_profit,
@@ -155,7 +165,7 @@ def confirm_sell(request, product_id):
         if sale:
             sale.sell_quantity += quantity
             sale.sell_price += sell_price
-            sale.total_sell_price += sell_price*quantity
+            sale.total_sell_price += (sell_price*quantity)
             sale.save()
         else:
             sell = Sell(sell_quantity=quantity, sell_price=sell_price, product=sell_q, sell_at=date.today())
@@ -189,7 +199,6 @@ def product_csv(request):
 def daily_report(request):
     today = datetime.now().date()
     yesterday = today - timedelta(days=1)
-
     # Get the quantities sold for each product on the current day
     today_sales = Sell.objects.filter(Q(sell_at=today) | Q(update_at=today))
     today_quantities = today_sales.values('product', 'product__product_name').annotate(
@@ -200,101 +209,103 @@ def daily_report(request):
     # today_quantities = today_sales.values('product', 'product__product_name', 'product__buying_price').annotate(total_quantity=Sum('sell_quantity')).order_by('product')
    
     # Get the total quantities sold for each product, including previous days
-    previous_sales = Sell.objects.filter(Q(sell_at=today) | Q(update_at=today)).values('product').annotate(total_quantity=Sum('sell_quantity')).order_by('product')
-    print(previous_sales)
-
+    previous_sales = Sell.objects.filter(Q(sell_at=yesterday) | Q(update_at=yesterday)).values('product').annotate(total_quantity=Sum('sell_quantity')).order_by('product')
+    
     # Merge the two querysets to get the updated quantities for each product
     quantities = []
     for today_quantity in today_quantities:
         for previous_quantity in previous_sales:
             if today_quantity['product'] == previous_quantity['product']:
-                today_quantity['total_quantity'] += previous_quantity['total_quantity']
+                today_quantity['total_quantity'] += today_quantity['total_quantity']
                 break
         quantities.append(today_quantity)
-       
 
     total_amount = today_sales.aggregate(Sum('sell_price'))['sell_price__sum']
     total_profit = total_amount - today_sales.aggregate(Sum('sell_quantity', field='sell_quantity*product__buying_price'))['sell_quantity__sum']
     context = {'date': today, 'quantities': quantities, 'total_amount': total_amount, 'total_profit': total_profit}
     return render(request, 'daily_report.html', context)
 
-# def daily_report(request):
-#     today = datetime.now().date()
-#     sales = Sell.objects.filter(sell_at=today)
-#     quantities = sales.values('product').annotate(total_quantity=Sum('sell_quantity')).order_by('product')
-    
-#     total_amount = sales.aggregate(Sum('sell_price'))['sell_price__sum']
-#     total_profit = total_amount - (total_quantity * Product.objects.get(product_name='Product Name').buying_price)
-#     context = {'date': today, 'sales': sales, 'quantities': quantities, 'total_amount': total_amount}
-#     return render(request, 'daily_report.html', context)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 @login_required
 def report(request, type):
     values = type.split(',')
-    # today = date.today()
-    # sales = Sell.objects.filter(sell_at=today)
-    # total_sales = sum([sale.sell_quantity for sale in sales])
-
     today = datetime.now().date()
     if type == 'daily':
-        total_sales = 0
-        sells = Sell.objects.filter(Q(sell_at=today) | Q(update_at=today))  #(Q(date_added__gte=week_ago) | Q(date_sold__gte=week_ago)
-        total_sales = sum([sale.sell_quantity for sale in sells])
+        yesterday = today - timedelta(days=1)
+        # Get the quantities sold for each product on the current day
+        today_sales = Sell.objects.filter(Q(sell_at=today) | Q(update_at=today))
+        today_quantities = today_sales.values('product', 'product__product_name', 'product__brand_name', 'product__buying_price', 'product__product_quantity', 'product__expecting_selling_price').annotate(
+            total_quantity=Sum('sell_quantity'),
+            total_sale_amount=Sum('total_sell_price'),
+            total_profit=Sum((F('total_sell_price') - F('product__remining_quantity')))
+        ).order_by('product')
+
+        # Get the total quantities sold for each product, including previous days
+        previous_sales = Sell.objects.filter(Q(sell_at=yesterday) | Q(update_at=yesterday)).values('product').annotate(total_quantity=Sum('sell_quantity')).order_by('product')
+        
+        # Merge the two querysets to get the updated quantities for each product
+        quantities = []
+        for today_quantity in today_quantities:
+            for previous_quantity in previous_sales:
+                if today_quantity['product'] == previous_quantity['product']:
+                    today_quantity['total_quantity'] += today_quantity['total_quantity']
+                    break
+            quantities.append(today_quantity)
 
 
     elif type == 'weekly':
         week_ago = today - timedelta(days=7)
-        sells = Sell.objects.filter(Q(sell_at__range=(week_ago, today)) | Q(update_at__range=(week_ago, today)))
+        # Get the quantities sold for each product on the current day
+        today_sales = Sell.objects.filter(Q(sell_at=today) | Q(update_at=today))
+        today_quantities = today_sales.values('product', 'product__product_name', 'product__brand_name', 'product__buying_price', 'product__product_quantity', 'product__expecting_selling_price').annotate(
+            total_quantity=Sum('sell_quantity'),
+            total_sale_amount=Sum('total_sell_price'),
+            total_profit=Sum((F('total_sell_price') - F('product__remining_quantity')))
+        ).order_by('product')
+
+
+        # Get the total quantities sold for each product, including previous days
+        previous_sales = Sell.objects.filter(Q(sell_at=week_ago) | Q(update_at=week_ago)).values('product').annotate(total_quantity=Sum('sell_quantity')).order_by('product')
+        
+        # Merge the two querysets to get the updated quantities for each product
+        quantities = []
+        for today_quantity in today_quantities:
+            for previous_quantity in previous_sales:
+                if today_quantity['product'] == previous_quantity['product']:
+                    today_quantity['total_quantity'] += today_quantity['total_quantity']
+                    break
+            quantities.append(today_quantity)
+    
     elif type == 'monthly':
         month_ago = today - timedelta(days=30)
-        sells = Sell.objects.filter(Q(sell_at__range=(month_ago, today)) | Q(update_at__range=(month_ago, today)))
+        today_sales = Sell.objects.filter(Q(sell_at=today) | Q(update_at=today))
+        today_quantities = today_sales.values('product', 'product__product_name', 'product__brand_name', 'product__buying_price', 'product__product_quantity', 'product__expecting_selling_price').annotate(
+            total_quantity=Sum('sell_quantity'),
+            total_sale_amount=Sum('total_sell_price'),
+            total_profit=Sum((F('total_sell_price') - F('product__remining_quantity')))
+        ).order_by('product')
 
-    total_selling_price = 0
-    total_buying_price = 0
-    total_profit = 0
-    profit = 0
-
-    # sells = Sell.objects.all()
-    for sell in sells:
-  
-        # total_buying_price +=  product.buying_price * product.product_quantity
-    
-        # total_selling_price += product.expecting_selling_price * product.sale_quantity
-
-        # profit = product.actual_sell_price - (product.sale_quantity * product.buying_price)
-
-        total_profit += profit
-
-    context = {
-        # 'total_selling_price': total_selling_price,
-        # 'total_buying_price': total_buying_price,
-        # 'total_profit': total_profit,
-        'values': values,
-        # 'sells': sells,
-        'total_sales': total_sales,
+        # Get the total quantities sold for each product, including previous days
+        previous_sales = Sell.objects.filter(Q(sell_at=month_ago) | Q(update_at=month_ago)).values('product').annotate(total_quantity=Sum('sell_quantity')).order_by('product')
         
+        # Merge the two querysets to get the updated quantities for each product
+        quantities = []
+        for today_quantity in today_quantities:
+            for previous_quantity in previous_sales:
+                if today_quantity['product'] == previous_quantity['product']:
+                    today_quantity['total_quantity'] += today_quantity['total_quantity']
+                    break
+            quantities.append(today_quantity)
 
-    }
+    total_amount = today_sales.aggregate(Sum('total_sell_price'))['total_sell_price__sum']
+    total_profit = total_amount - today_sales.aggregate(Sum('sell_quantity', field='sell_quantity*product__buying_price'))['sell_quantity__sum']
+    
+    context = {
+        'date': today, 
+        'quantities': quantities, 
+        'total_amount': total_amount, 
+        'total_profit': total_profit,
+        }
     return render(request, 'dashboard/report.html', context)
 
 
@@ -326,6 +337,44 @@ def chat(request):
         'chart_data_json': chart_data_json
     }
     return render(request, "dashboard/chat.html", context)
+
+
+
+
+def accessories_summary(request):
+    todays_date = datetime.date.today()
+    months_ago = todays_date-datetime.timedelta(days=30)
+    items = Product.objects.filter(owner=request.user, date__gte=months_ago, date__lte=todays_date)
+    finalrep = {}
+
+    def get_product_item(item):
+        return item.product_name
+    item_list = list(set(map(get_product_item, items)))
+
+    def get_product_quantity(quantity):
+        product_quntity = 0
+        filtered_by_product_quntity = items.filter(quantity=quantity)
+
+        for p_item in filtered_by_product_quntity:
+            product_quntity += p_item.product_quantity
+
+        print(product_quntity)
+        return product_quntity
+    
+        
+
+    for x in items:
+        for y in item_list:
+            finalrep[y] = get_product_quantity(y)
+
+    return JsonResponse({'accessories_data': finalrep}, safe=False)
+
+
+def stats_view(request):
+    return render(request, 'stats.html')
+
+
+
 
 
 
