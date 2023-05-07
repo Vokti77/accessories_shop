@@ -42,12 +42,17 @@ def userlogin(request):
         if request.method == 'POST' or request.method == 'post':
             username = request.POST.get('username')
             password = request.POST.get('password')
-            my_user = authenticate(request, username=username, password=password)
+
+            try: 
+                my_user = authenticate(request, username=username, password=password)
+            except:
+                messages.warning(request, 'User does not exits!')
+
             if my_user is not None:
                 login(request, my_user)
                 return redirect('dashboard:dashboard')
             else:
-                return HttpResponse('404')
+                messages.warning(request, 'User does not exits!')
 
     return render(request, 'accounts/login.html')
 

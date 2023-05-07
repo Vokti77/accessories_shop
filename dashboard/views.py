@@ -149,8 +149,10 @@ def delete_product(request, product_id):
 
 @login_required
 def sell_quantity(request, product_id):
+    product = Product.objects.get(id=product_id)
     context = {
         'product_id': product_id,
+        'product' : product
     }
     return render(request, 'product/sell.html', context)
 
@@ -298,13 +300,14 @@ def report(request, type):
             quantities.append(today_quantity)
 
     total_amount = today_sales.aggregate(Sum('total_sell_price'))['total_sell_price__sum']
-    total_profit = total_amount - today_sales.aggregate(Sum('sell_quantity', field='sell_quantity*product__buying_price'))['sell_quantity__sum']
+   
     
     context = {
         'date': today, 
         'quantities': quantities, 
         'total_amount': total_amount, 
-        'total_profit': total_profit,
+        
+        'values': values
         }
     return render(request, 'dashboard/report.html', context)
 
@@ -339,33 +342,39 @@ def chat(request):
     return render(request, "dashboard/chat.html", context)
 
 
-
+def summary(request):
+    products = Product.objects.all()
+    context = {
+        'products': products
+    }
+    return render(request, 'summary.html', context)
 
 def accessories_summary(request):
     todays_date = datetime.date.today()
     months_ago = todays_date-datetime.timedelta(days=30)
-    items = Product.objects.filter(owner=request.user, date__gte=months_ago, date__lte=todays_date)
+    items = Product.objects.filter(owner=request.user, added_at__gte=months_ago, added_at__lte=todays_date)
+
     finalrep = {}
 
     def get_product_item(item):
         return item.product_name
     item_list = list(set(map(get_product_item, items)))
+    print(item_list)
 
-    def get_product_quantity(quantity):
+    def get_product_quantity(product_quntity):
         product_quntity = 0
-        filtered_by_product_quntity = items.filter(quantity=quantity)
+        filtered_by_product_quntity = items.filter(product_quntity=product_quntity)
 
         for p_item in filtered_by_product_quntity:
             product_quntity += p_item.product_quantity
 
         print(product_quntity)
         return product_quntity
-    
-        
 
     for x in items:
         for y in item_list:
             finalrep[y] = get_product_quantity(y)
+    print(finalrep)
 
     return JsonResponse({'accessories_data': finalrep}, safe=False)
 
