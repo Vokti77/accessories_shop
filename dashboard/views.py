@@ -161,9 +161,9 @@ def confirm_sell(request, product_id):
     try:
         quantity = int(request.POST.get('quantity'))
         sell_price = int(request.POST.get('price'))
-        # Sell(sell_quantity = quantity, actual_sell_price = sell_price).save()
-        sell_q = Product.objects.get(id=product_id)
         sale = Sell.objects.filter(product_id=product_id).first()
+        sell_q = Product.objects.get(id=product_id)
+        
         if sale:
             sale.sell_quantity += quantity
             sale.sell_price += sell_price
@@ -171,6 +171,7 @@ def confirm_sell(request, product_id):
             sale.save()
         else:
             sell = Sell(sell_quantity=quantity, sell_price=sell_price, product=sell_q, sell_at=date.today())
+            sell.total_sell_price = sell_price * quantity
             sell.save()
 
         if sell_q.product_quantity >= quantity:
