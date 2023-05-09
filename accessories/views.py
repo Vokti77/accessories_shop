@@ -8,7 +8,7 @@
 # import json
 # import csv
 
-# from .models import Product, Sell
+# from .models import Product, Sale
 # from .forms import ProductForm
 # from .model_choices import *
 
@@ -67,19 +67,19 @@
 #     product.delete()
 #     return redirect('/')
 
-# def sell(request, product_id):
+# def Sale(request, product_id):
 #     context = {
 #         'product_id': product_id,
 #     }
-#     return render(request, 'product/sell.html', context)
+#     return render(request, 'product/Sale.html', context)
 
-# def confirm_sell(request, product_id):
+# def confirm_Sale(request, product_id):
 #     quantity = int(request.POST.get('quantity'))
-#     sell_q = Product.objects.get(id=product_id)
-#     if sell_q.product_quantity >=quantity:
-#         sell_q.product_quantity -= quantity
-#         sell_q.remining_quantity += quantity
-#         sell_q.save()
+#     Sale_q = Product.objects.get(id=product_id)
+#     if Sale_q.product_quantity >=quantity:
+#         Sale_q.product_quantity -= quantity
+#         Sale_q.remining_quantity += quantity
+#         Sale_q.save()
 #         return redirect(reverse('index'))
 #     else:
 #         raise Exception("Something wrong") 
@@ -103,7 +103,7 @@
 #     product_item = Product.objects.all()
 #     method_dict = request.GET.copy()
 #     keywords = method_dict.get('keywords') or None
-#     brand_name = method_dict.get('brand_name') or None
+#     model = method_dict.get('model') or None
 
 #     page = request.GET.get('page', 1)
 #     paginator = Paginator(product_item, 2)
@@ -113,9 +113,9 @@
 #         # product_item = product_item.filter(desc__iexact=keyword)  # django == DJANGO
 #         product_items = product_item.filter(product_name__icontains=keyword)  # django == Django Web development
        
-#     if brand_name is not None:
-#         brand_names = method_dict['brand_name']
-#         product_item = product_item.filter(brand_name__iexact=brand_names)
+#     if model is not None:
+#         models = method_dict['model']
+#         product_item = product_item.filter(model__iexact=models)
 
 
 #     try:

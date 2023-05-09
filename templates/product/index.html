@@ -260,11 +260,11 @@
                         <th>Brand</th>
 						<th>Buy_Price</th>
                         <th>Quantity</th>
-                        <th>Sell_Price</th>
+                        <th>Sale_Price</th>
                         <th>Total Ammount</th>
-						<th>Sell_Quentity</th>
-                        <th>Total_Sell_Price Amount</th>
-						<th>Total_Sell_Buy Amount</th>
+						<th>Sale_Quentity</th>
+                        <th>Total_Sale_Price Amount</th>
+						<th>Total_Sale_Buy Amount</th>
                         <th>Profit</th>
                         <th>Action</th>
 
@@ -275,22 +275,22 @@
                     <tr>
 						<td>{{product.id}}</td>
                         <td>{{product.product_name}}</td>
-                        <td>{{product.brand_name}}</td>
+                        <td>{{product.model}}</td>
 						<td>{{product.buying_price}}</td>
                         <td>{{product.product_quantity}}</td>
-                        <td>{{product.expecting_selling_price}}</td>
+                        <td>{{product.expecting_Saleing_price}}</td>
                         <td>{% widthratio product.buying_price 1 product.product_quantity %}</td>
 						<td>{{product.remining_quantity}}</td>
 
-						<td>{{product.remining_quantity|mul:product.expecting_selling_price}}</td>
+						<td>{{product.remining_quantity|mul:product.expecting_Saleing_price}}</td>
                         <td>{{product.remining_quantity|mul:product.buying_price}}</td>
                             
                 
-						<td>{{product.expecting_selling_price|sub:product.buying_price|mul:product.remining_quantity}}</td>
+						<td>{{product.expecting_Saleing_price|sub:product.buying_price|mul:product.remining_quantity}}</td>
 						<td>
 							<a href="{% url 'edit' product.id %}" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i> <span></span></a>
 
-                            <a href="{% url 'sell' product.id %}" class="sell" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Sell">&#xf218;</i></a>
+                            <a href="{% url 'Sale' product.id %}" class="Sale" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Sale">&#xf218;</i></a>
                             <a href="{% url 'delete' product.id %}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                         </td>
                     </tr>
@@ -376,8 +376,8 @@
 							<input name="quantity" type="text" class="form-control" required>
 						</div>
                         <div class="form-group">
-							<label>Sell_Price</label>
-							<input name="sellprice" type="text" class="form-control" required>
+							<label>Sale_Price</label>
+							<input name="Saleprice" type="text" class="form-control" required>
 						</div>						
 					</div>
 					<div class="modal-footer">

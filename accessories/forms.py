@@ -1,14 +1,14 @@
 # from django import forms
 
-# from .models import Product, Sell
+# from .models import Product, Sale
 
 # class ProductForm(forms.ModelForm):
 #     class Meta:
 #         model = Product
-#         fields = ['product_name', 'brand_name', 'product_quantity','buying_price', 'expecting_selling_price']
+#         fields = ['product_name', 'model', 'product_quantity','buying_price', 'expecting_Saleing_price']
 
 
-# class SellForm(forms.ModelForm):
+# class SaleForm(forms.ModelForm):
 #     class Meta:
-#         model = Sell
+#         model = Sale
 #         fields = "__all__"

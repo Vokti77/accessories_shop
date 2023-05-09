@@ -39,9 +39,9 @@
                     <th>Brand</th>
                     <th>Quantity</th>
                     <th>Buy Price</th>
-                    <th>Sell Price</th>
-                    <th>Sell Quantity</th>
-                    <th>Total Sell Amount</th>
+                    <th>Sale Price</th>
+                    <th>Sale Quantity</th>
+                    <th>Total Sale Amount</th>
                     <th>Total Profit</th>
                 </tr>
             </thead>
@@ -49,10 +49,10 @@
                 {% for quantity in quantities %}
                 <tr>
                     <td>{{ quantity.product__product_name }}</td>
-                    <td>{{ quantity.product__brand_name }}</td>
+                    <td>{{ quantity.product__model }}</td>
                     <td>{{ quantity.product__product_quantity }}</td>
                     <td>{{ quantity.product__buying_price }}</td>
-                    <td>{{ quantity.product__expecting_selling_price }}</td>
+                    <td>{{ quantity.product__expecting_Saleing_price }}</td>
                     
                     <td>{{ quantity.total_quantity }}</td>
                     <td>{{ quantity.total_sale_amount }}</td>

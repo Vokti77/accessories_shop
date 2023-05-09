@@ -1,13 +1,18 @@
 from django import forms
 
-from accessories.models import Product,Sell
+from accessories.models import Product, Sale, Brand
 
 class ProductsForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ['product_name', 'brand_name', 'product_quantity','buying_price', 'expecting_selling_price']
+        fields = ['product_name', 'brand', 'model', 'product_quantity', 'buying_price', 'expecting_Saleing_price']
 
-class SellForm(forms.ModelForm):
+class SaleForm(forms.ModelForm):
     class Meta:
-        model = Sell
-        fields = ['sell_quantity', 'sell_price']
+        model = Sale
+        fields = ['sale_quantity', 'sale_price']
+
+class BrandForm(forms.ModelForm):
+    class Meta:
+        model = Brand
+        fields = ['name']   

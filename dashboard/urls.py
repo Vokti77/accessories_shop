@@ -4,11 +4,12 @@ from dashboard import views
 app_name = 'dashboard'
 urlpatterns = [
     path('dashboard', views.index, name='dashboard'),
+    path('add_brand/', views.add_brand, name='add-brand'),
     path('add_product/', views.add_product, name='add-product'),
     path('upadate_product/<int:product_id>/', views.upadate_product, name='upadate-product'),
     path('delete_product/<int:product_id>/', views.delete_product, name='delete-product'),
-    path('sell_quantity/<int:product_id>/', views.sell_quantity, name='sell-quantity'),
-    path('confirm_sell/<int:product_id>/', views.confirm_sell, name='confirm-sell'),
+    path('Sale_quantity/<int:product_id>/', views.sale_quantity, name='Sale-quantity'),
+    path('confirm_Sale/<int:product_id>/', views.confirm_Sale, name='confirm-Sale'),
     path('product_csv/', views.product_csv, name='product-csv'),
     path('calculate_profit/', views.calculate_profit, name='calculate-profit'),
     path('report/<str:type>/', views.report, name='report'),
@@ -17,6 +18,7 @@ urlpatterns = [
     path('accessories_summary/', views.accessories_summary,name="accessories_summary"),
     path('stats/', views.stats_view,name="stats"),
     path('summary/', views.summary,name="summary"),
+    path('filter/', views.filter_data,name="filter"),
 
 
     path("charts/", views.charts, name="charts"),

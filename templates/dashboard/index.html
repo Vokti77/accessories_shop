@@ -10,7 +10,7 @@
         <div class="ml-auto text-right">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'base:base' %}">Home</a></li>
                     
                 </ol>
             </nav>
@@ -87,8 +87,8 @@
                             <div class="col-6 m-t-15">
                                 <div class="bg-dark p-10 text-white text-center">
                                     <i class="m-r-10 mdi mdi-cash-multiple m-b-5 font-16"></i>
-                                    <h5 class="m-b-0 m-t-5">{{total_sell_amount}} TK.</h5>
-                                    <small class="font-light">Total Sell Amount</small>
+                                    <h5 class="m-b-0 m-t-5">{{total_Sale_amount}} TK.</h5>
+                                    <small class="font-light">Total Sale Amount</small>
                                 </div>
                             </div>
                             <div class="col-6 m-t-15">
@@ -116,7 +116,7 @@
             <script>
                 var ctx = document.getElementById('myChart').getContext('2d');
                 var myChart = new Chart(ctx, {
-                    type: 'bar',
+                    type: 'pie',
                     data: {
                         labels: [{% for product in product_item %}  '{{ product.product_name }}',  {% endfor %}],
                         datasets: [{
