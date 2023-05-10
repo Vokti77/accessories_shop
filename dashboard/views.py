@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from accessories.models import Product, Sale, Brand, Model
 from account.models import MyUser
 from django.contrib.auth.models import User
-from dashboard.forms import ProductsForm, SaleForm, BrandForm
+from dashboard.forms import ModelForm, ProductsForm, SaleForm, BrandForm, SearchForm
 from dashboard.models import * 
 from django.db.models import Q, F
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -38,6 +38,7 @@ def index(request):
         total_amount += product.buying_price*product.product_quantity
         total_Sale_amount += product.actual_Sale_price
         total_profit += profit
+
     context = {
         'user': user,
         'product_item' : product_item,
@@ -78,29 +79,48 @@ def tables(request):
         product_item = Product.objects.filter(multiple_q)
         
     else:
-        brand = request.GET.get('brand')   # Filter by Brand
-        if brand == None:
-            product_item = Product.objects.all()
-        else:
-            product_item = Product.objects.filter(brand__name=brand)
-
-
+        # brand = request.GET.get('brand')   # Filter by Brand
         # model = request.GET.get('model')   # Filter by Model
+
         # if model == None:
         #     product_item = Product.objects.all()
         # else:
         #     product_item = Product.objects.filter(model__name=model)
+       
 
-        # product = Product.objects.all().order_by('-id').distinct()
-        # if len(models)>0:
-        #     allProducts=product.filter(category__id__in=models).distinct()
-        # if len(brands)>0:
-        #     allProducts=product.filter(brand__id__in=brands).distinct()
+        # if brand == None:
+        #     models  = Model.objects.all()
+        # else:
+        #     models = Model.objects.filter(brand__name=brand)
+
+        # if brand == brand and model == model:
+        #     queary = Q(Q(brand__name=brand) | Q(model__name=model))
+        #     product_item = Product.objects.filter(queary)
+        # else:
+        #     product_item = Product.objects.all()
+
+        product_item = Product.objects.all()
+        form = SearchForm(request.POST or None)
+        context ={
+            'form': form,
+            'product_item': product_item
+        }
+        if request.method == 'POST':
+            model = form['model'].value()
+            if (model != ''):
+                product_item = product_item.filter(model_id=model)
+
+    
+        
+            # models = Model.objects.filter(brand__name=brand)
+        # elif model == model:
+        #     product_item = Product.objects.filter(model__name=model)
+        # else:
+        #     product_item = Product.objects.all()
+        
 
         total_item = product_item.count()
         low_quantity_products = Product.objects.filter(product_quantity__lt=5).count()
-        
-
         for product in product_item:
             if product.product_quantity < 5:
                 messages.warning(request, f"The quantity of {product.product_name} is less than 5 !")
@@ -126,11 +146,11 @@ def tables(request):
     brands = Brand.objects.all()
 
     context = {
+        'form':form,
         'product_item': product_item,
         'total_item': total_item,
         'brands': brands,
         'models': models,
-        # 'allProducts': allProducts,
         'total_amount': total_amount,
         'profit' : profit,
         'total_profit' : total_profit,
@@ -169,9 +189,24 @@ def add_brand(request):
     return render(request, "dashboard/form_brand.html", context)
 
 @login_required
+def add_model(request):
+    form = ModelForm(request.POST or None, request.FILES or None)
+    if form.is_valid():
+        form.save()
+        messages.success(request, "The brand has been added successfully!")
+        return redirect('dashboard:tables')
+    else:
+        form = ModelForm()
+    context = {
+        'form': form,
+    }
+    return render(request, "dashboard/form_model.html", context)
+
+@login_required
 def upadate_product(request, product_id):
     product = Product.objects.get(id=product_id)
     form = ProductsForm(instance=product)
+    
     context = {
         "form": form,
     }
@@ -424,6 +459,25 @@ def accessories_summary(request):
 
     return JsonResponse({'accessories_data': finalrep}, safe=False)
 
+def search_datalist(request):
+    q_set = Product.objects.all()
+    form = SearchForm(request.POST or None)
+    context ={
+        'form': form,
+        'q_set': q_set
+    }
+    if request.method == 'POST':
+        model = form['model'].value()
+        q_set = Product.objects.filter(product_name__icontains=form['product_name'].value())
+
+        if (model != ''):
+            q_set = q_set.filter(model_id=model)
+
+    context ={
+        'form': form,
+        'q_set': q_set
+    }
+    return render(request, 'search.html', context)
 
 def stats_view(request):
     return render(request, 'stats.html')

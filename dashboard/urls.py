@@ -5,6 +5,7 @@ app_name = 'dashboard'
 urlpatterns = [
     path('dashboard', views.index, name='dashboard'),
     path('add_brand/', views.add_brand, name='add-brand'),
+    path('add_model/', views.add_model, name='add-model'),
     path('add_product/', views.add_product, name='add-product'),
     path('upadate_product/<int:product_id>/', views.upadate_product, name='upadate-product'),
     path('delete_product/<int:product_id>/', views.delete_product, name='delete-product'),
@@ -19,7 +20,7 @@ urlpatterns = [
     path('stats/', views.stats_view,name="stats"),
     path('summary/', views.summary,name="summary"),
     path('filter/', views.filter_data,name="filter"),
-
+    path('search_datalist/', views.search_datalist,name="search-datalist"),
 
     path("charts/", views.charts, name="charts"),
     path("widgets/", views.widgets, name="widgets"),

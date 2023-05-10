@@ -12,6 +12,7 @@ class Brand(models.Model):
     
 class Model(models.Model):
     name = models.TextField(unique=True)
+    brand = models.ForeignKey(Brand, on_delete=models.CASCADE,  blank=True, default=True)
     date_added = models.DateTimeField(default=timezone.now) 
     date_updated = models.DateTimeField(auto_now=True) 
 
@@ -20,7 +21,6 @@ class Model(models.Model):
     
 class Product(models.Model):
     product_name = models.CharField(max_length=100, null=False, blank=False)
-    brand = models.ForeignKey(Brand, on_delete=models.CASCADE,  blank=True, default=True)
     model = models.ForeignKey(Model, on_delete=models.CASCADE,  blank=True, default=True)
     product_quantity = models.PositiveIntegerField(default=0)  # Initial product quantity
     buying_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
@@ -40,6 +40,7 @@ class Sale(models.Model):
     sale_quantity = models.PositiveIntegerField(default=0) 
     sale_price = models.DecimalField(max_digits=10, decimal_places=2)
     total_Sale_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    profit = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     sale_at = models.DateField(auto_now_add=True)
     update_at = models.DateField(auto_now=True)
 

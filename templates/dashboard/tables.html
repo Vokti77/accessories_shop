@@ -10,9 +10,8 @@
 {% block page_title %}
  Product Table
 {% endblock %}
-
+{% load crispy_forms_tags %}
 {% block content %}
-
 
 <!-- {% for message in messages %}
     <div class="container-fluid p-0">
@@ -31,32 +30,37 @@
             <div class="ml-auto text-right">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{% url 'dashboard:dashboard' %}">Home</a></li>
-                        <li class="breadcrumb-item"><a href="{% url 'dashboard:add-brand' %}">Add Brand</a></li>
-                        <li class="breadcrumb-item"><a href="{% url 'dashboard:add-product' %}">Add Product</a></li>
+                        <li class="breadcrumb-item"><a class="btn btn-success" href="{% url 'dashboard:dashboard' %}">Home</a></li>
+                        <li class="breadcrumb-item"><a class="btn btn-success" href="{% url 'dashboard:add-brand' %}">Add Brand</a></li>
+                        <li class="breadcrumb-item"><a class="btn btn-success" href="{% url 'dashboard:add-model' %}">Add Model</a></li>
+                        <li class="breadcrumb-item"><a class="btn btn-success" href="{% url 'dashboard:add-product' %}">Add Product</a></li>
                     </ol>
                 </nav>
             </div>
         </div>
     </div>
 </div>
-
+<form method="POST" id="example-form" action="#" class="m-t-40" novalidate="novalidate">
+    {% csrf_token %}
+    {{ form | crispy }}
+    <br><br>
+    <input class="btn btn-success btn-block" type="submit" value="Search By Model">
+</form>
 <!-- <div>
     <li class="list-group-item"></li>
         <a class="btn btn-secondary" class="list-group-item" href="{% url 'dashboard:tables' %}">All</a>
-        {% for model in models %}
-        <a class="btn btn-primary" href="{% url 'dashboard:tables' %}?model={{model.name}}">{{ model.name }}</a>
+        {% for brand in brands %}
+        <a class="btn btn-primary" href="#">{{ brand.name }}</a>
+        <li>
+            {% for model in models %}
+            {% if model.brand == brand %}
+            <a class="btn btn-secondary" href="{% url 'dashboard:tables' %}?model={{model.name}}">{{ model.name }}</a>
+            {% endif %}
+            {% endfor %}
+        </li>
          {% endfor %}
     </li>
 </div> -->
-<div>
-    <li class="list-group-item"></li>
-        <a class="btn btn-secondary" class="list-group-item" href="{% url 'dashboard:tables' %}">All</a>
-        {% for brand in brands %}
-        <a class="btn btn-primary" href="{% url 'dashboard:tables' %}?brand={{brand.name}}">{{ brand.name }}</a>
-         {% endfor %}
-    </li>
-</div>
 <div class="card">
     <div class="card-body">
         <h5 class="card-title">Product Datatable</h5>
@@ -81,22 +85,18 @@
                     {% for product in product_item %}
                     <tr>
                         <td>{{product.product_name}}</td>
-                        <td>{{product.brand.name}}</td>
+                        <td>{{product.model.brand.name}}</td>
                         <td>{{product.model.name}}</td>
                         {% if product.product_quantity < 5 %}
-                        <td class="text-danger">{{product.product_quantity}}</td>
-                        {% else %}
-                        <td>{{product.product_quantity}}</td>
+                            <td class="text-danger">{{product.product_quantity}}</td>
+                            {% else %}
+                            <td>{{product.product_quantity}}</td>
                         {% endif %}
                         <td>{{product.buying_price}}</td>
                         <td>{{product.expecting_Saleing_price}}</td>
                         <td>{% widthratio product.buying_price 1 product.product_quantity %}</td>
                         <td>{{product.sale_quantity }}</td>
                         <td>{{product.actual_Sale_price}}</td>
-                        <!-- <td>{{product.remining_quantity|mul:product.expecting_Saleing_price}}</td> -->
-                        
-
-
                         <td>{{ product.actual_Sale_price|sub:product.remining_quantity }}</td>
                         <td>
                             <a href="{% url 'dashboard:upadate-product' product.id %}" data-toggle="tooltip" data-placement="top" title="Update">
@@ -109,6 +109,7 @@
                             </a>
                         </td>
                     </tr>
+                    
                     {% endfor %}
                     
                 </tbody>
@@ -168,18 +169,6 @@
             </div>
         </div>               
     </div>
-    <div class="card mb-4">
-        <h6 class="card-header">Models</h6>
-        <div class="list-group list-group-flush">
-            {% for model in models %}
-            <li class="list-group-item">
-                <input class="filter-checkbox" data-filter="category" value="{{model.models__id}}" type="checkbox" />&nbsp;
-                {{model.name}}
-            </li>
-            {% endfor %}
-        </div>
-    </div>
 </div> 
-
 
 {% endblock %}
