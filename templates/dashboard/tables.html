@@ -74,11 +74,13 @@
                     <th>Quantity</th>
                     <th>Buy Price</th>
                     <th>Expected Selling Price</th>
-                    <th>Total Amount</th>
+                    <th>Total Buying Amount</th>
                     <th>Sale Quantity</th>
                     <th>Actual Sale Amount</th>
                     <th>Total Profit</th>
                     <th>Action</th>
+                    <th>Date_Added</th>
+                    <th>Date_Update</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -108,6 +110,8 @@
                                 </i><i class="mdi mdi-cart-outline"></i>    
                             </a>
                         </td>
+                        <td>{{product.added_at }}</td>
+                        <td>{{product.update_at }}</td>
                     </tr>
                     
                     {% endfor %}
@@ -125,6 +129,8 @@
                         <th></th>
                         <th>{{ total_Sale_amount }}</th>
                         <th>{{ total_profit }}</th>
+                        <th></th>
+                        <th></th>
                         <th></th>
                         
                     </tr>

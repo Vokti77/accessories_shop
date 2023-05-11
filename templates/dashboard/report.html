@@ -10,7 +10,7 @@
 {% block page_title %}
  Product Table
 {% endblock %}
-
+{% load crispy_forms_tags %}
 {% block content %}
 
 <div class="page-breadcrumb">
@@ -20,14 +20,19 @@
             <div class="ml-auto text-right">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{% url 'dashboard:dashboard' %}">Home</a></li>
-                        
+                        <li class="breadcrumb-item"><a href="{% url 'dashboard:dashboard' %}">Home</a></li> 
                     </ol>
                 </nav>
             </div>
         </div>
     </div>
-    </div>
+</div>
+<form method="POST" id="example-form" action="#" class="m-t-40" novalidate="novalidate">
+    {% csrf_token %}
+    {{ form | crispy }}
+    <br><br>
+    <input class="btn btn-success btn-block" type="submit" value="Search By Date">
+</form>
 <div class="card">
 <div class="card-body">
    <div class="table-responsive">
@@ -43,19 +48,21 @@
                     <th>Sale Quantity</th>
                     <th>Total Sale Amount</th>
                     <th>Total Profit</th>
+                    <td>Date</td> 
                 </tr>
             </thead>
             <tbody>
                 {% for quantity in quantities %}
                 <tr>
                     <td>{{ quantity.product__product_name }}</td>
-                    <td>{{ quantity.product__model }}</td>
+                    <td>{{ quantity.product__model__brand__name }}</td>
                     <td>{{ quantity.product__product_quantity }}</td>
                     <td>{{ quantity.product__buying_price }}</td>
                     <td>{{ quantity.product__expecting_Saleing_price }}</td>
                     <td>{{ quantity.total_quantity }}</td>
                     <td>{{ quantity.total_sale_amount }}</td>
-                    <td>{{ quantity.total_profit }}</td>   
+                    <td>{{ quantity.total_profit }}</td> 
+                    <td>{{ quantity.sale_at}}</td>   
                 </tr>
                 {% endfor %}   
             </tbody>
@@ -68,7 +75,8 @@
                     <th></th>
                     <th>{{ total_buying_price }}</th>
                     <th>{{ total_amount }}</th>
-                    <th>{{ total_profit }}</th>
+                    <th>{{ profit }}</th>
+                    <th></th>
                 </tr>
             </tfoot> 
         </table>

@@ -44,6 +44,9 @@ class Sale(models.Model):
     sale_at = models.DateField(auto_now_add=True)
     update_at = models.DateField(auto_now=True)
 
+
+    
+
     def save(self, *args, **kwargs):
         if self.pk is not None:
             # Object is being updated

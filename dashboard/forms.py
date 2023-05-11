@@ -26,3 +26,11 @@ class SearchForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = ['model'] 
+
+
+class ReportSearchForm(forms.ModelForm):
+    start_date = forms.DateTimeField(required=False)
+    end_date = forms.DateTimeField(required=False)
+    class Meta:
+        model = Sale
+        fields = ['start_date', 'end_date'] 

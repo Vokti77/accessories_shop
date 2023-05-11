@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from accessories.models import Product, Sale, Brand, Model
 from account.models import MyUser
 from django.contrib.auth.models import User
-from dashboard.forms import ModelForm, ProductsForm, SaleForm, BrandForm, SearchForm
+from dashboard.forms import ModelForm, ProductsForm, SaleForm, BrandForm, SearchForm, ReportSearchForm
 from dashboard.models import * 
 from django.db.models import Q, F
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -27,6 +27,7 @@ def index(request):
     profit = 0
 
     product_item = Product.objects.all()
+    model_item = Model.objects.all()
     user = MyUser.objects.count()
     total_item = product_item.count()
     low_quantity_products = Product.objects.filter(product_quantity__lt=5).count()
@@ -41,6 +42,7 @@ def index(request):
 
     context = {
         'user': user,
+        'model_item': model_item,
         'product_item' : product_item,
         'total_item': total_item,
         'total_amount': total_amount,
@@ -81,23 +83,11 @@ def tables(request):
     else:
         # brand = request.GET.get('brand')   # Filter by Brand
         # model = request.GET.get('model')   # Filter by Model
-
-        # if model == None:
-        #     product_item = Product.objects.all()
-        # else:
-        #     product_item = Product.objects.filter(model__name=model)
-       
-
         # if brand == None:
-        #     models  = Model.objects.all()
+        #     product_ite  = Product.objects.all()
         # else:
-        #     models = Model.objects.filter(brand__name=brand)
-
-        # if brand == brand and model == model:
-        #     queary = Q(Q(brand__name=brand) | Q(model__name=model))
-        #     product_item = Product.objects.filter(queary)
-        # else:
-        #     product_item = Product.objects.all()
+        #     product_ite= Product.objects.filter(model__name=Model.objects.all())
+        #     print(product_ite)
 
         product_item = Product.objects.all()
         form = SearchForm(request.POST or None)
@@ -105,19 +95,11 @@ def tables(request):
             'form': form,
             'product_item': product_item
         }
+
         if request.method == 'POST':
             model = form['model'].value()
             if (model != ''):
                 product_item = product_item.filter(model_id=model)
-
-    
-        
-            # models = Model.objects.filter(brand__name=brand)
-        # elif model == model:
-        #     product_item = Product.objects.filter(model__name=model)
-        # else:
-        #     product_item = Product.objects.all()
-        
 
         total_item = product_item.count()
         low_quantity_products = Product.objects.filter(product_quantity__lt=5).count()
@@ -162,11 +144,65 @@ def tables(request):
 
 @login_required
 def add_product(request):
+    # product_form = ProductsForm()
+    # brand_form = BrandForm()
+    # model_form = ModelForm()
+
+    # if request.method == 'POST':
+    #     if 'add-product' in request.POST:
+    #         product_form = ProductsForm(request.POST or None, request.FILES or None)
+    #         if product_form.is_valid():
+    #             product_form.save()
+    #             return redirect('dashboard:tables')
+    #         else:
+    #             product_form = ProductsForm()
+        
+    #     if 'add-brand' in request.POST:
+    #         brand_form = BrandForm(request.POST or None, request.FILES or None)
+    #         if brand_form.is_valid():
+    #             brand_form.save()
+    #             return redirect('dashboard:add_product')
+    #         else:
+    #             brand_form = BrandForm()
+        
+    #     if 'add-model' in request.POST:
+    #         model_form = ModelForm(request.POST or None, request.FILES or None)
+    #         if model_form.is_valid():
+    #             model_form.save()
+    #             return redirect('dashboard:add_product')
+    #         else:
+    #             model_form = ModelForm()
+        
+
+    # product_form = ProductsForm(request.POST or None, request.FILES or None)
+    # if form.is_valid():
+    #     form.save()
+    #     messages.success(request, "The product has been added successfully!")
+    #     return redirect('dashboard:tables')
+    # else:
+    #     form = ProductsForm()
+
+    # brand_form = ProductsForm(request.POST or None, request.FILES or None)
+    # if form.is_valid():
+    #     form.save()
+    #     messages.success(request, "The product has been added successfully!")
+    #     return redirect('dashboard:form_basic')
+    # else:
+    #     form = BrandForm()
+        
+    # model_form = ProductsForm(request.POST or None, request.FILES or None)
+    # if form.is_valid():
+    #     form.save()
+    #     messages.success(request, "The product has been added successfully!")
+    #     return redirect('dashboard:form_basic')
+    # else:
+    #     form = ModelForm()
+
     form = ProductsForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         form.save()
-        messages.success(request, "The product has been added successfully!")
-        return redirect('dashboard:add-product')
+        messages.success(request, "The brand has been added successfully!")
+        return redirect('dashboard:tables')
     else:
         form = ProductsForm()
     context = {
@@ -280,13 +316,43 @@ def product_csv(request):
 
 
 def daily_report(request):
+
+    # now = datetime.now()
+    # current_year = now.strftime("%Y")
+    # current_month = now.strftime("%m")
+    # current_day = now.strftime("%d")
+    # product_item = len(Product.objects.all())
+
+    # transaction = len(Sale.objects.filter(
+    #     sale_at__year=current_year,
+    #     sale_at__month = current_month,
+    #     sale_at__day = current_day
+    # ))
+
+    # today_sales = Sale.objects.filter(
+    #     sale_at__year=current_year,
+    #     sale_at__month = current_month,
+    #     sale_at__day = current_day
+    # ).all()
+
+    # total_sales = sum(today_sales.values_list('sale_quantity',flat=True))
+    # context = {
+    #     'page_title':'Home',
+    #     'today_sales': today_sales,
+    #     'product_item' : product_item,
+    #     'transaction' : transaction,
+    #     'total_sales' : total_sales,
+    # }
+    
+    # return render(request, 'daily_report.html', context)
     today = datetime.now().date()
     yesterday = today - timedelta(days=1)
     # Get the quantities sold for each product on the current day
     today_sales = Sale.objects.filter(Q(sale_at=today) | Q(update_at=today))
-    today_quantities = today_sales.values('product', 'product__product_name').annotate(
+    today_quantities = today_sales.values('product', 'product__product_name', 'product__model').annotate(
         total_quantity=Sum('sale_quantity'),
-        total_profit=Sum(F('sale_quantity') * (F('sale_price') - F('product__buying_price')))
+        total_profit=Sum(F('sale_quantity') * (F('sale_price') - F('product__buying_price'))),
+        profit = Sum(total_profit)
     ).order_by('product')
 
     # today_quantities = today_sales.values('product', 'product__product_name', 'product__buying_price').annotate(total_quantity=Sum('sale_quantity')).order_by('product')
@@ -305,7 +371,13 @@ def daily_report(request):
 
     total_amount = today_sales.aggregate(Sum('sale_price'))['sale_price__sum']
     total_profit = total_amount - today_sales.aggregate(Sum('sale_quantity', field='sale_quantity*product__buying_price'))['sale_quantity__sum']
-    context = {'date': today, 'quantities': quantities, 'total_amount': total_amount, 'total_profit': total_profit}
+    context = {
+        'date': today, 
+        'quantities': quantities, 
+        'total_amount': total_amount, 
+        'total_profit': total_profit
+        }
+    
     return render(request, 'daily_report.html', context)
 
 
@@ -313,11 +385,30 @@ def daily_report(request):
 def report(request, type):
     values = type.split(',')
     today = datetime.now().date()
+    queryset = Sale.objects.all()
+    form = ReportSearchForm(request.POST or None)
+    context ={
+        'queryset': queryset,
+        'form': form
+    }
+    if request.method == 'POST':
+        queryset = Sale.objects.filter(
+            sale_at__range = [
+                form['start_date'].value(),
+                form['end_date'].value()
+                ],
+            update_at__range = [
+                form['start_date'].value(),
+                form['end_date'].value()
+                ]
+        )
+
+        
     if type == 'daily':
         yesterday = today - timedelta(days=1)
         # Get the quantities sold for each product on the current day
         today_sales = Sale.objects.filter(Q(sale_at=today) | Q(update_at=today))
-        today_quantities = today_sales.values('product', 'product__product_name', 'product__model', 'product__buying_price', 'product__product_quantity', 'product__expecting_Saleing_price').annotate(
+        today_quantities = today_sales.values('product', 'product__product_name', 'product__model__brand__name', 'product__buying_price', 'product__product_quantity', 'product__expecting_Saleing_price', 'sale_at').annotate(
             total_quantity=Sum('sale_quantity'),
             total_sale_amount=Sum('total_Sale_price'),
             total_profit=Sum((F('total_Sale_price') - F('product__remining_quantity')))
@@ -335,12 +426,11 @@ def report(request, type):
                     break
             quantities.append(today_quantity)
 
-
     elif type == 'weekly':
         week_ago = today - timedelta(days=7)
         # Get the quantities sold for each product on the current day
         today_sales = Sale.objects.filter(Q(sale_at=today) | Q(update_at=today))
-        today_quantities = today_sales.values('product', 'product__product_name', 'product__model', 'product__buying_price', 'product__product_quantity', 'product__expecting_Saleing_price').annotate(
+        today_quantities = today_sales.values('product', 'product__product_name', 'product__model', 'product__buying_price', 'product__product_quantity', 'product__expecting_Saleing_price', 'sale_at').annotate(
             total_quantity=Sum('sale_quantity'),
             total_sale_amount=Sum('total_Sale_price'),
             total_profit=Sum((F('total_Sale_price') - F('product__remining_quantity')))
@@ -362,10 +452,10 @@ def report(request, type):
     elif type == 'monthly':
         month_ago = today - timedelta(days=30)
         today_sales = Sale.objects.filter(Q(sale_at=today) | Q(update_at=today))
-        today_quantities = today_sales.values('product', 'product__product_name', 'product__model', 'product__buying_price', 'product__product_quantity', 'product__expecting_Saleing_price').annotate(
+        today_quantities = today_sales.values('product', 'product__product_name', 'product__model', 'product__buying_price', 'product__product_quantity', 'product__expecting_Saleing_price', 'sale_at').annotate(
             total_quantity=Sum('sale_quantity'),
             total_sale_amount=Sum('total_Sale_price'),
-            total_profit=Sum((F('total_Sale_price') - F('product__remining_quantity')))
+            total_profit=Sum((F('total_Sale_price') - F('product__remining_quantity'))),
         ).order_by('product')
 
         # Get the total quantities sold for each product, including previous days
@@ -381,15 +471,19 @@ def report(request, type):
             quantities.append(today_quantity)
 
     total_amount = today_sales.aggregate(Sum('total_Sale_price'))['total_Sale_price__sum']
-   
+    profit = today_sales.aggregate(Sum('profit'))['profit__sum']
     
     context = {
+        'form': form,
         'date': today, 
         'quantities': quantities, 
         'total_amount': total_amount, 
-        
-        'values': values
+        'values': values,
+        'profit': profit,
+        'queryset':queryset
+
         }
+    print(queryset)
     return render(request, 'dashboard/report.html', context)
 
 
@@ -459,25 +553,6 @@ def accessories_summary(request):
 
     return JsonResponse({'accessories_data': finalrep}, safe=False)
 
-def search_datalist(request):
-    q_set = Product.objects.all()
-    form = SearchForm(request.POST or None)
-    context ={
-        'form': form,
-        'q_set': q_set
-    }
-    if request.method == 'POST':
-        model = form['model'].value()
-        q_set = Product.objects.filter(product_name__icontains=form['product_name'].value())
-
-        if (model != ''):
-            q_set = q_set.filter(model_id=model)
-
-    context ={
-        'form': form,
-        'q_set': q_set
-    }
-    return render(request, 'search.html', context)
 
 def stats_view(request):
     return render(request, 'stats.html')
