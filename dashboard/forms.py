@@ -1,5 +1,6 @@
 from django import forms
-
+from bootstrap_datepicker_plus.widgets import DatePickerInput, TimePickerInput
+from django_yearmonth_widget.widgets import DjangoYearMonthWidget
 from accessories.models import Product, Sale, Brand, Model
 
 class ProductsForm(forms.ModelForm):
@@ -33,4 +34,8 @@ class ReportSearchForm(forms.ModelForm):
     end_date = forms.DateTimeField(required=False)
     class Meta:
         model = Sale
-        fields = ['start_date', 'end_date'] 
+        exclude = []
+        widgets = {
+            
+            "published_yearmonth": DjangoYearMonthWidget(),
+        }

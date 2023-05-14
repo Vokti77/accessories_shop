@@ -16,9 +16,13 @@ def add_service(request):
     return render(request, "service/service_add.html", context)
 
 def service_info(request):
+    total_amount = 0
     service = Service.objects.all()
+    for x in service:
+        total_amount += x.sevicing_cost
     context = {
         'service' : service,
+        'total_amount' : total_amount,
     }
     return render(request, 'dashboard/service_info.html', context)
 

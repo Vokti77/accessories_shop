@@ -62,7 +62,7 @@
                                 <a class="dropdown-item" href="{% url 'dashboard:add-product' %}">Add New Product</a>
                                 <a class="dropdown-item" href="{% url 'dashboard:product-csv' %}">Report Download</a> 
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{% url 'dashboard:calculate-profit' %}">Something else here calculate-profit</a>
+                               
                             </div>
                         </li> -->
                         <!-- ============================================================== -->
@@ -142,7 +142,8 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark pro-pic" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="{% static 'images/users/1.jpg' %}" alt="user" class="rounded-circle" width="31"></a>
                             <div class="dropdown-menu dropdown-menu-right user-dd animated">
-                                <a class="dropdown-item" href="javascript:void(0)"><i class="ti-user m-r-5 m-l-5"></i> {{user.user_name}} </a>
+                                <a class="dropdown-item" href="{% url 'dashboard:redirect-admin' %}"><i class="ti-user m-r-5 m-l-5"></i> {{user.user_name}} </a>
+                                <!-- <a class="text-dark" href="{% url 'dashboard:redirect-admin' %}">Admin</a> -->
                                 <!-- <a class="dropdown-item" href="javascript:void(0)"><i class="ti-email m-r-5 m-l-5"></i> Inbox</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="javascript:void(0)"><i class="ti-settings m-r-5 m-l-5"></i> Account Setting</a>avascript:void(0)"><i class="ti-settings m-r-5 m-l-5"></i> Account Setting</a> -->

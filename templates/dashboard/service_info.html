@@ -63,6 +63,15 @@
                     </tr>
                 {% endfor %}     
             </tbody>
+            <tfoot style="background-color: rgb(221, 215, 215); font-family: garamond; ">
+                <tr>
+                    <th> </th>
+                    <th></th>
+                    <th>Total = {{total_amount}}</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </tfoot> 
         </table>
         <div class="col-md-12">
             {% if products.has_other_pages %}

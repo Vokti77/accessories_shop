@@ -6,13 +6,7 @@
             <ul id="sidebarnav" class="p-t-30">
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{% url 'dashboard:dashboard' %}" aria-expanded="false"><i class="mdi mdi-view-dashboard"></i><span class="hide-menu">Dashboard</span></a></li>
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{% url 'dashboard:tables' %}" aria-expanded="false"><i class="mdi mdi-border-inside"></i><span class="hide-menu">Products</span></a></li>
-                <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-blur-linear"></i><span class="hide-menu">Reports </span></a>
-                    <ul aria-expanded="false" class="collapse  first-level">
-                        <li class="sidebar-item"><a href="{% url 'dashboard:report' type='daily' %}" class="sidebar-link"><i class="mdi mdi-numeric-1-box-outline"></i><span class="hide-menu"> Daily </span></a></li>
-                        <li class="sidebar-item"><a href="{% url 'dashboard:report' type='weekly' %}" class="sidebar-link"><i class="mdi mdi-numeric-7-box-outline"></i><span class="hide-menu"> Weekly </span></a></li>
-                        <li class="sidebar-item"><a href="{% url 'dashboard:report' type='monthly' %}" class="sidebar-link"><i class="mdi mdi-numeric-9-plus-box-outline"></i><span class="hide-menu"> Monthly </span></a></li>
-                    </ul>
-                </li>
+                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{% url 'dashboard:report' %}" aria-expanded="false"><i class="mdi mdi-blur-linear"></i><span class="hide-menu">Report</span></a></li>
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{% url 'service-info' %}" aria-expanded="false"><i class="mdi mdi-wrench"></i><span class="hide-menu">Servicing</span></a></li>
                 <!-- <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{% url 'dashboard:chat' %}" aria-expanded="false"><i class="mdi mdi-chart-line"></i><span class="hide-menu">Chart</span></a></li>
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{% url 'dashboard:summary' %}" aria-expanded="false"><i class="mdi mdi-chart-line"></i><span class="hide-menu">Summary</span></a></li> -->

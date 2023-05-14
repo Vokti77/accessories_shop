@@ -1,8 +1,12 @@
 from django.urls import path
 from dashboard import views
+from django.contrib import admin
+from django.contrib.auth import views as auth_views
+from django.views.generic.base import RedirectView
 
 app_name = 'dashboard'
 urlpatterns = [
+    path('redirect-admin/', RedirectView.as_view(url="/admin"),name="redirect-admin"),
     path('dashboard', views.index, name='dashboard'),
     path('add_brand/', views.add_brand, name='add-brand'),
     path('add_model/', views.add_model, name='add-model'),
@@ -12,8 +16,7 @@ urlpatterns = [
     path('Sale_quantity/<int:product_id>/', views.sale_quantity, name='Sale-quantity'),
     path('confirm_Sale/<int:product_id>/', views.confirm_Sale, name='confirm-Sale'),
     path('product_csv/', views.product_csv, name='product-csv'),
-    path('calculate_profit/', views.calculate_profit, name='calculate-profit'),
-    path('report/<str:type>/', views.report, name='report'),
+    path('report/', views.report, name='report'),
     path('daily_report/', views.daily_report, name='daily-report'),
     
     path('accessories_summary/', views.accessories_summary,name="accessories_summary"),

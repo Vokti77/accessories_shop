@@ -36,13 +36,26 @@ INSTALLED_APPS = [
     'accessories',
     'mathfilters',
     'account',
+    'bootstrap_datepicker_plus',
+    'django_static_jquery3',
+    'django_yearmonth_widget',
+    'widget_tweaks',
     'crispy_forms',
     'dashboard',
     'base', 
     'service',
 ]
 
-
+BOOTSTRAP_DATEPICKER_PLUS = {
+    "options": {
+        "locale": "bn",
+    },
+    "variant_options": {
+        "date": {
+            "format": "MM/DD/YYYY",
+        },
+    }
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
