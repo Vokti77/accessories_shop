@@ -27,7 +27,7 @@
         </div>
     </div>
 </div>
-<form method="POST" id="example-form" action="#" class="m-t-40" novalidate="novalidate">
+<form method="POST" id="example-form" action="{% url 'dashboard:report' %}" class="m-t-40" novalidate="novalidate">
     {% csrf_token %}
     From : <input type="date" name="from_date">
     To : <input type="date" name="to_date"> 

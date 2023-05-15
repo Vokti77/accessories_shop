@@ -19,6 +19,13 @@ import csv
 import decimal
 import math
 
+import calendar, datetime
+
+from django.db.models import Sum
+from django.shortcuts import render
+from django import forms
+
+
 @login_required
 def index(request):
     total_amount = 0
@@ -309,6 +316,7 @@ def product_csv(request):
 
 
 def daily_report(request):
+    pass
     # total = 0
     # total_amount = 0
     # if request.method == 'POST':
@@ -352,11 +360,37 @@ def daily_report(request):
     #     'queryset': queryset,
     #     'form': form
     # })
-    form = ReportSearchForm(request.POST)  # create the form with the data submitted
-    if form.is_valid():  # check the form is valid (which populates cleaned_data at the same time)
-        filtered_date = form.cleaned_data.get('date')  # this is a python date
-        if filtered_date:  # since date is optional, check it was passed
-            month = filtered_date.month
+from django_yearmonth_widget.widgets import DjangoYearMonthWidget
+MONTHS = tuple(zip(range(1,13), (calendar.month_name[i] for i in range(1,13))))
+# # YEARS = datetime.datetime.now().year
+# YEARS = tuple(zip(range(2020,2050), range(2020,2050)))
+
+class CalendarPickerForm(forms.Form):
+    month = forms.ChoiceField(choices=MONTHS)
+    # year = forms.ChoiceField(choices=YEARS)
+    class Meta:
+        model = Sale
+        exclude = []
+        widgets = {
+            
+            "published_yearmonth": DjangoYearMonthWidget(),
+        }
+    
+def user_commission_results(request):
+    form = CalendarPickerForm(request.GET or None)
+    if form.is_valid():
+        # year = form.cleaned_data['year']
+        month = form.cleaned_data['month']
+        date_obj = datetime.datetime.date(int(month), 1)
+        queryset = Sale.objects.filter(
+                                    sale_at__month=month)
+        return render(request,
+                      'daily_report.html',
+                      {'queryset': queryset,
+                       'date_obj': date_obj,
+                       'form': form})
+    
+    return render(request, 'daily_report.html', {'form': form})
 
     
 @login_required
