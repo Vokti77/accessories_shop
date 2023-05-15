@@ -27,12 +27,78 @@
         </div>
     </div>
 </div>
-<form method="POST" id="example-form" action="#" class="m-t-40" novalidate="novalidate">
+<form method="POST" id="example-form" action="{% url 'dashboard:report' %}" class="m-t-40" novalidate="novalidate">
     {% csrf_token %}
     From : <input type="date" name="from_date">
     To : <input type="date" name="to_date"> 
     <input type="submit" value="Search">
 </form>
+
+<form method="POST" id="example-form" action="{% url 'dashboard:report' %}" class="m-t-40" novalidate="novalidate">
+    {% csrf_token %}
+    <div class="d-flex h1 justify-content-around col-md-3"  >
+        <select name="month" >
+        <option value="">Select A Month </option>
+        <option value="01" {% if current_month == 1 %}selected{% endif %}>January</option>
+        <option value="02" {% if current_month == 2 %}selected{% endif %}>February</option>
+        <option value="03" {% if current_month == 3 %}selected{% endif %}>March</option>
+        <option value="04" {% if current_month == 4 %}selected{% endif %}>April</option>
+        <option value="05" {% if current_month == 5 %}selected{% endif %}>May</option>
+        <option value="06" {% if current_month == 6 %}selected{% endif %}>June</option>
+        <option value="07" {% if current_month == 7 %}selected{% endif %}>July</option>
+        <option value="08" {% if current_month == 8 %}selected{% endif %}>August</option>
+        <option value="09" {% if current_month == 9 %}selected{% endif %}>September</option>
+        <option value="10" {% if current_month == 10 %}selected{% endif %}>October</option>
+        <option value="11" {% if current_month == 11 %}selected{% endif %}>November</option>
+        <option value="12" {% if current_month == 12 %}selected{% endif %}>December</option>
+    </select>
+    <p type="text" name="year" placeholder="Year" value="{{ year }}"  class ="h4" >
+        {% now 'Y' %}
+    </p>
+    <input type="submit" class ="h4" value="Search">
+    </div>
+</form>
+
+
+
+
+<!-- <form method="POST" id="example-form" action="" class="m-t-40" novalidate="novalidate">
+    {% csrf_token %}
+    <select name="month"  >
+        <option selected>Select A Month</option>
+        <option value="01">January</option>
+        <option value="02">February</option>
+        <option value="03">March</option>
+        <option value="04">April</option>
+        <option value="05">May</option>
+        <option value="06">June</option>
+        <option value="07">July</option>
+        <option value="08">August</option>
+        <option value="09">September</option>
+        <option value="10">October</option>
+        <option value="11">November</option>
+        <option value="12">December</option>
+    </select>
+    <input type="number" name="year" placeholder="Year">
+    <input type="submit" value="Search">
+</form> -->
+
+
+<script>
+    document.getElementById("search_by").addEventListener("change", function() {
+        var selectedOption = this.value;
+        if (selectedOption === "date") {
+            document.getElementById("example-form").action = "{% url 'dashboard:report' %}";
+        } else if (selectedOption === "month") {
+            document.getElementById("example-form").action = "{% url 'dashboard:report' %}";
+        }
+    });
+</script>
+<!-- In this example, we added a select element with two options: "Search by Date" and "Search by Month". We also added an event listener to the select element to update the action attribute of the form based on the selected option. When the user selects "Search by Date", the action attribute is set to the URL of the "date_search" view. When the user selects "Search by Month", the action attribute is set to the URL of the "month_search" view. -->
+
+
+
+
 <div class="card">
 <div class="card">
 <div class="card-body">
