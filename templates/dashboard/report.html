@@ -29,8 +29,8 @@
 </div>
 <form method="POST" id="example-form" action="{% url 'dashboard:report' %}" class="m-t-40" novalidate="novalidate">
     {% csrf_token %}
-    From : <input type="date" name="from_date">
-    To : <input type="date" name="to_date"> 
+    From Date : <input type="date" name="from_date">
+    To Date : <input type="date" name="to_date"> 
     <input type="submit" value="Search">
 </form>
 

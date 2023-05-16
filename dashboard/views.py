@@ -356,28 +356,7 @@ def daily_report(request):
     # })
 
 
-    
-# @login_required
-# def report(request):
-#     total = 0
-#     total_amount = 0
-#     if request.method == 'POST':
-#         from_date = request.POST.get('from_date')
-#         to_date = request.POST.get('to_date')
-
-#         queryset = Sale.objects.raw('select id, sale_quantity, sale_price, total_Sale_price, profit, sale_at, update_at from accessories_sale where sale_at between "'+from_date+'" and "'+to_date+'"')
-       
-#         # total = sum(queryset.values_list('sale_quantity',flat=True))
-#         # total_amount = queryset.aggregate(total=Sum('total_Sale_price', flat=True))
-#         return render(request, 'dashboard/report.html', {'queryset': queryset, 'total_amount':total_amount, 'total':total})
-    
-#     else:
-#         queryset = Sale.objects.all()
-#         total_profit = 0
-#         total = sum(queryset.values_list('sale_quantity',flat=True))
-#         total_amount = sum(queryset.values_list('total_Sale_price',flat=True))
-#         return render(request, 'dashboard/report.html', {'queryset': queryset, 'total':total, 'total_amount':total_amount, 'total_profit':total_profit}) 
-
+#Date and Monthwise Report ---Pranab-----
 
 from datetime import datetime
 @login_required
@@ -385,7 +364,7 @@ def report(request):
     total_amount = 0
     total_profit = 0
 
-# get the current year and month
+    # get the current year and month
     now = datetime.now()
     current_year = now.year
     current_month = now.month
@@ -395,28 +374,30 @@ def report(request):
 
     if request.method == 'POST':
         month = request.POST.get('month')
-        year = request.POST.get('current_year',current_year)
+        year = request.POST.get('current_year', current_year)
 
         print("Month :", month)
         print("Year :", year)
 
-        if month and len(month)==2:
-            queryset = Sale.objects.filter(sale_at__month=month, sale_at__year=year)
+        from_date = request.POST.get('from_date')
+        to_date = request.POST.get('to_date')
 
-            total_amount = sum(queryset.values_list('total_Sale_price', flat=True))
-            for sale in queryset:
-                total_profit += (sale.total_Sale_price - sale.product.buying_price * sale.sale_quantity)
+        print('from_date : ', from_date)
+        print('to_date : ', to_date)
 
-            return render(request, 'dashboard/report.html', {'queryset': queryset, 'total_amount': total_amount, 'total_profit': total_profit})
-        else:
-            from_date = request.POST.get('from_date')
-            to_date = request.POST.get('to_date')
-            queryset = Sale.objects.filter(sale_at__range=[from_date, to_date])
-            total_amount = sum(queryset.values_list('total_Sale_price', flat=True))
-            for sale in queryset:
-                total_profit += (sale.total_Sale_price - sale.product.buying_price * sale.sale_quantity)
+        queryset = Sale.objects.all()
 
-            return render(request, 'dashboard/report.html', {'queryset': queryset, 'total_amount': total_amount, 'total_profit': total_profit})
+        if month and len(month) == 2:
+            queryset = queryset.filter(sale_at__month=month, sale_at__year=year)
+        elif from_date and to_date:
+            queryset = queryset.filter(sale_at__range=[from_date, to_date])
+
+        total_amount = sum(queryset.values_list('total_Sale_price', flat=True))
+        for sale in queryset:
+            total_profit += (sale.total_Sale_price - sale.product.buying_price * sale.sale_quantity)
+
+        return render(request, 'dashboard/report.html', {'queryset': queryset, 'total_amount': total_amount, 'total_profit': total_profit})
+
     else:
         queryset = Sale.objects.all()
         total = sum(queryset.values_list('sale_quantity', flat=True))
@@ -426,75 +407,6 @@ def report(request):
             total_profit += (sale.total_Sale_price - sale.product.buying_price * sale.sale_quantity)
 
         return render(request, 'dashboard/report.html', {'queryset': queryset, 'total': total, 'total_amount': total_amount, 'total_profit': total_profit})
-
-
-
-#datewise search 
-# @login_required
-# def report(request):
-#     total_amount = 0
-#     total_profit = 0
-
-#     if request.method == 'POST':
-#         from_date = request.POST.get('from_date')
-#         to_date = request.POST.get('to_date')
-#         queryset = Sale.objects.filter(sale_at__range=[from_date, to_date])
-#         total_amount = sum(queryset.values_list('total_Sale_price', flat=True))
-
-#         for sale in queryset:
-#             total_profit += (sale.total_Sale_price - (sale.product.buying_price * sale.sale_quantity))
-
-#         return render(request, 'dashboard/report.html', {'queryset': queryset, 'total_amount': total_amount, 'total_profit': total_profit})
-    
-#     # if request.method == 'POST':
-#     #      month = request.POST.get('month')
-#     #      year = request.POST.get('year')
-#     #      queryset = Sale.objects.filter(sale_at__month=month, sale_at__year=year)
-#     #      total_amount = sum(queryset.values_list('total_Sale_price', flat=True))
-        
-#     #      for sale in queryset:
-#     #          total_profit += (sale.total_Sale_price - sale.product.buying_price * sale.sale_quantity)
-            
-#     #      return render(request, 'dashboard/report.html', {'queryset': queryset, 'total_amount': total_amount, 'total_profit': total_profit})
-        
-
-#     else:
-#         queryset = Sale.objects.all()
-#         total_amount = sum(queryset.values_list('total_Sale_price', flat=True))
-
-#         for sale in queryset:
-#             total_profit += (sale.total_Sale_price - sale.product.buying_price * sale.sale_quantity)
-
-#         return render(request, 'dashboard/report.html', {'queryset': queryset,'total_amount': total_amount, 'total_profit': total_profit})
-
-# #Monthwise Search
-
-# @login_required
-# def report(request):
-#     total = 0
-#     total_amount = 0
-#     total_profit = 0
-
-#     if request.method == 'POST':
-#         month = request.POST.get('month')
-#         year = request.POST.get('year')
-#         queryset = Sale.objects.filter(sale_at__month=month, sale_at__year=year)
-#         total_amount = sum(queryset.values_list('total_Sale_price', flat=True))
-        
-#         for sale in queryset:
-#             total_profit += (sale.total_Sale_price - sale.product.buying_price * sale.sale_quantity)
-        
-#         return render(request, 'dashboard/report.html', {'queryset': queryset, 'total_amount': total_amount, 'total_profit': total_profit})
-    
-#     else:
-#         queryset = Sale.objects.all()
-#         total = sum(queryset.values_list('sale_quantity', flat=True))
-#         total_amount = sum(queryset.values_list('total_Sale_price', flat=True))
-
-#         for sale in queryset:
-#             total_profit += (sale.total_Sale_price - sale.product.buying_price * sale.sale_quantity)
-
-#         return render(request, 'dashboard/report.html', {'queryset': queryset, 'total': total, 'total_amount': total_amount, 'total_profit': total_profit})
 
 
     # def report(request, type):
