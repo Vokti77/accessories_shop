@@ -18,6 +18,7 @@ from django.http import JsonResponse
 import csv
 import decimal
 import math
+from dateutil.relativedelta import relativedelta
 
 import calendar, datetime
 
@@ -360,162 +361,69 @@ def daily_report(request):
     #     'queryset': queryset,
     #     'form': form
     # })
-from django_yearmonth_widget.widgets import DjangoYearMonthWidget
-MONTHS = tuple(zip(range(1,13), (calendar.month_name[i] for i in range(1,13))))
-# # YEARS = datetime.datetime.now().year
-# YEARS = tuple(zip(range(2020,2050), range(2020,2050)))
 
-class CalendarPickerForm(forms.Form):
-    month = forms.ChoiceField(choices=MONTHS)
-    # year = forms.ChoiceField(choices=YEARS)
-    class Meta:
-        model = Sale
-        exclude = []
-        widgets = {
-            
-            "published_yearmonth": DjangoYearMonthWidget(),
-        }
-    
-def user_commission_results(request):
-    form = CalendarPickerForm(request.GET or None)
-    if form.is_valid():
-        # year = form.cleaned_data['year']
-        month = form.cleaned_data['month']
-        date_obj = datetime.datetime.date(int(month), 1)
-        queryset = Sale.objects.filter(
-                                    sale_at__month=month)
-        return render(request,
-                      'daily_report.html',
-                      {'queryset': queryset,
-                       'date_obj': date_obj,
-                       'form': form})
-    
-    return render(request, 'daily_report.html', {'form': form})
 
-    
+#Date and Monthwise Report ---Pranab-----
+
+from datetime import datetime
 @login_required
 def report(request):
-    total = 0
     total_amount = 0
+    total_profit = 0
+
+    # get the current year and month
+    now = datetime.now()
+    current_year = now.year
+    current_month = now.month
+
+    print("Current year :", current_year)
+    print("Current month :", current_month)
+
     if request.method == 'POST':
+        month = request.POST.get('month')
+        year = request.POST.get('current_year', current_year)
+
+        print("Month :", month)
+        print("Year :", year)
+
         from_date = request.POST.get('from_date')
         to_date = request.POST.get('to_date')
 
-        queryset = Sale.objects.raw('select id, sale_quantity, sale_price, total_Sale_price, profit, sale_at, update_at from accessories_sale where sale_at between "'+from_date+'" and "'+to_date+'"')
-       
-        # total = sum(queryset.values_list('sale_quantity',flat=True))
-        # total_amount = queryset.aggregate(total=Sum('total_Sale_price', flat=True))
-        return render(request, 'dashboard/report.html', {'queryset': queryset, 'total_amount':total_amount, 'total':total})
-    
+        print('from_date : ', from_date)
+        print('to_date : ', to_date)
+
+        queryset = Sale.objects.all()
+
+        if month and len(month) == 2:
+            queryset = queryset.filter(sale_at__month=month, sale_at__year=year)
+        elif from_date and to_date:
+            queryset = queryset.filter(sale_at__range=[from_date, to_date])
+
+        total_amount = sum(queryset.values_list('total_Sale_price', flat=True))
+        for sale in queryset:
+            total_profit += (sale.total_Sale_price - sale.product.buying_price * sale.sale_quantity)
+
+        return render(request, 'dashboard/report.html', {'queryset': queryset, 'total_amount': total_amount, 'total_profit': total_profit})
+
     else:
         queryset = Sale.objects.all()
-        total_profit = 0
-        total = sum(queryset.values_list('sale_quantity',flat=True))
-        total_amount = sum(queryset.values_list('total_Sale_price',flat=True))
-        return render(request, 'dashboard/report.html', {'queryset': queryset, 'total':total, 'total_amount':total_amount, 'total_profit':total_profit})
-    
-    
+        total = sum(queryset.values_list('sale_quantity', flat=True))
+        total_amount = sum(queryset.values_list('total_Sale_price', flat=True))
+
+        for sale in queryset:
+            total_profit += (sale.total_Sale_price - sale.product.buying_price * sale.sale_quantity)
+
+        return render(request, 'dashboard/report.html', {'queryset': queryset, 'total': total, 'total_amount': total_amount, 'total_profit': total_profit})
+
+
     # def report(request, type):
     # values = type.split(',')
-    # today = datetime.now().date()
-    # queryset = Sale.objects.all()
-    # form = ReportSearchForm(request.POST or None)
-    # context ={
-    #     'queryset': queryset,
-    #     'form': form
-    # }
-    # if request.method == 'POST':
-    #     queryset = Sale.objects.filter(
-    #         sale_at__range = [
-    #             form['start_date'].value(),
-    #             form['end_date'].value()
-    #             ],
-    #         update_at__range = [
-    #             form['start_date'].value(),
-    #             form['end_date'].value()
-    #             ]
-    #     )
-
     # if type == 'daily':
-    #     yesterday = today - timedelta(days=1)
-    #     # Get the quantities sold for each product on the current day
-    #     today_sales = Sale.objects.filter(Q(sale_at=today) | Q(update_at=today))
-    #     today_quantities = today_sales.values('product', 'product__product_name', 'product__model__brand__name', 'product__buying_price', 'product__product_quantity', 'product__expecting_Saleing_price', 'sale_at').annotate(
-    #         total_quantity=Sum('sale_quantity'),
-    #         total_sale_amount=Sum('total_Sale_price'),
-    #         total_profit=Sum((F('total_Sale_price') - F('product__remining_quantity')))
-    #     ).order_by('product')
-
-    #     # Get the total quantities sold for each product, including previous days
-    #     previous_sales = Sale.objects.filter(Q(sale_at=yesterday) | Q(update_at=yesterday)).values('product').annotate(total_quantity=Sum('sale_quantity')).order_by('product')
-        
-    #     # Merge the two querysets to get the updated quantities for each product
-    #     quantities = []
-    #     for today_quantity in today_quantities:
-    #         for previous_quantity in previous_sales:
-    #             if today_quantity['product'] == previous_quantity['product']:
-    #                 today_quantity['total_quantity'] += today_quantity['total_quantity']
-    #                 break
-    #         quantities.append(today_quantity)
-
     # elif type == 'weekly':
-    #     week_ago = today - timedelta(days=7)
-    #     # Get the quantities sold for each product on the current day
-    #     today_sales = Sale.objects.filter(Q(sale_at=today) | Q(update_at=today))
-    #     today_quantities = today_sales.values('product', 'product__product_name', 'product__model', 'product__buying_price', 'product__product_quantity', 'product__expecting_Saleing_price', 'sale_at').annotate(
-    #         total_quantity=Sum('sale_quantity'),
-    #         total_sale_amount=Sum('total_Sale_price'),
-    #         total_profit=Sum((F('total_Sale_price') - F('product__remining_quantity')))
-    #     ).order_by('product')
-
-
-    #     # Get the total quantities sold for each product, including previous days
-    #     previous_sales = Sale.objects.filter(Q(sale_at=week_ago) | Q(update_at=week_ago)).values('product').annotate(total_quantity=Sum('sale_quantity')).order_by('product')
-        
-    #     # Merge the two querysets to get the updated quantities for each product
-    #     quantities = []
-    #     for today_quantity in today_quantities:
-    #         for previous_quantity in previous_sales:
-    #             if today_quantity['product'] == previous_quantity['product']:
-    #                 today_quantity['total_quantity'] += today_quantity['total_quantity']
-    #                 break
-    #         quantities.append(today_quantity)
-    
     # elif type == 'monthly':
-    #     month_ago = today - timedelta(days=30)
-    #     today_sales = Sale.objects.filter(Q(sale_at=today) | Q(update_at=today))
-    #     today_quantities = today_sales.values('product', 'product__product_name', 'product__model', 'product__buying_price', 'product__product_quantity', 'product__expecting_Saleing_price', 'sale_at').annotate(
-    #         total_quantity=Sum('sale_quantity'),
-    #         total_sale_amount=Sum('total_Sale_price'),
-    #         total_profit=Sum((F('total_Sale_price') - F('product__remining_quantity'))),
-    #     ).order_by('product')
-
-    #     # Get the total quantities sold for each product, including previous days
-    #     previous_sales = Sale.objects.filter(Q(sale_at=month_ago) | Q(update_at=month_ago)).values('product').annotate(total_quantity=Sum('sale_quantity')).order_by('product')
-        
-    #     # Merge the two querysets to get the updated quantities for each product
-    #     quantities = []
-    #     for today_quantity in today_quantities:
-    #         for previous_quantity in previous_sales:
-    #             if today_quantity['product'] == previous_quantity['product']:
-    #                 today_quantity['total_quantity'] += today_quantity['total_quantity']
-    #                 break
-    #         quantities.append(today_quantity)
-
-    # total_amount = today_sales.aggregate(Sum('total_Sale_price'))['total_Sale_price__sum']
-    # profit = today_sales.aggregate(Sum('profit'))['profit__sum']
-    
     # context = {
-    #     'form': form,
-    #     'date': today, 
-    #     'quantities': quantities, 
-    #     'total_amount': total_amount, 
     #     'values': values,
-    #     'profit': profit,
-    #     'queryset':queryset
-
     #     }
-    # print(queryset)
     # return render(request, 'dashboard/report.html', context)
 
 
@@ -636,3 +544,125 @@ def gallery(request):
 def invoice(request):
     return render(request, "dashboard/invoice.html")
 
+
+from django.contrib.admin.views.decorators import staff_member_required
+from django.db.models import Count, F, Sum, Avg
+from django.db.models.functions import ExtractYear, ExtractMonth
+from django.http import JsonResponse
+from django.shortcuts import render
+
+from utils.charts import months, colorPrimary, colorSuccess, colorDanger, generate_color_palette, get_year_dict
+
+
+@staff_member_required
+def get_filter_options(request):
+    grouped_purchases = Sale.objects.annotate(year=ExtractYear("sale_at")).values("year").order_by("-year").distinct()
+    options = [purchase["year"] for purchase in grouped_purchases]
+
+    return JsonResponse({
+        "options": options,
+    })
+
+
+def get_sales_chart(request, year):
+    purchases = Sale.objects.filter(sale_at__year=year)
+    grouped_purchases = purchases.annotate(price=F("total_Sale_price")).annotate(month=ExtractMonth("sale_at"))\
+        .values("month").annotate(average=Avg("total_Sale_price")).values("month", "average").order_by("month")
+
+    spend_per_customer_dict = get_year_dict()
+
+    for group in grouped_purchases:
+        spend_per_customer_dict[months[group["month"]-1]] = round(group["average"], 2)
+
+    return JsonResponse({
+        "title": f"Spend per customer in {year}",
+        "data": {
+            "labels": list(spend_per_customer_dict.keys()),
+            "datasets": [{
+                "label": "Amount ($)",
+                "backgroundColor": colorPrimary,
+                "borderColor": colorPrimary,
+                "data": list(spend_per_customer_dict.values()),
+            }]
+        },
+    })
+
+
+
+
+def spend_per_customer_chart(request, year):
+    purchases = Sale.objects.filter(sale_at__year=year)
+    grouped_purchases = purchases.annotate(price=F("total_Sale_price")).annotate(month=ExtractMonth("sale_at"))\
+        .values("month").annotate(average=Avg("total_Sale_price")).values("month", "average").order_by("month")
+
+    spend_per_customer_dict = get_year_dict()
+
+    for group in grouped_purchases:
+        spend_per_customer_dict[months[group["month"]-1]] = round(group["average"], 2)
+
+    return JsonResponse({
+        "title": f"Spend per customer in {year}",
+        "data": {
+            "labels": list(spend_per_customer_dict.keys()),
+            "datasets": [{
+                "label": "Amount ($)",
+                "backgroundColor": colorPrimary,
+                "borderColor": colorPrimary,
+                "data": list(spend_per_customer_dict.values()),
+            }]
+        },
+    })
+
+
+# @staff_member_required
+# def payment_success_chart(request, year):
+#     purchases = Purchase.objects.filter(time__year=year)
+
+#     return JsonResponse({
+#         "title": f"Payment success rate in {year}",
+#         "data": {
+#             "labels": ["Successful", "Unsuccessful"],
+#             "datasets": [{
+#                 "label": "Amount ($)",
+#                 "backgroundColor": [colorSuccess, colorDanger],
+#                 "borderColor": [colorSuccess, colorDanger],
+#                 "data": [
+#                     purchases.filter(successful=True).count(),
+#                     purchases.filter(successful=False).count(),
+#                 ],
+#             }]
+#         },
+#     })
+
+
+# @staff_member_required
+# def payment_method_chart(request, year):
+#     purchases = Purchase.objects.filter(time__year=year)
+#     grouped_purchases = purchases.values("payment_method").annotate(count=Count("id"))\
+#         .values("payment_method", "count").order_by("payment_method")
+
+#     payment_method_dict = dict()
+
+#     for payment_method in Purchase.PAYMENT_METHODS:
+#         payment_method_dict[payment_method[1]] = 0
+
+#     for group in grouped_purchases:
+#         payment_method_dict[dict(Purchase.PAYMENT_METHODS)[group["payment_method"]]] = group["count"]
+
+#     return JsonResponse({
+#         "title": f"Payment method rate in {year}",
+#         "data": {
+#             "labels": list(payment_method_dict.keys()),
+#             "datasets": [{
+#                 "label": "Amount ($)",
+#                 "backgroundColor": generate_color_palette(len(payment_method_dict)),
+#                 "borderColor": generate_color_palette(len(payment_method_dict)),
+#                 "data": list(payment_method_dict.values()),
+#             }]
+#         },
+#     })
+
+
+@staff_member_required
+def statistics_view(request):
+    return render(request, "statistics.html", {})

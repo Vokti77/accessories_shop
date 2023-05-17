@@ -40,7 +40,7 @@
         </div>
     </div>
 </div>
-<form method="POST" id="example-form" class="m-t-40" novalidate="novalidate" action="{% url 'dashboard:tables' %}">
+<form method="POST" id="example-form" action="{% url 'dashboard:tables' %}" class="m-t-40" novalidate="novalidate">
     {% csrf_token %}
     {{ form | crispy }}
     <br><br>
