@@ -10,6 +10,7 @@
 {% block page_title %}
  Product Table
 {% endblock %}
+{% load humanize %}
 {% load crispy_forms_tags %}
 {% block content %}
 
@@ -30,10 +31,9 @@
             <div class="ml-auto text-right">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a class="btn btn-success" href="{% url 'dashboard:dashboard' %}">Home</a></li>
-                        <li class="breadcrumb-item"><a class="btn btn-success" href="{% url 'dashboard:add-brand' %}">Add Brand</a></li>
-                        <li class="breadcrumb-item"><a class="btn btn-success" href="{% url 'dashboard:add-model' %}">Add Model</a></li>
+                        
                         <li class="breadcrumb-item"><a class="btn btn-success" href="{% url 'dashboard:add-product' %}">Add Product</a></li>
+                        <li class="breadcrumb-item"><a class="btn btn-success" href="{% url 'dashboard:dashboard' %}">Home</a></li>
                     </ol>
                 </nav>
             </div>
@@ -96,10 +96,10 @@
                         {% endif %}
                         <td>{{product.buying_price}}</td>
                         <td>{{product.expecting_Saleing_price}}</td>
-                        <td>{% widthratio product.buying_price 1 product.product_quantity %}</td>
+                        <td>{% widthratio product.buying_price 1 product.product_quantity|intcomma %}</td>
                         <td>{{product.sale_quantity }}</td>
                         <td>{{product.actual_Sale_price}}</td>
-                        <td>{{ product.actual_Sale_price|sub:product.remining_quantity }}</td>
+                        <td>{{ product.actual_Sale_price|sub:product.remining_quantity|intcomma }}</td>
                         <td>
                             <a href="{% url 'dashboard:upadate-product' product.id %}" data-toggle="tooltip" data-placement="top" title="Update">
                                 <i class="mdi mdi-check"></i>
@@ -113,7 +113,6 @@
                         <td>{{product.added_at }}</td>
                         <td>{{product.update_at }}</td>
                     </tr>
-                    
                     {% endfor %}
                     
                 </tbody>
@@ -125,10 +124,10 @@
                         <th></th>
                         <th></th>
                         <th></th>
-                        <th>{{ total_amount }}</th>
+                        <th>{{ total_amount|intcomma }}</th>
                         <th></th>
-                        <th>{{ total_Sale_amount }}</th>
-                        <th>{{ total_profit }}</th>
+                        <th>{{ total_Sale_amount|intcomma }}</th>
+                        <th>{{ total_profit|intcomma }}</th>
                         <th></th>
                         <th></th>
                         <th></th>

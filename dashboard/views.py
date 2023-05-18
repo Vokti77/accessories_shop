@@ -35,6 +35,30 @@ def index(request):
     total_profit = 0
     profit = 0
 
+    now = datetime.now()
+    current_year = now.strftime("%Y")
+    current_month = now.strftime("%m")
+    current_day = now.strftime("%d")
+    
+    sales = len(Sale.objects.all())
+
+    transaction = len(Sale.objects.filter(
+        sale_at__year=current_year,
+        sale_at__month = current_month,
+    
+    ))
+
+    today_sales = Sale.objects.filter(
+        sale_at__year=current_year,
+        sale_at__month = current_month,
+        sale_at__day = current_day
+    ).all()
+
+    today_sale_amount = sum(today_sales.values_list('total_Sale_price', flat=True))
+    today_profit = 0
+    for sale in today_sales:
+        today_profit += (sale.total_Sale_price - sale.product.buying_price * sale.sale_quantity)
+            
     product_item = Product.objects.all()
     model_item = Model.objects.all()
     users = MyUser.objects.count()
@@ -53,12 +77,16 @@ def index(request):
         'users': users,
         'model_item': model_item,
         'product_item' : product_item,
+        'sales': sales,
         'total_item': total_item,
         'total_amount': total_amount,
         'total_profit' : total_profit,
         'total_Sale_amount':total_Sale_amount,
         'profit' : profit,
-        'low_quantity_products': low_quantity_products
+        'low_quantity_products': low_quantity_products,
+        'today_sale_amount': today_sale_amount,
+        'today_profit': today_profit
+        
     } 
     return render(request, 'dashboard/index.html', context)
 
@@ -145,60 +173,6 @@ def tables(request):
 
 @login_required
 def add_product(request):
-    # product_form = ProductsForm()
-    # brand_form = BrandForm()
-    # model_form = ModelForm()
-
-    # if request.method == 'POST':
-    #     if 'add-product' in request.POST:
-    #         product_form = ProductsForm(request.POST or None, request.FILES or None)
-    #         if product_form.is_valid():
-    #             product_form.save()
-    #             return redirect('dashboard:tables')
-    #         else:
-    #             product_form = ProductsForm()
-        
-    #     if 'add-brand' in request.POST:
-    #         brand_form = BrandForm(request.POST or None, request.FILES or None)
-    #         if brand_form.is_valid():
-    #             brand_form.save()
-    #             return redirect('dashboard:add_product')
-    #         else:
-    #             brand_form = BrandForm()
-        
-    #     if 'add-model' in request.POST:
-    #         model_form = ModelForm(request.POST or None, request.FILES or None)
-    #         if model_form.is_valid():
-    #             model_form.save()
-    #             return redirect('dashboard:add_product')
-    #         else:
-    #             model_form = ModelForm()
-        
-
-    # product_form = ProductsForm(request.POST or None, request.FILES or None)
-    # if form.is_valid():
-    #     form.save()
-    #     messages.success(request, "The product has been added successfully!")
-    #     return redirect('dashboard:tables')
-    # else:
-    #     form = ProductsForm()
-
-    # brand_form = ProductsForm(request.POST or None, request.FILES or None)
-    # if form.is_valid():
-    #     form.save()
-    #     messages.success(request, "The product has been added successfully!")
-    #     return redirect('dashboard:form_basic')
-    # else:
-    #     form = BrandForm()
-        
-    # model_form = ProductsForm(request.POST or None, request.FILES or None)
-    # if form.is_valid():
-    #     form.save()
-    #     messages.success(request, "The product has been added successfully!")
-    #     return redirect('dashboard:form_basic')
-    # else:
-    #     form = ModelForm()
-
     form = ProductsForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         form.save()
@@ -318,52 +292,7 @@ def product_csv(request):
 
 def daily_report(request):
     pass
-    # total = 0
-    # total_amount = 0
-    # if request.method == 'POST':
-    #     from_date = request.POST.get('from_date')
-    #     to_date = request.POST.get('to_date')
 
-    #     queryset = Sale.objects.raw('select id, product, sale_quantity, sale_price, total_Sale_price, profit, sale_at, update_at from accessories_sale where sale_at between "'+from_date+'" and "'+to_date+'"')
-       
-    #     # total = sum(queryset.values_list('sale_quantity',flat=True))
-    #     # total_amount = queryset.aggregate(total=Sum('total_Sale_price', flat=True))
-    #     return render(request, 'daily_report.html', {'queryset': queryset, 'total_amount':total_amount, 'total':total})
-    
-    # else:
-    #     queryset = Sale.objects.all()
-    #     total = sum(queryset.values_list('sale_quantity',flat=True))
-    #     total_amount = queryset.aggregate(total=Sum('total_Sale_price', flat=True))
-    #     return render(request, 'daily_report.html', {'queryset': queryset, 'total':total, 'total_amount':total_amount})
-    
-    # form = ReportSearchForm(request.POST or None)
-    # if request.method == 'POST':
-    #     queryset = Sale.objects.filter(
-    #         sale_at__range = [
-    #             form['start_date'].value(),
-    #             form['end_date'].value()
-    #             ],
-    #         update_at__range = [
-    #             form['start_date'].value(),
-    #             form['end_date'].value()
-    #             ]
-    #     )
-        
-    #     return render(request, 'daily_report.html', {
-    #     'queryset': queryset,
-    #     'form': form
-    # })
-    # else:
-    #     queryset = Sale.objects.all()
-    
-    
-    #     return render(request, 'daily_report.html', {
-    #     'queryset': queryset,
-    #     'form': form
-    # })
-
-
-#Date and Monthwise Report ---Pranab-----
 
 from datetime import datetime
 @login_required
@@ -376,21 +305,12 @@ def report(request):
     current_year = now.year
     current_month = now.month
 
-    print("Current year :", current_year)
-    print("Current month :", current_month)
-
     if request.method == 'POST':
         month = request.POST.get('month')
         year = request.POST.get('current_year', current_year)
 
-        print("Month :", month)
-        print("Year :", year)
-
         from_date = request.POST.get('from_date')
         to_date = request.POST.get('to_date')
-
-        print('from_date : ', from_date)
-        print('to_date : ', to_date)
 
         queryset = Sale.objects.all()
 
@@ -497,13 +417,6 @@ def accessories_summary(request):
 def stats_view(request):
     return render(request, 'stats.html')
 
-
-
-
-
-
-
-
 @login_required
 def charts(request):
     return render(request, 'dashboard/charts.html')
@@ -592,8 +505,8 @@ def get_sales_chart(request, year):
 
 def spend_per_customer_chart(request, year):
     purchases = Sale.objects.filter(sale_at__year=year)
-    grouped_purchases = purchases.annotate(price=F("total_Sale_price")).annotate(month=ExtractMonth("sale_at"))\
-        .values("month").annotate(average=Avg("total_Sale_price")).values("month", "average").order_by("month")
+    grouped_purchases = purchases.annotate(price=F("profit")).annotate(month=ExtractMonth("sale_at"))\
+        .values("month").annotate(average=Avg("profit")).values("month", "average").order_by("month")
 
     spend_per_customer_dict = get_year_dict()
 

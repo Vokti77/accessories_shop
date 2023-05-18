@@ -23,9 +23,8 @@ urlpatterns = [
     path('stats/', views.stats_view,name="stats"),
     path('summary/', views.summary,name="summary"),
     path('filter/', views.filter_data,name="filter"),
-    # path('user_commission_results/', views.user_commission_results,name="user_commission_results"),
 
-     path("statistics/", views.statistics_view, name="shop-statistics"),
+    path("statistics/", views.statistics_view, name="shop-statistics"),
     path("filter-options/", views.get_filter_options, name="chart-filter-options"),
     path("sales/<int:year>/", views.get_sales_chart, name="chart-sales"),
     path("spend-per-customer/<int:year>/", views.spend_per_customer_chart, name="chart-spend-per-customer"),

@@ -2,7 +2,7 @@
 {% load mathfilters %}
 {% load i18n %}
 {% load static %}
-
+{% load humanize %}
 {% block extra_css %}
     <style xmlns="http://www.w3.org/1999/html">
     </style>
@@ -115,9 +115,9 @@
                     <th></th>
                     <th></th>
                     <th></th>
-                    <th>{{ total_buying_price }}</th>
-                    <th>{{ total_amount }}</th>
-                    <th>{{ total_profit }}</th>
+                    <th>{{ total_buying_price|intcomma }}</th>
+                    <th>{{ total_amount|intcomma }}</th>
+                    <th>{{ total_profit|intcomma }}</th>
                     <th></th>
                 </tr>
             </tfoot> 

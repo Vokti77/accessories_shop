@@ -76,13 +76,3 @@ class ProfileView(TemplateView):
         return render(request, 'profile.html', context)
 
 
-    # def post(self, request, *args, **kwargs):
-    #     if request.method == 'post' or request.method == 'POST':
-    #         billingaddress = BillingAddress.objects.get(user=request.user)
-    #         billingaddress_form = BillingAddressForm(request.POST, instance=billingaddress)
-    #         profile_obj = Profile.objects.get(user=request.user)
-    #         profileForm = ProfileForm(request.POST, instance=profile_obj)
-    #         if billingaddress_form.is_valid() or profileForm.is_valid():
-    #             billingaddress_form.save()
-    #             profileForm.save()
-    #             return redirect('account:profile')

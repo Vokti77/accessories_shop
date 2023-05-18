@@ -45,13 +45,15 @@ class Sale(models.Model):
     update_at = models.DateField(auto_now=True)
 
 
-    
+    def calculate_profit(self):
+            # Calculate the profit
+            cost_price = self.product.buying_price
+            total_sale_price = self.sale_quantity * self.sale_price
+            profit = total_sale_price - (self.sale_quantity * cost_price)
+
+            # Set the calculated profit value
+            self.profit = profit
 
     def save(self, *args, **kwargs):
-        if self.pk is not None:
-            # Object is being updated
-            original = Sale.objects.get(pk=self.pk)
-            if original.sale_quantity != self.sale_quantity:
-                # Sale_quantity has changed, update the update_at field
-                self.update_at = timezone.now()
-        super(Sale, self).save(*args, **kwargs)
+            self.calculate_profit()  # Calculate the profit before saving
+            super().save(*args, **kwargs) 
