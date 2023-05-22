@@ -18,11 +18,17 @@ urlpatterns = [
     path('product_csv/', views.product_csv, name='product-csv'),
     path('report/', views.report, name='report'),
     path('daily_report/', views.daily_report, name='daily-report'),
-    
+
+    path('update_product_quantity/<int:product_id>/', views.update_product_quantity, name='update-quantity'),
+    path('confirm_update_quantity/<int:product_id>/', views.confirm_update_quantity, name='update-confirm'),
+     path('update_quntity_history/', views.update_quntity_history, name='update-history'),
+
+
+
+
     path('accessories_summary/', views.accessories_summary,name="accessories_summary"),
     path('stats/', views.stats_view,name="stats"),
     path('summary/', views.summary,name="summary"),
-    path('filter/', views.filter_data,name="filter"),
 
     path("statistics/", views.statistics_view, name="shop-statistics"),
     path("filter-options/", views.get_filter_options, name="chart-filter-options"),

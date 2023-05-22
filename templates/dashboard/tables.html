@@ -12,8 +12,9 @@
 {% endblock %}
 {% load humanize %}
 {% load crispy_forms_tags %}
-{% block content %}
 
+
+{% block content %}
 <!-- {% for message in messages %}
     <div class="container-fluid p-0">
     <div class="alert {{ message.tags }} alert-success" role="alert" >
@@ -90,9 +91,9 @@
                         <td>{{product.model.brand.name}}</td>
                         <td>{{product.model.name}}</td>
                         {% if product.product_quantity < 5 %}
-                            <td class="text-danger">{{product.product_quantity}}</td>
+                            <td class="text-danger"> <a class="text-danger" title="Added" href="{% url 'dashboard:update-quantity' product.id %}">{{product.product_quantity}}</a></td>
                             {% else %}
-                            <td>{{product.product_quantity}}</td>
+                            <td class="text-danger"> <a title="Added" href="{% url 'dashboard:update-quantity' product.id %}">{{product.product_quantity}}</a></td>
                         {% endif %}
                         <td>{{product.buying_price}}</td>
                         <td>{{product.expecting_Saleing_price}}</td>
@@ -104,11 +105,22 @@
                             <a href="{% url 'dashboard:upadate-product' product.id %}" data-toggle="tooltip" data-placement="top" title="Update">
                                 <i class="mdi mdi-check"></i>
                             </a>
+<!-- 
+                            <a href="#deleteEmployeeModal" data-toggle="modal" data-target="#deleteEmployeeModal" class="mdi mdi-close">
+                                <i></i>
+                            </a> -->
                             <a href="{% url 'dashboard:delete-product' product.id %}" data-toggle="tooltip" data-placement="top" title="Delete">
                                 </i><i class="mdi mdi-close"></i>
-                                <a href="{% url 'dashboard:Sale-quantity' product.id %}" data-toggle="tooltip" data-placement="top" title="Delete" class="Sale">
-                                </i><i class="mdi mdi-cart-outline"></i>    
-                            </a>
+
+                                {% if product.product_quantity == 0 %}
+                                    <a href="{% url 'dashboard:Sale-quantity' product.id %}" data-toggle="tooltip" data-placement="top" title="Sale" class="Sale">
+                                    </i><i class="mdi mdi-cart-outline"></i>    
+                                </a>
+                                {% else %}
+                                <a href="{% url 'dashboard:Sale-quantity' product.id %}" data-toggle="tooltip" data-placement="top" title="Sale" class="Sale">
+                                    </i><i class="mdi mdi-cart-outline"></i>    
+                                </a>
+                            {% endif %}
                         </td>
                         <td>{{product.added_at }}</td>
                         <td>{{product.update_at }}</td>
@@ -133,8 +145,7 @@
                         <th></th>
                         
                     </tr>
-                </tfoot>
-                
+                </tfoot> 
             </table>
             <div class="col-md-12">
                 {% if product_item.has_other_pages %}
@@ -175,5 +186,25 @@
         </div>               
     </div>
 </div> 
+
+<!-- <form method="post" action="">
+    {% csrf_token %}
+    <div class="modal fade none-border" id="add-new-event">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"><strong>Delete!</strong> Are you sure want to delete this?</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-footer">
+                    <a href="" data-toggle="tooltip" data-placement="top" title="Delete">
+                                    </i><i class="mdi mdi-ok"></i>
+                    <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form> -->
+
 
 {% endblock %}

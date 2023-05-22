@@ -16,7 +16,7 @@
 <div class="page-breadcrumb">
     <div class="row">
         <div class="col-12 d-flex no-block align-items-center">
-            <h4 class="page-title">Sale History</h4>
+            <h4 style="text-align: center;" class="page-title">Update Quantity History</h4>
             <div class="ml-auto text-right">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
@@ -27,14 +27,14 @@
         </div>
     </div>
 </div>
-<form method="POST" id="example-form" action="{% url 'dashboard:report' %}" class="m-t-40" novalidate="novalidate">
+<form method="POST" id="example-form" action="{% url 'dashboard:update-history' %}" class="m-t-40" novalidate="novalidate">
     {% csrf_token %}
     From Date : <input type="date" name="from_date">
     To Date : <input type="date" name="to_date"> 
     <input type="submit" value="Search">
 </form>
 <br>
-<form method="POST" id="example-form" action="{% url 'dashboard:report' %}" novalidate="novalidate">
+<form method="POST" id="example-form" action="{% url 'dashboard:update-history' %}" novalidate="novalidate">
     {% csrf_token %}
     <div class="d-flex "  >
         Select  :<select name="month" >
@@ -84,29 +84,29 @@
                 <tr>
                     <th>Name</th>
                     <th>Brand</th>
-                    <!-- <th>Quantity</th> -->
+                    <th>Received Quantity</th>
                     <th>Buy Price</th>
                     <th>Sale Price</th>
-                    <th>Sale Quantity</th>
-                    <th>Actual Sell Price</th>
-                    <th>Total Sale Amount</th>
-                    <th>Total Profit</th>
+                    <th>Total Amount Addded</th>
                     <td>Date</td> 
                 </tr>
             </thead>
             <tbody>
-                {% for quantity in queryset %}
+                {% for quantity in history %}
                 <tr>
                     <td>{{ quantity.product.product_name }}</td>
                     <td>{{ quantity.product.model.brand.name }}</td>
-                    <!-- <td>{{ quantity.product.product_quantity }}</td> -->
-                    <td>{{ quantity.product.buying_price }}</td>
+                    <td>{{ quantity.quantity_added }}</td>
+                    <td>{{ quantity.buying_price }}</td>
                     <td>{{ quantity.product.expecting_Saleing_price }}</td>
-                    <td>{{ quantity.sale_quantity }}</td>
-                    <td>{{ quantity.sale_price }}</td>
-                    <td>{{ quantity.total_Sale_price }}</td>
-                    <td>{{ quantity.profit}}</td> 
-                    <td>{{ quantity.sale_at}}</td>   
+                    <td>{{ quantity.quantity_added|mul:quantity.buying_price |intcomma}}</td>
+                    <td>{{ quantity.added_at }}</td>
+                    <!-- <th>
+                        <a href="javascript:void(0)" data-toggle="modal" data-target="#add-new-event" class="btn m-t-20 btn-info btn-block waves-effect waves-light">
+                            <i class="ti-plus"></i> Add New Event
+                        </a>
+                    </th> -->
+                    
                 </tr>
                 {% endfor %}   
             </tbody>
@@ -117,9 +117,7 @@
                     <th></th>
                     <th></th>
                     <th></th>
-                    <th>{{ total_buying_price|intcomma }}</th>
-                    <th>{{ total_amount|intcomma }}</th>
-                    <th>{{ total_profit|intcomma }}</th>
+                    <th></th>
                     <th></th>
                 </tr>
             </tfoot> 
@@ -162,5 +160,6 @@
         </div>
     </div>
 </div>
+
 {% endblock %}
 
