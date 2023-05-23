@@ -41,7 +41,7 @@ class Sale(models.Model):
     sale_price = models.DecimalField(max_digits=10, decimal_places=2)
     total_Sale_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     profit = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    sale_at = models.DateField(auto_now_add=True)
+    sale_at = models.DateField(auto_now_add=False)
     update_at = models.DateField(auto_now=True)
 
 

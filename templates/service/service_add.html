@@ -12,11 +12,11 @@
 <div class="page-breadcrumb">
     <div class="row">
         <div class="col-12 d-flex no-block align-items-center">
-            <h4 class="page-title">Servicing Info.</h4>
+            <!-- <h4 class="page-title text-success" style="font-size: xx-large;">Servicing Info.</h4> -->
             <div class="ml-auto text-right">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item"><a class="btn btn-success" href="{% url 'service-info' %}">Back To Service</a></li>
                         
                     </ol>
                 </nav>
@@ -26,8 +26,9 @@
 </div>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-6">
-            <div class="card">
+        <div class="col-md-6 mx-auto shadow-sm">
+            <div class="card shadow-lg">
+                <h4 class="card-title m-t-10 m-l-20">Add New Service</h4 >
                 <form class="form-horizontal" method="post">
                     {% csrf_token %} 
                     <div class="card-body">
@@ -55,9 +56,9 @@
                             </div>
                         </div> 
                     </div>
-                    <div class="border-top">
-                        <div class="card-body">
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                    <div class="border-top ">
+                        <div class="card-body mx-auto">
+                            <button type="submit" class="mx-auto btn btn-success btn-block">Submit</button>
                         </div>
                     </div>
                 </form>
