@@ -13,8 +13,19 @@
 {% load humanize %}
 <!-- {% load crispy_forms_tags %} -->
 {% load crispy_forms_tags %}
-{% block content %}
 
+
+{% block content %}
+<!-- {% for message in messages %}
+    <div class="container-fluid p-0">
+    <div class="alert {{ message.tags }} alert-success" role="alert" >
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="True">&times;</span>
+        </button>
+        {{ message }}
+    </div>
+    </div>
+    {% endfor %} -->
 
 <div class="page-breadcrumb">
     <div class="row">
@@ -72,9 +83,9 @@
                         <td>{{product.model.brand.name}}</td>
                         <td>{{product.model.name}}</td>
                         {% if product.product_quantity < 5 %}
-                            <td class="text-danger text-right">{{product.product_quantity}}</td>
+                            <td class="text-danger"> <a class="text-danger" title="Added" href="{% url 'dashboard:update-quantity' product.id %}">{{product.product_quantity}}</a></td>
                             {% else %}
-                            <td  class="text-right">{{product.product_quantity}}</td>
+                            <td class="text-danger"> <a title="Added" href="{% url 'dashboard:update-quantity' product.id %}">{{product.product_quantity}}</a></td>
                         {% endif %}
                         <td class="text-right">{{product.buying_price}}</td>
                         <td class="text-right">{{product.expecting_Saleing_price}}</td>
@@ -86,11 +97,22 @@
                             <a href="{% url 'dashboard:upadate-product' product.id %}" data-toggle="tooltip" data-placement="top" title="Update">
                                 <i class="mdi mdi-check fa-lg text-success"></i>
                             </a>
+<!-- 
+                            <a href="#deleteEmployeeModal" data-toggle="modal" data-target="#deleteEmployeeModal" class="mdi mdi-close">
+                                <i></i>
+                            </a> -->
                             <a href="{% url 'dashboard:delete-product' product.id %}" data-toggle="tooltip" data-placement="top" title="Delete">
-                                </i><i class="mdi mdi-close fa-lg text-danger"></i>
-                                <a href="{% url 'dashboard:Sale-quantity' product.id %}" data-toggle="tooltip" data-placement="top" title="Delete" class="Sale">
-                                </i><i class="mdi mdi-cart-outline fa-lg"></i>    
-                            </a>
+                                </i><i class="mdi mdi-close"></i>
+
+                                {% if product.product_quantity == 0 %}
+                                    <a href="{% url 'dashboard:Sale-quantity' product.id %}" data-toggle="tooltip" data-placement="top" title="Sale" class="Sale">
+                                    </i><i class="mdi mdi-cart-outline"></i>    
+                                </a>
+                                {% else %}
+                                <a href="{% url 'dashboard:Sale-quantity' product.id %}" data-toggle="tooltip" data-placement="top" title="Sale" class="Sale">
+                                    </i><i class="mdi mdi-cart-outline"></i>    
+                                </a>
+                            {% endif %}
                         </td>
                         <td>{{product.added_at }}</td>
                         <td>{{product.update_at }}</td>
@@ -115,8 +137,7 @@
                         <th></th>
                         
                     </tr>
-                </tfoot>
-                
+                </tfoot> 
             </table>
             <div class="col-md-12">
                 {% if product_item.has_other_pages %}
@@ -158,117 +179,24 @@
     </div>
 </div> 
 
-<!-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Add New Product</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-            <div class="page-breadcrumb">
-                <div class="row">
-                    <div class="col-12 d-flex no-block align-items-center">
-                        <h4 class="page-title">
-                            {% for message in messages %}
-                            <div class="container-fluid p-0">
-                            <div class="alert {{ message.tags }} alert-success" role="alert" >
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="True">&times;</span>
-                            </button>
-                            {{ message }}
-                            </div>
-                            </div>
-                            {% endfor %}
-                        </h4>
-                        <div class="ml-auto text-right">
-                            <nav aria-label="breadcrumb">
-                                <ol class="breadcrumb">
-        
-                                    <li class="breadcrumb-item"><a class="btn btn-success" href="{% url 'dashboard:add-model' %}">Add Model</a></li>
-                                    <li class="breadcrumb-item"><a class="btn btn-success" href="{% url 'dashboard:tables' %}">Products</a></li>
-                                </ol>
-                            </nav>
-                        </div>
-                    </div>
+<!-- <form method="post" action="">
+    {% csrf_token %}
+    <div class="modal fade none-border" id="add-new-event">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"><strong>Delete!</strong> Are you sure want to delete this?</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-footer">
+                    <a href="" data-toggle="tooltip" data-placement="top" title="Delete">
+                                    </i><i class="mdi mdi-ok"></i>
+                    <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Close</button>
                 </div>
             </div>
-            
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-body wizard-content">
-                                <h4 class="card-title">Add New Product</h4>
-                                <h6 class="card-subtitle"></h6>
-                                <form method="POST" id="example-form" action="#" class="m-t-40" novalidate="novalidate">
-                                    {% csrf_token %}
-                                    {{ form | crispy }}
-                                    <br><br>
-                                    <input class="btn btn-success btn-block" type="submit" value="Add">
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>      
-            </div>
-
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-      </div>
     </div>
-  </div> -->
+</form> -->
+
 
 {% endblock %}
-
-<!-- {% block extra_js %}
-           <script>
-            //***********************************//
-            // For select 2
-            //***********************************//
-            $(".select2").select2();
-
-            /*colorpicker*/
-            $('.demo').each(function () {
-                //
-                // Dear reader, it's actually very easy to initialize MiniColors. For example:
-                //
-                //  $(selector).minicolors();
-                //
-                // The way I've done it below is just for the demo, so don't get confused
-                // by it. Also, data- attributes aren't supported at this time...they're
-                // only used for this demo.
-                //
-                $(this).minicolors({
-                    control: $(this).attr('data-control') || 'hue',
-                    position: $(this).attr('data-position') || 'bottom left',
-
-                    change: function (value, opacity) {
-                        if (!value) return;
-                        if (opacity) value += ', ' + opacity;
-                        if (typeof console === 'object') {
-                            console.log(value);
-                        }
-                    },
-                    theme: 'bootstrap'
-                });
-
-            });
-            /*datwpicker*/
-            jQuery('.mydatepicker').datepicker();
-            jQuery('#datepicker-autoclose').datepicker({
-                autoclose: true,
-                todayHighlight: true
-            });
-
-            var quill = new Quill('#editor', {
-                theme: 'snow'
-            });
-        </script>
-        
-{% endblock %} -->

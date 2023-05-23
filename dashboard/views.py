@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from accessories.models import Product, Sale, Brand, Model
+from accessories.models import Product, Sale, Brand, Model, ProductQuantityHistory
 from account.models import MyUser
 from django.contrib.auth.models import User
 from dashboard.forms import ModelForm, ProductsForm, SaleForm, BrandForm, SearchForm, ReportSearchForm
@@ -25,7 +25,6 @@ import calendar, datetime
 from django.db.models import Sum
 from django.shortcuts import render
 from django import forms
-
 
 @login_required
 def index(request):
@@ -89,18 +88,6 @@ def index(request):
         
     } 
     return render(request, 'dashboard/index.html', context)
-
-
-def filter_data(request):
-	models =request.GET.getlist('models[]')
-	brands=request.GET.getlist('brand[]')
-	product = Product.objects.all().order_by('-id').distinct()
-	if len(models)>0:
-		allProducts=product.filter(category__id__in=models).distinct()
-	if len(brands)>0:
-		allProducts=product.filter(brand__id__in=brands).distinct()
-     
-	return render(request, ('datalist.html'), {'allProducts':allProducts})
 
 @login_required
 def tables(request):
@@ -170,7 +157,6 @@ def tables(request):
     }
     return render(request, ['dashboard/tables.html', 'dashboard/index.html'], context)
 
-
 @login_required
 def add_product(request):
     form = ProductsForm(request.POST or None, request.FILES or None)
@@ -232,11 +218,39 @@ def upadate_product(request, product_id):
 
 
 @login_required
+def update_product_quantity(request, product_id):
+    product = Product.objects.get(id=product_id)
+    context = {
+        'product_id': product_id,
+        'product' : product
+    }
+    return render(request, 'product/update_quantity.html', context)
+
+@login_required
+def confirm_update_quantity(request, product_id):
+    quantity = int(request.POST.get('quantity'))
+    buy_price = int(request.POST.get('buy'))
+
+    add_q = Product.objects.get(id=product_id)
+    add_info = ProductQuantityHistory(product=add_q, quantity_added=quantity, buying_price=buy_price)
+    add_info.save()
+
+    add_q.product_quantity += quantity
+    add_q.buying_price = buy_price
+    add_q.save()
+    return redirect('dashboard:tables')
+
+@login_required
+def update_quntity_history(request):
+    history = ProductQuantityHistory.objects.all()
+    return render(request, 'product/history.html', {'history':history})
+
+@login_required
 def delete_product(request, product_id):
     product = Product.objects.get(id=product_id)
     product.delete()
     messages.success(request, "The product has been delete successfully!")
-    return redirect('dashboard:tables')
+    return redirect('tables')
 
 @login_required
 def sale_quantity(request, product_id):
@@ -255,15 +269,15 @@ def confirm_Sale(request, product_id):
         sale = Sale.objects.filter(product_id=product_id).first()
         sale_q = Product.objects.get(id=product_id)
         
-        if sale:
-            sale.sale_quantity += quantity
-            sale.sale_price += sale_price
-            sale.total_Sale_price += (sale_price*quantity)
-            sale.save()
-        else:
-            sale = Sale(sale_quantity=quantity, sale_price=sale_price, product=sale_q, sale_at=date.today())
-            sale.total_Sale_price = sale_price * quantity
-            sale.save()
+        # if sale:
+        #     sale.sale_quantity += quantity
+        #     sale.sale_price += sale_price
+        #     sale.total_Sale_price += (sale_price*quantity)
+        #     sale.save()
+        # else:
+        sale = Sale(sale_quantity=quantity, sale_price=sale_price, product=sale_q, sale_at=date.today())
+        sale.total_Sale_price = sale_price * quantity
+        sale.save()
 
         if sale_q.product_quantity >= quantity:
             sale_q.product_quantity -= quantity
@@ -321,7 +335,7 @@ def report(request):
 
         total_amount = sum(queryset.values_list('total_Sale_price', flat=True))
         for sale in queryset:
-            total_profit += (sale.total_Sale_price - sale.product.buying_price * sale.sale_quantity)
+            total_profit +=  sale.profit           # (sale.total_Sale_price - sale.product.buying_price * sale.sale_quantity)
 
         return render(request, 'dashboard/report.html', {'queryset': queryset, 'total_amount': total_amount, 'total_profit': total_profit})
 
@@ -331,7 +345,7 @@ def report(request):
         total_amount = sum(queryset.values_list('total_Sale_price', flat=True))
 
         for sale in queryset:
-            total_profit += (sale.total_Sale_price - sale.product.buying_price * sale.sale_quantity)
+            total_profit += sale.profit            #(sale.total_Sale_price - sale.product.buying_price * sale.sale_quantity)
 
         return render(request, 'dashboard/report.html', {'queryset': queryset, 'total': total, 'total_amount': total_amount, 'total_profit': total_profit})
 

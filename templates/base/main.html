@@ -46,7 +46,7 @@
                      <a class="nav-link" href="{% url 'base:base' %}">Home</a>
                   </li>
                   <li class="nav-item">
-                     <a class="nav-link" href="about.html">About</a>
+                     <a class="nav-link" href="{% url 'base:base' %}">About</a>
                   </li>
                </ul>
                <form class="form-inline my-2 my-lg-0">
@@ -86,7 +86,13 @@
                            <div class="col-md-5">
                               <h1 class="banner_taital">Motor Bike Spare Parts</h1>
                               <p class="banner_text">You almost exclusively have the choke feature with carbureted motorcycles </p>
-                              <div class="contact_bt"><a href="{%url 'dashboard:tables'%}">Shop Now</a></div>
+                              <div class="contact_bt">
+                                 {% if request.user.is_authenticated %}
+                                 <a href="{%url 'dashboard:tables'%}">Shop Now</a>
+                              {% else %}
+                                 <a href="{% url 'account:login' %}">Shop Now</a>
+                                 {% endif %}
+                              </div>
                            </div>
                         </div>
                      </div>
@@ -101,7 +107,13 @@
                            <div class="col-md-5">
                               <h1 class="banner_taital">Motor Bike Spare Parts</h1>
                               <p class="banner_text">A motorcycle is a two-wheeled vehicle driven by an engine with no pedals</p>
-                              <div class="contact_bt"><a href="{%url 'dashboard:tables'%}">Shop Now</a></div>
+                              <div class="contact_bt">
+                                 {% if request.user.is_authenticated %}
+                                 <a href="{%url 'dashboard:tables'%}">Shop Now</a>
+                              {% else %}
+                              <a href="{% url 'account:login' %}">Shop Now</a>
+                                 {% endif %}
+                              </div>
                            </div>
                         </div>
                      </div>
@@ -116,7 +128,13 @@
                            <div class="col-md-5">
                               <h1 class="banner_taital">Motor Bike Spare Parts</h1>
                               <p class="banner_text">Motor Bike Spare Parts Clearance Cheapest, Save 43% |</p>
-                              <div class="contact_bt"><a href="{%url 'dashboard:tables'%}">Shop Now</a></div>
+                              <div class="contact_bt">
+                                 {% if request.user.is_authenticated %}
+                                 <a href="{%url 'dashboard:tables'%}">Shop Now</a>
+                              {% else %}
+                              <a href="{% url 'account:login' %}">Shop Now</a>
+                                 {% endif %}
+                              </div>
                            </div>
                         </div>
                      </div>
