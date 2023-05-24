@@ -1,11 +1,64 @@
-{% extends 'base.html' %}
-{% load crispy_forms_tags %}
-{% block content %}
-<h2 align="center">Update Product</h2>
-<form method="POST" novalidate style="margin-top: 50px" enctype="multipart/form-data" >
-    {% csrf_token %}
-    {{ form | crispy }}
-      <br><br>
-    <input class="btn btn-success btn-block" type="submit" value="Update">
-</form>
+{% extends 'base.html' %} {% load crispy_forms_tags %} {% block content %}
+
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 d-flex no-block align-items-center">
+      <h4 class="page-title">
+        {% for message in messages %}
+        <div class="container-fluid p-0">
+          <div class="alert {{ message.tags }} alert-success" role="alert">
+            <button
+              type="button"
+              class="close"
+              data-dismiss="alert"
+              aria-label="Close"
+            >
+              <span aria-hidden="True">&times;</span>
+            </button>
+            {{ message }}
+          </div>
+        </div>
+        {% endfor %}
+      </h4>
+      <div class="ml-auto text-right">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <!-- <li class="breadcrumb-item"><a class="btn btn-success" href="{% url 'dashboard:add-brand' %}">Add Brand</a></li> -->
+            <li class="breadcrumb-item">
+              <a class="btn btn-success" href="{% url 'dashboard:tables' %}"
+                >Back To Products</a
+              >
+            </li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-6 mx-auto shadow-sm">
+      <div class="card shadow-lg">
+        <div class="card-body wizard-content">
+          <h2 align="center">Update Product</h2>
+          <form
+            method="POST"
+            novalidate
+            style="margin-top: 50px"
+            enctype="multipart/form-data"
+          >
+            {% csrf_token %} {{ form | crispy }}
+            <br /><br />
+            <input
+              class="btn btn-success btn-block"
+              type="submit"
+              value="Update"
+            />
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

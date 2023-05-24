@@ -78,3 +78,18 @@ aside.left-sidebar {
     filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);
     opacity: 1;
   }
+
+
+
+.summary {
+  width: 200px;
+  height: 100px;
+}
+
+@media (max-width: 600px) {
+  .summary {
+    width: 500px;
+    height: 500px;
+    background-color: #000;
+  }
+}

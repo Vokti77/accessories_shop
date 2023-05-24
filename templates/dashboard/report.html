@@ -102,7 +102,7 @@ Product Table
                             <td class="text-right">{{ quantity.product.expecting_Saleing_price }}</td>
                             <td class="text-right">{{ quantity.sale_quantity }}</td>
                             <td class="text-right">{{ quantity.total_Sale_price }}</td>
-                            <td class="text-right">{{ quantity.total_Sale_price|sub:quantity.product.remining_quantity}}</td>
+                            <td class="text-right">{{ quantity.profit}}</td>
                             <td>{{ quantity.sale_at}}</td>
                         </tr>
                         {% endfor %}

@@ -48,25 +48,24 @@
                   <li class="nav-item">
                      <a class="nav-link" href="{% url 'base:base' %}">About</a>
                   </li>
-               </ul>
-               <form class="form-inline my-2 my-lg-0">
-                  
+               <!-- </ul> -->
+               <!-- <form class="form-inline my-2 my-lg-0">
                   <div class="login_menu">
-                     <ul>
+                     <ul> -->
                         {% if request.user.is_authenticated %}
-                     <li><a href="{% url 'dashboard:dashboard' %}">Dashboard</a></li>
-                     <li><a href="{% url 'logout' %}">Logout</a></li>
+                     <li class="nav-item"><a class="nav-link" href="{% url 'dashboard:dashboard' %}">Dashboard</a></li>
+                     <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
                   {% else %}
-                     <li><a href="{% url 'account:login' %}">Login</a></li>
-                     <li><a href="{% url 'account:register' %}">Register</a></li>
+                     <li class="nav-item"><a class="nav-link" href="{% url 'account:login' %}">Login</a></li>
+                     <li class="nav-item"><a class="nav-link" href="{% url 'account:register' %}">Register</a></li>
                      {% endif %}
                         
                         <!-- <li><a href="#"><img src="{% static 'images/trolly-icon.png' %}"></a></li>
                         <li><a href="#"><img src="{% static 'images/search-icon.png' %}"></a></li> -->
                      </ul>
-                  </div>
+                  <!-- </div>
+               </form> -->
                   
-               </form>
             </div>
             <div id="main">
                <span style="font-size:36px;cursor:pointer; color: #fff" onclick="openNav()"><img src="{% static 'images/toggle-icon.png' %}" style="height: 30px;"></span>
