@@ -79,7 +79,7 @@
                         {% endif %}
                         <td class="text-right">{{product.buying_price}}</td>
                         <td class="text-right">{{product.expecting_Saleing_price}}</td>
-                        <td class="text-right">{% widthratio product.buying_price 1 product.product_quantity|intcomma %}</td>
+                        <td class="text-right">{{ product.buying_price |mul:product.product_quantity|intcomma }}</td>
                         <td class="text-right">{{product.sale_quantity }}</td>
                         <td class="text-right">{{product.actual_Sale_price}}</td>
                         <td class="text-right">{{ product.actual_Sale_price|sub:product.remining_quantity|intcomma }}</td>
@@ -129,6 +129,7 @@
                     </tr>
                 </tfoot> 
             </table>
+
             <div class="col-md-12">
                 {% if product_item.has_other_pages %}
                 <ul class="pagination">
@@ -141,8 +142,8 @@
                             <a class="page-link">&laquo;</a>
                         </li>
                     {% endif %}
-                {% for i in listing_list.paginator.page_range %}
-                    {% if listing_list.number == i %}
+                {% for i in product_item.paginator.page_range %}
+                    {% if product_item.number == i %}
                     <li class="page-item active">
                         <a class="page-link">{{ i }}</a>
                     </li>
@@ -152,7 +153,7 @@
                     </li>
                     {% endif %}
                 {% endfor %}
-                    {% if listing_list.has_next %}
+                    {% if product_item.has_next %}
                         <li class="page-item">
                             <a class="page-link" href="?page={{ product_item.next_page_number }}">&raquo;</a>
                         </li>

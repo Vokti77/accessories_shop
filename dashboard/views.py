@@ -128,8 +128,9 @@ def tables(request):
             total_Sale_amount += product.actual_Sale_price
             total_profit += profit 
 
+        # Pagination
         page = request.GET.get('page', 1)
-        paginator = Paginator(product_item, 50)
+        paginator = Paginator(product_item, 2)
         try:
             product_item = paginator.page(page)
 
@@ -153,6 +154,7 @@ def tables(request):
         'profit' : profit,
         'total_profit' : total_profit,
         'total_Sale_amount': total_Sale_amount,
+        'paginator': paginator,
         'low_quantity_products': low_quantity_products
     }
     return render(request, ['dashboard/tables.html', 'dashboard/index.html'], context)

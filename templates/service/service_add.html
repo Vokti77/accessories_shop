@@ -8,6 +8,7 @@
 {% block page_title %}
  Form
 {% endblock %}
+{% load crispy_forms_tags %}
 {% block content %}
 <div class="page-breadcrumb">
     <div class="row">
@@ -17,7 +18,6 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a class="btn btn-success" href="{% url 'service-info' %}">Back To Service</a></li>
-                        
                     </ol>
                 </nav>
             </div>
@@ -28,40 +28,16 @@
     <div class="row">
         <div class="col-md-6 mx-auto shadow-sm">
             <div class="card shadow-lg">
-                <h4 class="card-title m-t-10 m-l-20">Add New Service</h4 >
-                <form class="form-horizontal" method="post">
-                    {% csrf_token %} 
-                    <div class="card-body">
-                        <h4 class="card-title"></h4>
-                        <div class="form-group row">
-                            <label for="fname" class="col-sm-3 text-right control-label col-form-label">Servicer Name
-                            </label>
-                            <div class="col-sm-9">
-                                <input type="text" name="servicer_name" class="form-control" id="fname" placeholder="">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="lname" class="col-sm-3 text-right control-label col-form-label">Servicing
-                                Name</label>
-                            <div class="col-sm-9">
-                                <input type="text" name="servicing_name" class="form-control" id="lname" placeholder="">
-                            </div>
-                        </div>
-                        
-                        <div class="form-group row">
-                            <label for="lname"
-                                    class="col-sm-3 text-right control-label col-form-label">Servicing Cost</label>
-                            <div class="col-sm-9">
-                                <input type="number" name="sevicing_cost" class="form-control" id="lname" placeholder="">
-                            </div>
-                        </div> 
-                    </div>
-                    <div class="border-top ">
-                        <div class="card-body mx-auto">
-                            <button type="submit" class="mx-auto btn btn-success btn-block">Submit</button>
-                        </div>
-                    </div>
-                </form>
+                <div class="card-body wizard-content">
+                    <h4 class="card-title">Add New Service</h4>
+                    <form method="POST" novalidate style="margin-top: 50px" enctype="multipart/form-data" >
+                        {% csrf_token %}
+                        {{ form | crispy }}
+                        <br><br>
+                        <input class="btn btn-success btn-block" type="submit" value="Add">
+                    </form>
+                    
+            </div>
             </div>
         </div>
     </div>
