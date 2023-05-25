@@ -18,90 +18,110 @@
 
 <body>
     <div class="main-wrapper">
-        <!-- ============================================================== -->
-        <!-- Preloader - style you can find in spinners.css -->
-        <!-- ============================================================== -->
         <div class="preloader">
             <div class="lds-ripple">
                 <div class="lds-pos"></div>
                 <div class="lds-pos"></div>
             </div>
         </div>
-        <!-- ============================================================== -->
-        <!-- Preloader - style you can find in spinners.css -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Login box.scss -->
-        <!-- ============================================================== -->
-        <div class="auth-wrapper d-flex no-block justify-content-center align-items-center bg-dark">
-            <div class="auth-box bg-dark border-top border-secondary">
-                <div>
-                    <div class="text-center p-t-20 p-b-20">
-                        <span class="db"><img src="{% static 'images/logo.png' %}" alt="logo" style="width: 100px;"/></span>
+        
+        <div class="page-breadcrumb">
+            <div class="row">
+                <div class="col-12 d-flex no-block align-items-center">
+                    <h4 class="page-title">
+                        {% for message in messages %}
+                        <div class="container-fluid p-0">
+                            <div class="alert {{ message.tags }} alert-success" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="True">&times;</span>
+                                </button>
+                                {{ message }}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </h4>
+                    <div class="ml-auto text-right">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a class="btn btn-success" href="{% url 'base:base' %}">Back To Home</a>
+                                </li>
+                            </ol>
+                        </nav>
                     </div>
-                    <!-- Form -->
-                    <form class="form-horizontal m-t-20" action="" method="post">
-                        {% csrf_token %}
-
-                        <div class="row p-b-30">
-                            <div class="col-12">
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text bg-success text-white" id="basic-addon1"><i class="ti-user"></i></span>
-                                    </div>
-                                    <input type="username" name="user_name" class="form-control form-control-lg" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" required>
-                                </div>
-            
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text bg-danger text-white" id="basic-addon1"><i class="ti-email"></i></span>
-                                    </div>
-                                    <input type="email" name="email" class="form-control form-control-lg" placeholder="Email Address" aria-label="Username" aria-describedby="basic-addon1" required>
-                                </div>
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text bg-warning text-white" id="basic-addon2"><i class="ti-pencil"></i></span>
-                                    </div>
-                                    <input type="password" name="password1" class="form-control form-control-lg" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1" required>
-                                </div>
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text bg-info text-white" id="basic-addon2"><i class="ti-pencil"></i></span>
-                                    </div>
-                                    <input type="password" name="password2" class="form-control form-control-lg" placeholder=" Confirm Password" aria-label="Password" aria-describedby="basic-addon1" required>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row border-top border-secondary">
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <div class="p-t-20">
-                                        <button class="btn btn-block btn-lg btn-info" type="submit">Sign Up</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                    <small style="color: antiquewhite;">Already a member? <a href="{% url 'account:login' %}" class="text-green">Login Here!</a></small>
                 </div>
             </div>
         </div>
-        <!-- ============================================================== -->
-        <!-- Login box.scss -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Page wrapper scss in scafholding.scss -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Page wrapper scss in scafholding.scss -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Right Sidebar -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Right Sidebar -->
-        <!-- ============================================================== -->
-    </div>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6 mx-auto shadow-sm">
+                    <div class="card shadow-lg">
+                        <div class="card-body wizard-content">
+                            <div class="text-center p-t-20 p-b-20">
+                                <span class="db"><img src="{% static 'images/logo.png' %}" alt="logo"
+                                        style="width: 100px;" /></span>
+                            </div>
+                            <!-- Form -->
+                            {% for message in messages %}
+                            <div class="container-fluid p-0">
+                                <div class="warning {{ message.tags }} alert-success" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="True">&times;</span>
+                                    </button>
+                                    {{ message }}
+                                </div>
+                            </div>
+                            {% endfor %}
+                            <form class="form-horizontal m-t-20" action="" method="post">
+                                {% csrf_token %}
+        
+                                <div class="row p-b-30">
+                                    <div class="col-12">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text bg-success text-white" id="basic-addon1"><i class="ti-user"></i></span>
+                                            </div>
+                                            <input type="username" name="user_name" class="form-control form-control-lg" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" required>
+                                        </div>
+                    
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text bg-danger text-white" id="basic-addon1"><i class="ti-email"></i></span>
+                                            </div>
+                                            <input type="email" name="email" class="form-control form-control-lg" placeholder="Email Address" aria-label="Username" aria-describedby="basic-addon1" required>
+                                        </div>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text bg-warning text-white" id="basic-addon2"><i class="ti-pencil"></i></span>
+                                            </div>
+                                            <input type="password" name="password1" class="form-control form-control-lg" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1" required>
+                                        </div>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text bg-info text-white" id="basic-addon2"><i class="ti-pencil"></i></span>
+                                            </div>
+                                            <input type="password" name="password2" class="form-control form-control-lg" placeholder=" Confirm Password" aria-label="Password" aria-describedby="basic-addon1" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row border-top border-secondary">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <div class="p-t-20">
+                                                <button class="btn btn-block btn-lg btn-info" type="submit">Sign Up</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <small style="color: black;">Already a member? <a href="{% url 'account:login' %}" style="text-decoration: 1px underline red;" class="text-secondary">Login Here!</a></small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     <!-- ============================================================== -->
     <!-- All Required js -->
     <!-- ============================================================== -->
@@ -119,21 +139,3 @@
 </body>
 
 </html>
-
-
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    {% load crispy_forms_tags %}
-    <meta charset="UTF-8">
-    <title>Registration Form</title>
-</head>
-<body>
-<form action="" method="post">
-    {% csrf_token %}
-    {{ form | crispy }}
-    <br>
-    <input type="submit" value="Create Accounts">
-</form>
-</body>
-</html> -->

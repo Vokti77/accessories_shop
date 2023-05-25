@@ -1,0 +1,14 @@
+{% include 'django/forms/widgets/input.html' %}
+<select class="django-yearmonth-widget-year-selector">
+    <option value="">-----</option>
+    {% for year in years %}
+    <option value="{{year}}" {% ifequal value_info.year year %}selected{% endifequal %}>{{year}}</option>
+    {% endfor %}
+</select>
+<select class="django-yearmonth-widget-month-selector">
+    <option value="">-----</option>
+    {% for month in months %}
+    <option value="{{month}}" {% ifequal value_info.month month %}selected{% endifequal %}>{{month}}</option>
+    {% endfor %}
+</select>
+

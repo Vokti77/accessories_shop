@@ -9,28 +9,21 @@
   <body>
     <div class="container">
       <form id="filterForm">
-        <label for="year">Choose a year:</label>
-        <select name="year" id="year"></select>
-        <input type="submit" value="Load" name="_load">
+        <label for="year" class="font-16 pr-md-10 text-success" style="font-size: large;">Choose a year :</label>
+        <select name="year" id="year" class="text-success " ></select>
+        <input type="submit" value="Load" name="_load" class="btn btn-success m-l-10">
       </form>
       <br>
       <div class="row">
-        <div class="col-6">
-          <h5 style="text-align: center;">Sale Amount (avg.)</h5>
+        <div class="col-md-6">
+          <h5 class="text-success" style="font-size: large; text-align: center;">Sale Amount (avg.)</h5>
           <canvas id="salesChart"></canvas>
         </div>
         <br>
-        <div class="col-6">
-          <h5 style="text-align: center;">Sale Profit (avg.)</h5>
+        <div class="col-md-6">
+          <h5 class="text-success" style="font-size: large;text-align: center;">Sale Profit (avg.)</h5>
             <canvas id="spendPerCustomerChart"></canvas>
           </div>
-        <!-- <div class="col-6">
-          <canvas id="paymentSuccessChart"></canvas>
-        </div>
-        
-        <div class="col-6">
-          <canvas id="paymentMethodChart"></canvas>
-        </div> -->
       </div>
       <script>
         $(document).ready(function() {

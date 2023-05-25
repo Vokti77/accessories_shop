@@ -30,53 +30,18 @@
                         <ol class="breadcrumb">
 
                             <li class="breadcrumb-item"><a class="btn btn-success" href="{% url 'dashboard:add-model' %}">Add Model</a></li>
-                            <li class="breadcrumb-item"><a class="btn btn-success" href="{% url 'dashboard:tables' %}">Products</a></li>
+                            <li class="breadcrumb-item"><a class="btn btn-success"  href="{% url 'dashboard:tables' %}">Back To Products</a></li>
                         </ol>
                     </nav>
                 </div>
             </div>
         </div>
     </div>
-    <!-- <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-body wizard-content">
-                        <h4 class="card-title">Add New Brand</h4>
-                        <h6 class="card-subtitle"></h6>
-                        <form method="POST" id="example-form" action="#" class="m-t-40" novalidate="novalidate">
-                            {% csrf_token %}
-                            {{ brand_form | crispy }}
-                            <br><br>
-                            <input class="btn btn-success btn-block" type="submit" value="Add ">
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>      
-    </div>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-body wizard-content">
-                        <h4 class="card-title">Add New Model</h4>
-                        <h6 class="card-subtitle"></h6>
-                        <form method="POST" id="example-form" action="#" class="m-t-40" novalidate="novalidate">
-                            {% csrf_token %}
-                            {{ model_form | crispy }}
-                            <br><br>
-                            <input class="btn btn-success btn-block" type="submit" value="Add">
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>      
-    </div> -->
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="card">
+    
+    <div class="container-fluid mx-auto">
+        <div class="row mx-auto">
+            <div class="col-md-6 mx-auto shadow-sm">
+                <div class="card shadow-lg">
                     <div class="card-body wizard-content">
                         <h4 class="card-title">Add New Product</h4>
                         <h6 class="card-subtitle"></h6>
@@ -91,6 +56,9 @@
             </div>
         </div>      
     </div>
+
+
+    
 {% endblock %}
 
 {% block extra_js %}
