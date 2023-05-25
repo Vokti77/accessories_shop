@@ -28,6 +28,14 @@ from django import forms
 
 @login_required
 def index(request):
+    sale = Sale.objects.all()
+
+    for i in sale:
+        if i.product.product_name == i.product.product_name:
+            print( i.product.product_name)
+            print(i.product.sale_quantity)
+    
+
     total_amount = 0
     total_item = 0
     total_Sale_amount = 0
