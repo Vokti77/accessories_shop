@@ -1,7 +1,11 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 <!-- <body> -->
-        <canvas id="myChart" width="200" height="100" ></canvas>
+    <div class="col-md-6">
+        <h5 class="text-success" style="font-size: large;text-align: center;"> Letest Sale Products</h5>
+          <canvas id="myChart"></canvas>
+        </div>
+       
             <script>
                 var ctx = document.getElementById('myChart').getContext('2d');
                 var myChart = new Chart(ctx, {
@@ -10,7 +14,7 @@
                         labels: [{% for product in product_item %}  '{{ product.product_name }}',  {% endfor %}],
                         datasets: [{
                             label: 'Summary of Products',
-                            data: [{% for product in product_item %}  {{ product.product_quantity }},  {% endfor %}],
+                            data: [{% for product in product_item %}  {{ product.sale_quantity }},  {% endfor %}],
           
                             backgroundColor: [
                                 'rgba(255, 99, 132, 0.8)',

@@ -6,7 +6,7 @@
   <form action="{% url 'dashboard:update-confirm' product_id %}" method="POST" novalidate style="margin-top: 50px;" enctype="multipart/form-data"  >
     <p>Product: {{ product.product_name }} </p>
     <p>Stock_Quantity: {{ product.product_quantity}}</p>
-    <p>Excepted Saleing Price: {{ product.buying_price}}</p>
+    <p>Excepted Buying Price: {{ product.buying_price}}</p>
     <br><br>
       {% csrf_token %}
       Add New Quantity : <input type="number" id="input1" name="quantity" onkeyup="mul()" style="padding-left: 50px;" ><br><br>
@@ -14,7 +14,7 @@
       <br><br>
       <span id="total"  style="font-size: 20px; font-weight: bold; text-align: center;"></span>
         <br><br>
-      <input class="btn btn-outline-dark btn-block" type="submit" value="Sale">
+      <input class="btn btn-outline-dark btn-block" type="submit" value="Add Quantity">
   </form>
 </div>
 <script>

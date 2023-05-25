@@ -49,12 +49,14 @@
             <p>Excepted Saleing Price: {{ product.expecting_Saleing_price}}</p>
             <br><br>
               {% csrf_token %}
-              Quantity : <input type="number" id="input1" name="quantity" onkeyup="mul()" style="padding-left: 50px;" ><br><br>
-              Sale Price : <input type="number" id="input2" name="price" onkeyup="mul()" style="padding-left: 50px;">
+              Quantity : <input type="number" id="input1" name="quantity" required="True" onkeyup="mul()" style="padding-left: 50px;" ><br><br>
+              Sale Price : <input type="number" id="input2" name="price" required="True" onkeyup="mul()" style="padding-left: 50px;">
               <br><br>
               <span id="total"  style="font-size: 20px; font-weight: bold; text-align: center;"></span>
                 <br><br>
+                {% if quantity is None %}
               <input class="btn btn-success btn-block" type="submit" value="Sale">
+              {% endif %}
           </form>
         </div>
       </div>

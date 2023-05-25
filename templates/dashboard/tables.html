@@ -87,11 +87,8 @@
                             <a href="{% url 'dashboard:upadate-product' product.id %}" data-toggle="tooltip" data-placement="top" title="Update" class="hover-zoom">
                                 <i class="mdi mdi-check fa-lg text-success"></i>
                             </a>
-<!-- 
-                            <a href="#deleteEmployeeModal" data-toggle="modal" data-target="#deleteEmployeeModal" class="mdi mdi-close">
-                                <i></i>
-                            </a> -->
-                            <a href="{% url 'dashboard:delete-product' product.id %}" data-toggle="tooltip" data-placement="top" title="Delete" class="hover-zoom">
+                            
+                            <a hx-target="#dialog" hx-get="{% url 'dashboard:delete-product' product.id %}" data-toggle="tooltip" data-placement="top" title="Delete" class="hover-zoom">
                                 </i><i class="mdi mdi-close text-danger fa-lg"></i>
 
                                 {% if product.product_quantity == 0 %}
@@ -164,7 +161,6 @@
                     {% endif %}
                 </ul>
                 {% endif %}
-            </div>
             </div>
         </div>               
     </div>
