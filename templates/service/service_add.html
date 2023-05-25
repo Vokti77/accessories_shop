@@ -13,12 +13,11 @@
 <div class="page-breadcrumb">
     <div class="row">
         <div class="col-12 d-flex no-block align-items-center">
-            <h4 class="page-title">Servicing Info.</h4>
+            <!-- <h4 class="page-title text-success" style="font-size: xx-large;">Servicing Info.</h4> -->
             <div class="ml-auto text-right">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        
+                        <li class="breadcrumb-item"><a class="btn btn-success" href="{% url 'service-info' %}">Back To Service</a></li>
                     </ol>
                 </nav>
             </div>
@@ -27,61 +26,18 @@
 </div>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-6">
-            <div class="card">
-
-                <form method="POST" novalidate style="margin-top: 50px" enctype="multipart/form-data" >
-                    {% csrf_token %}
-                    {{ form | crispy }}
-                      <br><br>
-                    <input class="btn btn-success btn-block" type="submit" value="Created">
-                </form>
-                <!-- <form class="form-horizontal" method="post">
-                    {% csrf_token %} 
-                    <div class="card-body">
-                        <h4 class="card-title"></h4>
-                        <div class="form-group row">
-                            <label for="fname" class="col-sm-3 text-right control-label col-form-label">Servicer Name
-                            </label>
-                            <div class="col-sm-9">
-                                <input type="text" name="servicer_name" class="form-control" id="fname" placeholder="">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="lname" class="col-sm-3 text-right control-label col-form-label">Servicing
-                                Name</label>
-                            <div class="col-sm-9">
-                                <input type="text" name="servicing_name" class="form-control" id="lname" placeholder="">
-                            </div>
-                        </div>
-                        
-                        <div class="form-group row">
-                            <label for="lname"
-                                    class="col-sm-3 text-right control-label col-form-label">Servicing Cost</label>
-                            <div class="col-sm-9">
-                                <input type="number" name="sevicing_cost" class="form-control" id="lname" placeholder="">
-                            </div>
-                        </div> 
-
-                        <div class="form-group row">
-                            <label class="col-md-3 m-t-15">Status</label>
-                            <div class="col-md-9">
-                                <select class="select2 form-control custom-select" style="width: 100%; height:36px;">
-                                        <option value="Pending">Pending</option>
-                                        <option value="In_Progress">In_Progress</option>
-                                        <option value="Complete">Complete</option>
-                                </select>
-                            </div>
-                        </div>
-
+        <div class="col-md-6 mx-auto shadow-sm">
+            <div class="card shadow-lg">
+                <div class="card-body wizard-content">
+                    <h4 class="card-title">Add New Service</h4>
+                    <form method="POST" novalidate style="margin-top: 50px" enctype="multipart/form-data" >
+                        {% csrf_token %}
+                        {{ form | crispy }}
+                        <br><br>
+                        <input class="btn btn-success btn-block" type="submit" value="Add">
+                    </form>
                     
-                    </div>
-                    <div class="border-top">
-                        <div class="card-body">
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </div>
-                    </div>
-                </form> -->
+            </div>
             </div>
         </div>
     </div>

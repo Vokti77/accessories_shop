@@ -1,192 +1,110 @@
-{% extends 'base.html' %}
-{% load static %}
-{% load humanize %}
-{% block content %}
+<body>
+{% extends 'base.html' %} 
+{% load static %} 
+{% load humanize %} 
+{% block content%}
 
 <div class="page-breadcrumb">
-<div class="row">
-    <div class="col-12 d-flex no-block align-items-center">
-        <h4 class="page-title">Dashboard</h4>
-        <div class="ml-auto text-right">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{% url 'base:base' %}">Home</a></li>
-                    <li class="breadcrumb-item"><a href="{% url 'dashboard:tables' %}">Products</a></li>
-                </ol>
-            </nav>
-        </div>
+  <div class="row">
+    <div class="col-12 d-md-flex no-block align-items-center">
+      <h4 class="page-title text-success p-b-10" style="font-size: xx-large;">Dashboard</h4>
+      <div class="ml-auto text-right">
+        <nav aria-label="breadcrumb">
+          <ol class="d-flex">
+            <li class="breadcrumb-item btn btn-success shadow-lg">
+              <a class="btn btn-success font-16" href="{% url 'base:base' %}"
+                >Home</a
+              >
+            </li>
+            <li class="breadcrumb-item btn btn-success m-l-10 shadow-lg">
+              <a
+                class="btn btn-success font-16"
+                href="{% url 'dashboard:tables' %}"
+                >Products</a
+              >
+            </li>
+          </ol>
+        </nav>
+      </div>
     </div>
+  </div>
 </div>
-</div>
-<!-- ============================================================== -->
-<!-- End Bread crumb and right sidebar toggle -->
-<!-- ============================================================== -->
-<!-- ============================================================== -->
-<!-- Container fluid  -->
-<!-- ============================================================== -->
+
 <div class="container-fluid">
-    <!-- ============================================================== -->
-    <!-- Sales Cards  -->
-    <!-- ============================================================== -->
-    
-        
-    <!-- ============================================================== -->
-    <!-- Sales chart -->
-    <!-- ============================================================== -->
-<div class="row">
+  <div class="row">
     <div class="col-md-12">
-        <div class="card">
-            <div class="card-body">
-                <div class="d-md-flex align-items-center">
-                    <div>
-                        <h4 class="card-title">Site Analysis</h4>
-                        <h5 class="card-subtitle">Overview of Latest Month</h5>
-                    </div>
-                </div>
-                <div class="row">
-                    <!-- column -->
-                    <div class="col-lg-9">
-                        
-                            
-                            {% include 'summary.html' %}
-
-                        
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="bg-dark p-10 text-white text-center">
-                                    <i class="fa fa-user m-b-5 font-16"></i>
-                                    <h5 class="m-b-0 m-t-5">{{users}}</h5>
-                                    <small class="font-light">Total Users</small>
-                                </div>
-                            </div>
-                                <div class="col-6">
-                                <div class="bg-dark p-10 text-white text-center">
-                                    <i class="fa fa-plus m-b-5 font-16"></i>
-                                    <h5 class="m-b-0 m-t-5">{{ total_item }}</h5>
-                                    <small class="font-light">Total Items</small>
-                                </div>
-                            </div>
-                            
-                            <div class="col-6 m-t-15">
-                                <div class="bg-dark p-10 text-white text-center">
-                                    <i class="m-r-10 mdi mdi-cash-multiple m-b-5 font-16"></i>
-                                    <h5 class="m-b-0 m-t-5">{{ total_amount|intcomma }} TK.</h5>
-                                    <small class="font-light">Total Amount</small>
-                                </div>
-                                
-                            </div>
-                                <div class="col-6 m-t-15">
-                                <div class="bg-dark p-10 text-white text-center">
-                                    <i class="fa fa-cart-plus m-b-5 font-16"></i>
-                                    <h5 class="m-b-0 m-t-5">{{ total_Sale_amount|intcomma }}</h5>
-                                    <small class="font-light">Total Sales Amount</small>
-                                </div>
-                            </div>
-                            <div class="col-6 m-t-15">
-                                <div class="bg-dark p-10 text-white text-center">
-                                    <i class="m-r-10 mdi mdi-cash-multiple m-b-5 font-16"></i>
-                                    <h5 class="m-b-0 m-t-5">{{today_sale_amount|intcomma }} TK.</h5>
-                                    <small class="font-light">Today Sale Amount</small>
-                                </div>
-                            </div>
-                            <div class="col-6 m-t-15">
-                                <div class="bg-dark p-10 text-white text-center">
-                                    <i class="m-r-10 mdi mdi-cash m-b-5 font-16"></i>
-                                    <h5 class="m-b-0 m-t-5">{{ today_profit|intcomma }} TK.</h5>
-                                    <small class="font-light">Today Profit</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- column -->
-                </div>
+      <div class="card">
+        <div class="card-body">
+          <div class="d-md-flex align-items-center">
+            <div>
+              <h4 class="card-title text-success" style="font-size: large;">Site Analysis</h4>
+              <h5 class="card-subtitle">Overview of Latest Month</h5>
             </div>
+          </div>
+          <div class="row">
+            <!-- column -->
+            <div class="col-lg-12 p-b-20">
+              <div class="row">
+                <div class="col-md-6 col-lg-2 col-xlg-3 card card-hover">
+                  <div class="bg-dark p-10 text-white text-center">
+                    <i class="fa fa-user m-b-5 font-16"></i>
+                    <h5 class="m-b-0 m-t-5">{{users}}</h5>
+                    <small class="font-light">Total Users</small>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-2 col-xlg-3 card card-hover">
+                  <div class="bg-warning p-10 text-white text-center">
+                    <i class="fa fa-plus m-b-5 font-16"></i>
+                    <h5 class="m-b-0 m-t-5">{{ total_item }}</h5>
+                    <small class="font-light">Total Items</small>
+                  </div>
+                </div>
+
+                <div class="col-md-6 col-lg-2 col-xlg-3 card card-hover">
+                  <div class="bg-info p-10 text-white text-center">
+                    <i class="m-r-10 mdi mdi-cash-multiple m-b-5 font-16"></i>
+                    <h5 class="m-b-0 m-t-5">{{ total_amount|intcomma }} TK.</h5>
+                    <small class="font-light">Total Amount</small>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-2 col-xlg-3 card card-hover">
+                  <div class="bg-info p-10 text-white text-center">
+                    <i class="fa fa-cart-plus m-b-5 font-16"></i>
+                    <h5 class="m-b-0 m-t-5">
+                      {{ total_Sale_amount|intcomma }}
+                    </h5>
+                    <small class="font-light">Total Sales Amount</small>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-2 col-xlg-3 card card-hover">
+                  <div class="bg-success p-10 text-white text-center">
+                    <i class="m-r-10 mdi mdi-cash-multiple m-b-5 font-16"></i>
+                    <h5 class="m-b-0 m-t-5">
+                      {{today_sale_amount|intcomma }} TK.
+                    </h5>
+                    <small class="font-light">Today Sale Amount</small>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-2 col-xlg-3 card card-hover">
+                  <div class="bg-success p-10 text-white text-center">
+                    <i class="m-r-10 mdi mdi-cash m-b-5 font-16"></i>
+                    <h5 class="m-b-0 m-t-5">{{ today_profit|intcomma }} TK.</h5>
+                    <small class="font-light">Today Profit</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-12 p-b-20">{% include '../summary.html' %}</div>
+            <div class="col-lg-12 p-b-20"> {% include 'statistics/statistics.html' %}</div>
+            <!-- column -->
+          </div>
         </div>
+      </div>
     </div>
 
-    {% include 'statistics/statistics.html' %}
+   
+  </div>
+   
+    {% endblock content %}
+  </body>
 </div>
-<!-- ============================================================== -->
-<!-- Sales chart -->
-<!-- t -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-<body>
-        <canvas id="myChart" width="200" height="100"></canvas>
-
-            <script>
-                var ctx = document.getElementById('myChart').getContext('2d');
-                var myChart = new Chart(ctx, {
-                    type: 'pie',
-                    data: {
-                        labels: [{% for product in product_item %}  '{{ product.product_name }}',  {% endfor %}],
-                        datasets: [{
-                            label: 'Summary of Products',
-                            data: [{% for product in product_item %}  {{ product.product_quantity }},  {% endfor %}],
-
-                            backgroundColor: [
-                                'rgba(255, 99, 132, 0.8)',
-                                'rgba(54, 162, 235, 0.8)',
-                                'rgba(255, 206, 86, 0.8)',
-                                'rgba(75, 192, 192, 0.8)',
-                                'rgba(153, 102, 255, 0.8)',
-                                'rgba(255, 159, 64, 0.8)',
-                                'rgba(240, 120, 50, 0.8)',
-                            ],
-
-                            borderColor: [
-                                'rgba(255, 99, 132, 1)',
-                                'rgba(54, 162, 235, 1)',
-                                'rgba(255, 206, 86, 1)',
-                                'rgba(75, 192, 192, 1)',
-                                'rgba(153, 102, 255, 1)',
-                                'rgba(255, 159, 64, 1)',
-                                'rgba(240, 120, 50, 1)',
-
-                            ],
-                            borderWidth: 2
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
-                    }
-                });
-            </script>
-<!-- <script>
-    var xValues = [50,60,70,80,90,100,110,120,130,140,150];
-    var yValues = [7,8,8,9,9,9,10,11,14,14,15];
-    
-    new Chart("myChart", {
-      type: "line",
-      data: {
-        labels: xValues,
-        datasets: [{
-          fill: false,
-          lineTension: 0,
-          backgroundColor: "rgba(0,0,255,1.0)",
-          borderColor: "rgba(0,0,255,0.1)",
-          data: yValues
-        }]
-      },
-      options: {
-        legend: {display: false},
-        scales: {
-          yAxes: [{ticks: {min: 6, max:16}}],
-        }
-      }
-    });
-    </script>
-     -->
-<!-- ============================================================== -->
-<!-- Recent comment and chats -->
-<!-- ============================================================== -->
-               
-           
-    {% endblock content %} 
-       
-    

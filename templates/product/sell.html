@@ -1,22 +1,70 @@
 {% extends 'base.html' %}
 {% block content %}
-  <h1 align="center"> Product Saleing Info. </h1>
 
-<div class=" display: flex; justify-content: center;">
-  <form action="{% url 'dashboard:confirm-Sale' product_id %}" method="POST" novalidate style="margin-top: 50px;" enctype="multipart/form-data"  >
-    <p>Product: {{ product.product_name }} </p>
-    <p>Total Quantity: {{ product.product_quantity}}</p>
-    <p>Excepted Saleing Price: {{ product.expecting_Saleing_price}}</p>
-    <br><br>
-      {% csrf_token %}
-      Quantity : <input type="number" id="input1" name="quantity" onkeyup="mul()" style="padding-left: 50px;" ><br><br>
-      Sale Price : <input type="number" id="input2" name="price" onkeyup="mul()" style="padding-left: 50px;">
-      <br><br>
-      <span id="total"  style="font-size: 20px; font-weight: bold; text-align: center;"></span>
-        <br><br>
-      <input class="btn btn-outline-dark btn-block" type="submit" value="Sale">
-  </form>
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 d-flex no-block align-items-center">
+      <h4 class="page-title">
+        {% for message in messages %}
+        <div class="container-fluid p-0">
+          <div class="alert {{ message.tags }} alert-success" role="alert">
+            <button
+              type="button"
+              class="close"
+              data-dismiss="alert"
+              aria-label="Close"
+            >
+              <span aria-hidden="True">&times;</span>
+            </button>
+            {{ message }}
+          </div>
+        </div>
+        {% endfor %}
+      </h4>
+      <div class="ml-auto text-right">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <!-- <li class="breadcrumb-item"><a class="btn btn-success" href="{% url 'dashboard:add-brand' %}">Add Brand</a></li> -->
+            <li class="breadcrumb-item">
+              <a class="btn btn-success" href="{% url 'dashboard:tables' %}"
+                >Back To Products</a
+              >
+            </li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
 </div>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-6 mx-auto shadow-sm">
+      <div class="card shadow-lg">
+        <div class="card-body wizard-content">
+          <h2 align="center">Product Saleing Info.</h2>
+          <form action="{% url 'dashboard:confirm-Sale' product_id %}" method="POST" novalidate style="margin-top: 50px;" enctype="multipart/form-data"  >
+            <p>Product: {{ product.product_name }} </p>
+            <p>Total Quantity: {{ product.product_quantity}}</p>
+            <p>Excepted Saleing Price: {{ product.expecting_Saleing_price}}</p>
+            <br><br>
+              {% csrf_token %}
+              Quantity : <input type="number" id="input1" name="quantity" onkeyup="mul()" style="padding-left: 50px;" ><br><br>
+              Sale Price : <input type="number" id="input2" name="price" onkeyup="mul()" style="padding-left: 50px;">
+              <br><br>
+              <span id="total"  style="font-size: 20px; font-weight: bold; text-align: center;"></span>
+                <br><br>
+              <input class="btn btn-success btn-block" type="submit" value="Sale">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
 <script>
   function mul(){
     var input1 = document.getElementById('input1').value;
