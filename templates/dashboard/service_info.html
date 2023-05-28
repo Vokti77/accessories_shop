@@ -10,8 +10,8 @@
 {% block page_title %}
  Servicing Info
 {% endblock %}
-
 {% block content %}
+
 
 <div class="page-breadcrumb pb-4">
     <div class="row">
@@ -20,8 +20,8 @@
             <div class="ml-auto text-right">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a class="btn btn-success" href="{% url 'dashboard:dashboard' %}">Home</a></li>
-                        <li class="breadcrumb-item"><a class="btn btn-success" href="{% url 'add-service' %}">Add Servicing</a></li>
+                        <li class="breadcrumb-item"><a class="btn btn-success dG" href="{% url 'dashboard:dashboard' %}">Home</a></li>
+                        <li class="breadcrumb-item"><a class="btn btn-success dG" href="{% url 'add-service' %}">Add Servicing</a></li>
                     </ol>
                 </nav>
             </div>
@@ -35,8 +35,8 @@
         <div class="table-responsive">
 
             <table id="zero_config" class="table table-striped table-hover table-sm">
-                <thead class="font-bold text-success" style="font-size: medium; font: bold; background-color:#3e5569;">
-                <tr>
+                <thead class="font-bold text-success text-center" style="font-size: medium; font: bold; background-color:#1f2b3d;">
+                <tr class="font-bold text-white">
                     <th>Servicer Name</th>
                     <th>Servicing Info</th>
                     <th>Cost</th>
@@ -49,7 +49,7 @@
             <tbody class="text-center">    
                 {% for ins in services %}
                    
-                    <tr onmouseover="this.style.fontWeight='bold'; this.style.backgroundColor='gray';" onmouseout="this.style.fontWeight='normal'; this.style.backgroundColor='white'">
+                    <tr onmouseover="this.style.fontWeight='bold'; this.style.backgroundColor='#B2EBF2'; this.style.color='black'" onmouseout="this.style.fontWeight='normal'; this.style.backgroundColor='white'">
                         <td>{{ins.servicer_name}}</td>
                         <td>{{ins.servicing_name}}</td>
                         <td>{{ins.sevicing_cost}}</td>
@@ -75,8 +75,8 @@
         </table>
             <h1 class="m-t-40">Service Competed</h1>
             <table id="zero_config" class="table table-striped table-hover table-sm ">
-                <thead class="text-center" style="font-size: medium; font: bold; background-color:#3e5569;">
-                <tr class="font-bold text-success">
+                <thead class="text-center" style="font-size: medium; font: bold; background-color:#1f2b3d;">
+                <tr class="font-bold text-white">
                     <th>Servicer Name</th>
                     <th>Servicing Info</th>
                     <th>Cost</th>
@@ -87,7 +87,7 @@
             <tbody class="text-center">
                 {% for instance in service %}
 
-                    <tr onmouseover="this.style.fontWeight='bold'; this.style.backgroundColor='gray';" onmouseout="this.style.fontWeight='normal'; this.style.backgroundColor='white'">
+                    <tr onmouseover="this.style.fontWeight='bold'; this.style.backgroundColor='#B2EBF2'; this.style.color='black'" onmouseout="this.style.fontWeight='normal'; this.style.backgroundColor='white'">
                         <td>{{instance.servicer_name}}</td>
                         <td>{{instance.servicing_name}}</td>
                         <td>{{instance.sevicing_cost}}</td>

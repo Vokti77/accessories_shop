@@ -30,7 +30,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/home/nayon/Desktop/AinoviQ/accessories_shop/shop"
+set -gx VIRTUAL_ENV "/home/nayon/Desktop/accessories_shop/shop"
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH

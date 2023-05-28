@@ -10,6 +10,23 @@
 {% endblock %}
 {% load crispy_forms_tags %}
 {% block content %}
+
+<!-- <style>
+    .dG {
+        font-size: large;
+        color: black;
+        border: 2px double transparent;
+        /* background-image: linear-gradient(#046491,#046491); */
+        background-image: linear-gradient(#14A44D,#14A4),radial-gradient(circle at left top,#016eda,#d900c0);
+        /* background-color: aliceblue; */
+        background-origin: border-box;
+        background-clip: padding-box,border-box;
+        box-shadow: 20px 10px linear-gradient(90deg,red,#ffc800 22%,#ff117c 50%,#4e1dff 79%,#0f0);
+        padding: 10px;
+        border-radius: 10px;
+    }
+</style> -->
+
     <div class="page-breadcrumb">
         <div class="row">
             <div class="col-12 d-flex no-block align-items-center">
@@ -29,8 +46,8 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
 
-                            <li class="breadcrumb-item"><a class="btn btn-success" href="{% url 'dashboard:add-model' %}">Add Model</a></li>
-                            <li class="breadcrumb-item"><a class="btn btn-success"  href="{% url 'dashboard:tables' %}">Back To Products</a></li>
+                            <li class="breadcrumb-item"><a class="btn btn-success dG" href="{% url 'dashboard:add-model' %}">Add Model</a></li>
+                            <li class="breadcrumb-item"><a class="btn btn-success dG"  href="{% url 'dashboard:tables' %}">Back To Products</a></li>
                         </ol>
                     </nav>
                 </div>
@@ -41,7 +58,7 @@
     <div class="container-fluid mx-auto">
         <div class="row mx-auto">
             <div class="col-md-6 mx-auto shadow-sm">
-                <div class="card shadow-lg">
+                <div class="card shadow-lg dG">
                     <div class="card-body wizard-content">
                         <h4 class="card-title">Add New Product</h4>
                         <h6 class="card-subtitle"></h6>
@@ -49,7 +66,7 @@
                             {% csrf_token %}
                             {{ form | crispy }}
                             <br><br>
-                            <input class="btn btn-success btn-block" type="submit" value="Add">
+                            <input class="btn btn-success btn-block dG" type="submit" value="Add">
                         </form>
                     </div>
                 </div>
