@@ -16,7 +16,7 @@
 <div class="page-breadcrumb pb-4">
     <div class="row">
         <div class="col-12 d-flex no-block align-items-center">
-            <h4 class="page-title text-success" style="font-size: xx-large;">Servicing Info</h4>
+            <h4 class="page-title text-success" style="font-size: xx-large;">Pending Servicing Info</h4>
             <div class="ml-auto text-right">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
@@ -27,13 +27,12 @@
             </div>
         </div>
     </div>
-    </div>
+</div>
 
 <div class="card">
-<div class="card-body">
-   <div class="table-responsive">
+    <div class="card-body">
         <div class="table-responsive">
-
+        <div class="table-responsive">
             <table id="zero_config" class="table table-striped table-hover table-sm">
                 <thead class="font-bold text-success" style="font-size: medium; font: bold; background-color:#3e5569;">
                 <tr>
@@ -42,8 +41,7 @@
                     <th>Cost</th>
                     <th>Status</th>
                     <th>Date</th>
-                    <th>Action</th>
-                    
+                    <th>Action</th>  
                 </tr>
             </thead>
             <tbody class="text-center">    
@@ -66,87 +64,10 @@
                             <a href="{% url 'delete-service' ins.id %}" data-toggle="tooltip" data-placement="top" title="Delete">
                                 </i><i class="mdi mdi-close"></i>
                         </td>
-                       
-                    </tr>
-                 
-                {% endfor %}     
-            </tbody>
-        
-        </table>
-            <h1 class="m-t-40">Service Competed</h1>
-            <table id="zero_config" class="table table-striped table-hover table-sm ">
-                <thead class="text-center" style="font-size: medium; font: bold; background-color:#3e5569;">
-                <tr class="font-bold text-success">
-                    <th>Servicer Name</th>
-                    <th>Servicing Info</th>
-                    <th>Cost</th>
-                    <th>Status</th>
-                    <th>Date</th>
-                </tr>
-            </thead>
-            <tbody class="text-center">
-                {% for instance in service %}
-
-                    <tr onmouseover="this.style.fontWeight='bold'; this.style.backgroundColor='gray';" onmouseout="this.style.fontWeight='normal'; this.style.backgroundColor='white'">
-                        <td>{{instance.servicer_name}}</td>
-                        <td>{{instance.servicing_name}}</td>
-                        <td>{{instance.sevicing_cost}}</td>
-                        {% if instance.status == "complete" %}
-                        <td style="color: rgb(24, 128, 3);">{{instance.status}}</td>
-                        {% endif %}
-                        <td>{{instance.date_added}}</td>
-    
-                         
                     </tr>
                 {% endfor %}     
             </tbody>
-            <tfoot style="background-color: rgb(221, 215, 215); font-family: garamond; ">
-                <tr>
-                    <!-- <th> </th> -->
-                    <th class="text-center font-bold">Total</th>
-                    <th class="text-right font-bold" colspan="2"> {{total_amount}}</th>
-                    <th></th>
-                    <th></th>
-                
-                </tr>
-            </tfoot> 
         </table>
-        <div class="col-md-12">
-            {% if products.has_other_pages %}
-          <ul class="pagination">
-                {% if products.has_previous %}
-                    <li class="page-item">
-                      <a class="page-link" href="?page={{ products.previous_page_number }}">&laquo;</a>
-                    </li>
-                {% else %}
-                    <li class="page-item disabled">
-                      <a class="page-link">&laquo;</a>
-                    </li>
-                {% endif %}
-            {% for i in products.paginator.page_range %}
-                {% if listing_list.number == i %}
-                <li class="page-item active">
-                  <a class="page-link">{{ i }}</a>
-                </li>
-                {% else %}
-                <li class="page-item">
-                  <a class="page-link" href="?page={{ i }}">{{ i }}</a>
-                </li>
-                {% endif %}
-            {% endfor %}
-                {% if products.has_next %}
-                    <li class="page-item">
-                      <a class="page-link" href="?page={{ products.next_page_number }}">&raquo;</a>
-                    </li>
-                {% else %}
-                    <li class="page-item disabled">
-                      <a class="page-link">&laquo;</a>
-                    </li>
-                {% endif %}
-          </ul>
-          {% endif %}
-        </div>
-        </div>
     </div>
 </div>
 

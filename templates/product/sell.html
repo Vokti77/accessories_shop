@@ -54,9 +54,7 @@
               <br><br>
               <span id="total"  style="font-size: 20px; font-weight: bold; text-align: center;"></span>
                 <br><br>
-                {% if quantity is None %}
-              <input class="btn btn-success btn-block" type="submit" value="Sale">
-              {% endif %}
+              <input class="btn btn-success btn-block" type="submit" value="Sale" id="submitBtn" disabled>
           </form>
         </div>
       </div>
@@ -74,5 +72,21 @@
     var total = input1 * input2;
     document.getElementById('total').innerHTML = "Total : " + total;
   }
+
+  function enableSubmitButton() {
+    var quantityValue = document.getElementById('input1').value;
+    var priceValue = document.getElementById('input2').value;
+    var submitButton = document.getElementById('submitBtn');
+
+    if (quantityValue !== '' && priceValue !== '') {
+      submitButton.disabled = false;
+    } else {
+      submitButton.disabled = true;
+    }
+  }
+
+  // Call the enableSubmitButton function whenever the user types in the input fields
+  document.getElementById('input1').addEventListener('input', enableSubmitButton);
+  document.getElementById('input2').addEventListener('input', enableSubmitButton);
 </script>
 {% endblock %}

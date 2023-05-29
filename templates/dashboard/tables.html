@@ -88,8 +88,8 @@
                                 <i class="mdi mdi-check fa-lg text-success"></i>
                             </a>
                             
-                            <a hx-target="#dialog" hx-get="{% url 'dashboard:delete-product' product.id %}" data-toggle="tooltip" data-placement="top" title="Delete" class="hover-zoom">
-                                </i><i class="mdi mdi-close text-danger fa-lg"></i>
+                            <a href="{% url 'dashboard:delete_product' product.id %}" data-toggle="modal" data-target="#deleteModal">Delete Product</a>
+                               
 
                                 {% if product.product_quantity == 0 %}
                                     <a href="{% url 'dashboard:Sale-quantity' product.id %}" data-toggle="tooltip" data-placement="top" title="Sale" class="Sale hover-zoom">
@@ -165,5 +165,13 @@
         </div>               
     </div>
 </div> 
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
 
 {% endblock %}

@@ -23,7 +23,8 @@ class ModelForm(forms.ModelForm):
         model = Model
         fields = [ 'brand'] 
 
-class SearchForm(forms.ModelForm):
+class SearchForm(forms.ModelForm): 
+    
     class Meta:
         model = Product
         fields = ['model'] 

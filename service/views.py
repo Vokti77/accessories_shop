@@ -7,28 +7,40 @@ from .forms import ServicingForm
 
 def add_service(request):
     form = ServicingForm(request.POST or None, request.FILES or None)
+   
     if form.is_valid():
         form.save()
-        return redirect('service-info')
+        return redirect('service-info', type='pending')
     else:
         form = ServicingForm()
+    
     context = {
         'form': form,
     }
-    return render(request, "service/service_add.html", context)
+    return render(request, 'service/service_add.html', context)
 
-def service_info(request):
+def service_info(request, type):
+    values = type.split(',')
     total_amount = 0
-    services = Service.objects.filter(status='pending')
-    service = Service.objects.filter(status='complete')
-    for x in service:
-        total_amount += x.sevicing_cost
-    context = {
-        'service': service,
-        'services': services,
-        'total_amount' : total_amount,
-    }
-    return render(request, 'dashboard/service_info.html', context)
+    if type == 'pending':
+        services = Service.objects.filter(status='pending')
+        for x in services:
+            total_amount += x.sevicing_cost
+        context = {
+            'services': services,
+            'total_amount' : total_amount,
+        }
+        return render(request, 'service/pending_service_info.html', context)
+    
+    elif type == 'complete':
+        service = Service.objects.filter(status='complete')
+        for x in service:
+            total_amount += x.sevicing_cost
+        context = {
+            'service': service,
+            'total_amount' : total_amount,
+        }
+        return render(request, 'service/complete_service_info.html', context)
 
 def update_status(request, service_id):
     task = Service.objects.get(id=service_id)

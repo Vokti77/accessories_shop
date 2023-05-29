@@ -1,37 +1,30 @@
-{% load static %}
-{% load widget_tweaks %}
-{% with WIDGET_ERROR_CLASS='is-invalid' %}
-<form hx-post="{{ request.path }}" hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}' class="modal-content">
-  <div class="modal-header">
-    <h5 class="modal-title">Del Movie</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-  </div>
-  <!-- <div class="modal-body">
-    <div class="mb-3">
-      <label for="{{ form.title.id_for_label }}" class="form-label">Title</label>
-      {% render_field form.title class="form-control" placeholder="Back to the Future II" %}
-      <div class="invalid-feedback">{{ form.title.errors|first }}</div>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+<button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Delete</button>
+
+<!-- The modal dialog -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Delete Confirmation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this item?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <form action="{% url 'delete_item' item.pk %}" method="post">
+                    {% csrf_token %}
+                    <input type="submit" class="btn btn-danger" value="Delete">
+                </form>
+            </div>
+        </div>
     </div>
-    <div class="mb-3">
-      <label for="{{ form.year.id_for_label }}" class="form-label">Year</label>
-      {% render_field form.year class="form-control" placeholder="1980" %}
-      <div class="invalid-feedback">{{ form.year.errors|first }}</div>
-    </div>
-    <div class="mb-3">
-      <label for="{{ form.rating.id_for_label }}" class="form-label">Rating</label >
-      {% render_field form.rating class="form-control" %}
-      <div class="invalid-feedback">{{ form.rating.errors|first }}</div>
-    </div>
-  </div> -->
-  <div class="modal-footer">
-    {% if movie %}
-    <button type="button" class="btn btn-danger" hx-post="{% url 'remove_movie' pk=movie.pk %}">Remove</button>
-    <span class="flex-grow-1"></span>
-    {% endif %}
-    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-      Cancel
-    </button>
-    
-  </div>
-</form>
-{% endwith %}
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>

@@ -10,7 +10,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicon.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/logo.png' %}">
     <title>Motor Bike Parts | AinoviQ</title>
     <!-- Custom CSS -->
     <link href="{% static 'css/style.min.css' %}" rel="stylesheet">
@@ -31,7 +31,7 @@
                     <h4 class="page-title">
                         {% for message in messages %}
                         <div class="container-fluid p-0">
-                            <div class="alert {{ message.tags }} alert-success" role="alert">
+                            <div class="alert {{ message.tags }} alert-warning" role="alert">
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="True">&times;</span>
                                 </button>
@@ -63,16 +63,16 @@
                                         style="width: 100px;" /></span>
                             </div>
                             <!-- Form -->
-                            {% for message in messages %}
+                            <!-- {% for message in messages %}
                             <div class="container-fluid p-0">
-                                <div class="warning {{ message.tags }} alert-success" role="alert">
+                                <div class="warning {{ message.tags }} alert-warning" role="alert">
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                         <span aria-hidden="True">&times;</span>
                                     </button>
                                     {{ message }}
                                 </div>
                             </div>
-                            {% endfor %}
+                            {% endfor %} -->
                             <form class="form-horizontal m-t-20" id="loginform" action="" method="post">
                                 {% csrf_token %}
                                 <div class="row p-b-30">
@@ -84,7 +84,7 @@
                                             </div>
                                             <input type="text" name="username" class="form-control form-control-lg"
                                                 placeholder="Username" aria-label="Username"
-                                                aria-describedby="basic-addon1" required="">
+                                                aria-describedby="basic-addon1" required="True">
                                         </div>
                                         <div class="input-group mb-3">
                                             <div class="input-group-prepend">
@@ -93,7 +93,7 @@
                                             </div>
                                             <input type="password" name="password" class="form-control form-control-lg"
                                                 placeholder="Password" aria-label="Password"
-                                                aria-describedby="basic-addon1" required="">
+                                                aria-describedby="basic-addon1" required="True">
                                         </div>
                                     </div>
                                 </div>

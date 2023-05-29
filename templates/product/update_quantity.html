@@ -4,13 +4,14 @@
 
 <div class=" display: flex; justify-content: center;">
   <form action="{% url 'dashboard:update-confirm' product_id %}" method="POST" novalidate style="margin-top: 50px;" enctype="multipart/form-data"  >
-    <p>Product: {{ product.product_name }} </p>
-    <p>Stock_Quantity: {{ product.product_quantity}}</p>
-    <p>Excepted Buying Price: {{ product.buying_price}}</p>
+    <p>Product Name : {{ product.product_name }} </p>
+    <p>Stock_Quantity : {{ product.product_quantity}}</p>
+    <p>Last Buying Price : {{ product.buying_price}}</p>
     <br><br>
       {% csrf_token %}
       Add New Quantity : <input type="number" id="input1" name="quantity" onkeyup="mul()" style="padding-left: 50px;" ><br><br>
       Buying Price : <input type="number" id="input2" name="buy" onkeyup="mul()" style="padding-left: 50px;">
+      
       <br><br>
       <span id="total"  style="font-size: 20px; font-weight: bold; text-align: center;"></span>
         <br><br>

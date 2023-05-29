@@ -7,8 +7,13 @@
                
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{% url 'dashboard:dashboard' %}" aria-expanded="false"><i class="mdi mdi-view-dashboard"></i><span class="hide-menu">Dashboard</span></a></li>
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{% url 'dashboard:tables' %}" aria-expanded="false"><i class="mdi mdi-border-inside"></i><span class="hide-menu">Products</span></a></li>
-                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{% url 'dashboard:report' %}" aria-expanded="false"><i class="mdi mdi-blur-linear"></i><span class="hide-menu">Report</span></a></li>
-                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{% url 'service-info' %}" aria-expanded="false"><i class="mdi mdi-wrench"></i><span class="hide-menu">Servicing</span></a></li>
+                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{% url 'dashboard:report' %}" aria-expanded="false"><i class="mdi mdi-blur-linear"></i><span class="hide-menu"> Sales Report</span></a></li>
+                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" aria-expanded="false"><i class="mdi mdi-wrench"></i><span class="hide-menu">Servicing</span></a>
+                    <ul aria-expanded="false" class="collapse  first-level">
+                        <li class="sidebar-item"><a href="{% url 'service-info' type='pending' %}"  class="sidebar-link"><i class="mdi mdi-pending"></i><span class="hide-menu"> Pending Servising </span></a></li>
+                        <li class="sidebar-item"><a href="{% url 'service-info' type='complete' %}"  class="sidebar-link"><i class="mdi mdi-ok"></i><span class="hide-menu"> Complete </span></a></li>  
+                    </ul>
+                </li>
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{% url 'dashboard:update-history' %}" aria-expanded="false"><i class="mdi mdi-chart-line"></i><span class="hide-menu">Update History </span></a></li>
            
             </ul>

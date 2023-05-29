@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
@@ -268,10 +268,10 @@ def update_quntity_history(request):
  
 @login_required(login_url='account:login')
 def delete_product(request, product_id):
-    product = Product.objects.get(id=product_id)
+    product = get_object_or_404(Product, id=product_id)
     product.delete()
-    messages.success(request, "The product has been delete successfully!")
-    return redirect('tables')
+    return redirect('dashboard:tables')
+    
 
 @login_required(login_url='account:login')
 def sale_quantity(request, product_id):
@@ -309,7 +309,6 @@ def confirm_Sale(request, product_id):
             return redirect('dashboard:tables')
     except Exception as e:
         print(e)
-        return redirect('dashboard:tables')
         raise Exception("Something wrong")
 
 from datetime import datetime
@@ -330,7 +329,7 @@ def report(request):
         from_date = request.POST.get('from_date')
         to_date = request.POST.get('to_date')
 
-        queryset = Sale.objects.all().order_by('sale_at')
+        queryset = Sale.objects.all().order_by('-sale_at')
 
         if month and len(month) == 2:
             queryset = queryset.filter(sale_at__month=month, sale_at__year=year)
@@ -344,7 +343,7 @@ def report(request):
         return render(request, 'dashboard/report.html', {'queryset': queryset, 'total_amount': total_amount, 'total_profit': total_profit})
 
     else:
-        queryset = Sale.objects.all().order_by('sale_at')
+        queryset = Sale.objects.all().order_by('-sale_at')
         total = sum(queryset.values_list('sale_quantity', flat=True))
         total_amount = sum(queryset.values_list('total_Sale_price', flat=True))
 
