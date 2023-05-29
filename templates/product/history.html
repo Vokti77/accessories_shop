@@ -119,9 +119,9 @@
     document.getElementById("search_by").addEventListener("change", function() {
         var selectedOption = this.value;
         if (selectedOption === "date") {
-            document.getElementById("example-form").action = "{% url 'dashboard:report' %}";
+            document.getElementById("example-form").action = "{% url 'dashboard:update-history' %}";
         } else if (selectedOption === "month") {
-            document.getElementById("example-form").action = "{% url 'dashboard:report' %}";
+            document.getElementById("example-form").action = "{% url 'dashboard:update-history' %}";
         }
     });
 </script>
@@ -157,12 +157,6 @@
                     <td>{{ quantity.product.expecting_Saleing_price }}</td>
                     <td>{{ quantity.quantity_added|mul:quantity.buying_price |intcomma}}</td>
                     <td>{{ quantity.added_at }}</td>
-                    <!-- <th>
-                        <a href="javascript:void(0)" data-toggle="modal" data-target="#add-new-event" class="btn m-t-20 btn-info btn-block waves-effect waves-light">
-                            <i class="ti-plus"></i> Add New Event
-                        </a>
-                    </th> -->
-                    
                 </tr>
                 {% endfor %}   
             </tbody>

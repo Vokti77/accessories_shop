@@ -12,23 +12,16 @@ urlpatterns = [
     path('add_model/', views.add_model, name='add-model'),
     path('add_product/', views.add_product, name='add-product'),
     path('upadate_product/<int:product_id>/', views.upadate_product, name='upadate-product'),
+    
     path('delete_product/<int:product_id>/', views.delete_product, name='delete-product'),
+
     path('Sale_quantity/<int:product_id>/', views.sale_quantity, name='Sale-quantity'),
     path('confirm_Sale/<int:product_id>/', views.confirm_Sale, name='confirm-Sale'),
-    path('product_csv/', views.product_csv, name='product-csv'),
     path('report/', views.report, name='report'),
-    path('daily_report/', views.daily_report, name='daily-report'),
-
+ 
     path('update_product_quantity/<int:product_id>/', views.update_product_quantity, name='update-quantity'),
     path('confirm_update_quantity/<int:product_id>/', views.confirm_update_quantity, name='update-confirm'),
-     path('update_quntity_history/', views.update_quntity_history, name='update-history'),
-
-
-
-
-    path('accessories_summary/', views.accessories_summary,name="accessories_summary"),
-    path('stats/', views.stats_view,name="stats"),
-    path('summary/', views.summary,name="summary"),
+    path('update_quntity_history/', views.update_quntity_history, name='update-history'),
 
     path("statistics/", views.statistics_view, name="shop-statistics"),
     path("filter-options/", views.get_filter_options, name="chart-filter-options"),
@@ -47,6 +40,5 @@ urlpatterns = [
     path("elements/", views.elements, name="elements"),
     path("gallery/", views.gallery, name="gallery"),
     path("invoice/", views.invoice, name="invoice"),
-    path("chat/", views.chat, name="chat"),
-
+   
 ]
