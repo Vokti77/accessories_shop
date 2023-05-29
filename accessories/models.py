@@ -22,12 +22,12 @@ class Model(models.Model):
 class Product(models.Model):
     product_name = models.CharField(max_length=100, null=False, blank=False)
     model = models.ForeignKey(Model, on_delete=models.CASCADE,  blank=True, default=True)
-    product_quantity = models.PositiveIntegerField(default=0)  # Initial product quantity
+    product_quantity = models.PositiveIntegerField()  # Initial product quantity
     buying_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     sale_quantity = models.PositiveIntegerField(default=0)
-    expecting_Saleing_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    expecting_Saleing_price = models.DecimalField(max_digits=10, decimal_places=2)
     actual_Sale_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    remining_quantity = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    remining_quantity = models.DecimalField(max_digits=10, decimal_places=2, default= 0)
     added_at = models.DateField(auto_now_add=True)
     update_at = models.DateField(auto_now=True)
 

@@ -18,7 +18,7 @@ SECRET_KEY = 'django-insecure-209$qqzh%&+9gdk8csecnt74*jq9l@pfygjrrck8*88a7#dq*7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.0.151','192.168.0.242','127.0.0.1','0.0.0.0']
 
 AUTH_USER_MODEL = 'account.MyUser'
 AUTHENTICATION_BACKENDS = ['account.backend.UsernameOrEmail']
@@ -165,3 +165,12 @@ LOGOUT_REDIRECT_URL = 'base:base'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+
+
+BASE_DIR = Path(__file__).resolve().parent.parent 
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticFiles')

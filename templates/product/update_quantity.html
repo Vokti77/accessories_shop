@@ -58,44 +58,49 @@
     <div class="col-md-6 mx-auto shadow-sm">
       <div class="card shadow-lg dG">
         <div class="card-body wizard-content">
-          <h2 align="center">Product Quantity Update</h2>
-          <form
-            action="{% url 'dashboard:confirm-Sale' product_id %}"
-            method="POST"
-            novalidate
-            style="margin-top: 50px"
-            enctype="multipart/form-data"
-          >
-            <p>Product: {{ product.product_name }}</p>
-            <p>Stock_Quantity: {{ product.product_quantity}}</p>
-            <p>Excepted Saleing Price: {{ product.expecting_Saleing_price}}</p>
-            <br><br>
-            {% csrf_token %} 
-            <label>Add New Quantity :</label>
-            <input
-            class="w-100"
-              type="number"
-              id="input1"
-              name="quantity"
-              onkeyup="mul()"
-              style="padding-left: 50px"
-            /> 
-            <label>Buying Price :</label>
-            <input
-            class="w-100"
-              type="number"
-              id="input2"
-              name="buy"
-              onkeyup="mul()"
-              style="padding-left: 50px"
-            />
-            <br><br>
-            <input
-              class="btn btn-outline-dark btn-block dG"
-              type="submit"
-              value="Sale"
-            />
-          </form>
+          <h1 align="center"> Product Quantity Update. </h1>
+
+<div class=" display: flex; justify-content: center;">
+  <form action="{% url 'dashboard:update-confirm' product_id %}" method="POST" novalidate style="margin-top: 50px;" enctype="multipart/form-data"  >
+    
+    
+    
+    <table id="zero-config" class="table table-striped table-hover table-sm">
+      <thead  class="text-center" style="font-size: medium; background-color: #1f2b3d;">
+        <tr class="font-bold text-white">
+          <th>Product Name</th>
+          <th>Stock Quantity</th>
+          <th>Last Buying Price</th>
+        </tr>
+      </thead>
+      <tbody class="text-center font-bold">
+        <tr>
+          <td>{{ product.product_name }}</td>
+          <td>{{ product.product_quantity}}</td>
+          <td>{{ product.buying_price}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <br><br>
+      {% csrf_token %}
+
+      <div class="form__linput">
+        <input class="form__input" type="number" name="quantity" id="input1" pattern="\w{1,}" required onkeyup="mul()" />
+        <label class="form__label" style="background-color: white;" for="fname">Add New Quantity</label>
+      </div>
+      <br>
+      <div class="form__linput">
+        <input class="form__input" type="number" name="buy" id="input2" pattern="\w{1,}" required  onkeyup="mul()"/>
+        <label class="form__label"  style="background-color: white;" for="lname">Buying Price </label>
+      </div>
+      <!-- Add New Quantity : <input type="number" id="input1" name="quantity" onkeyup="mul()" style="padding-left: 50px;" ><br><br>
+      Buying Price : <input type="number" id="input2" name="buy" onkeyup="mul()" style="padding-left: 50px;"> -->
+      <br>
+      <span id="total"  style="font-size: 20px; font-weight: bold; text-align: center;"></span>
+        <br>
+      <input class="btn btn-success btn-block" type="submit" value="Add Quantity">
+  </form>
+</div>
         </div>
       </div>
     </div>

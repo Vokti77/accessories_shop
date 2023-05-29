@@ -21,7 +21,7 @@ class BrandForm(forms.ModelForm):
 class ModelForm(forms.ModelForm):
     class Meta:
         model = Model
-        fields = [ 'brand'] 
+        fields = [ 'name','brand'] 
 
 class SearchForm(forms.ModelForm):
     class Meta:

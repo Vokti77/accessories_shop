@@ -1,0 +1,168 @@
+/* Floating Label */
+/* based on: https://youtu.be/BMphVl9suxA */
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap");
+
+
+*,
+*::before,
+*::after {
+  /* position */
+  margin: 0;
+  /* size */
+  padding: 0;
+  box-sizing: border-box;
+  /* visual */
+  outline: none;
+}
+
+input {
+  /* typography */
+  font: inherit;
+}
+
+:root {
+  /* colors */
+  --cr_white: 0, 0%, 100%;
+  --cr_shuttle-gray: 215, 15%, 39%;
+  --cr_puerto-rico: 171, 76%, 45%;
+  --cr_big-stone: 216, 33%, 18%;
+
+  /* fonts */
+  --ft-fam-primary: "Poppins", sans-serif;
+  --ft-wt-500: 500;
+  --ft-se-400: 0.9rem;
+
+  /* size */
+  --size-200: 0.5em;
+  --size-300: 0.8em;
+  --size-400: 1.5em;
+
+  /* transition */
+  --tn-1: 180ms linear;
+
+  /* components */
+  --page_cr: hsl(var(--cr_white));
+  --page_bd: hsl(var(--cr_big-stone));
+  --page_font: var(--ft-fam-primary);
+
+  --form__input_border-cr: hsl(var(--cr_shuttle-gray));
+  --form__input_border-cr_active: hsl(var(--cr_puerto-rico));
+  --form__input_txt-cr: hsl(var(--cr_shuttle-gray));
+}
+
+
+
+.form__linput {
+  /* color */
+  color: var(--form__input_border-cr);
+
+  /* grid */
+  display: grid;
+
+  /* position */
+  position: relative;
+}
+
+.form__input {
+  /* color */
+  color: var(--form__input_txt-cr);
+  background: inherit;
+
+  /* size */
+  padding: var(--size-300);
+  width: 100%;
+  border: 2px solid var(--form__input_border-cr);
+  border-radius: var(--size-200);
+
+  /* typography */
+  font-weight: var(--ft-wt-500);
+}
+
+.form__input:valid,
+.form__input:focus {
+  /* size */
+  border: 2px solid var(--form__input_border-cr_active);
+}
+
+.form__input:valid + .form__label,
+.form__input:focus + .form__label {
+  /* typography */
+  font-size: var(--ft-se-400);
+}
+
+.form__input:valid + .form__label,
+.form__input:focus + .form__label {
+  /* color */
+  color: var(--form__input_border-cr_active);
+
+  /* position */
+  top: 0;
+}
+
+.form__input:valid + .form__label::before,
+.form__input:focus + .form__label::before {
+  /* size */
+  height: 90%;
+
+  /* visual */
+  opacity: 1;
+}
+
+.form__label {
+  /* animation */
+  transition: top var(--tn-1), font-size var(--tn-1);
+
+  /* color */
+  background: hsl(var(--cr_big-stone));
+
+  /* position */
+  position: absolute;
+  left: 0.9em;
+  top: 50%;
+  transform: translateY(-50%);
+
+  /* size */
+  padding-inline: var(--size-200);
+
+  /* visual */
+  user-select: none;
+  cursor: text;
+
+  /* typography */
+  font-weight: var(--ft-wt-500);
+  letter-spacing: 1px;
+}
+
+.form__label::before {
+  /* animation */
+  transition: height 90ms linear 90ms, opacity var(--tn-1);
+
+  /* position */
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0%;
+
+  /* size */
+  width: 100%;
+  height: 0;
+  border-inline: 2px solid var(--form__input_border-cr_active);
+
+  /* visual */
+  opacity: 0;
+  content: "";
+}
+
+
+
+
+.test:hover {
+    font-size: 0;
+  }
+  
+  .test:hover:before {
+    color: green;
+    font-size: 12px;
+    content: attr(data-hover);
+  }

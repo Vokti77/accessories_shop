@@ -4,11 +4,11 @@
 {% load static %}
 
 {% block extra_css %}
-    <style xmlns="http://www.w3.org/1999/html">
-    </style>
+<style xmlns="http://www.w3.org/1999/html">
+</style>
 {% endblock %}
 {% block page_title %}
- Product Table
+Product Table
 {% endblock %}
 {% load humanize %}
 <!-- {% load crispy_forms_tags %} -->
@@ -66,16 +66,16 @@
 </style> -->
 
 <div class="d-flex justify-content-between p-t-20 p-r-20 p-l-20">
-    <div class=" m-b-20 w-25">
-        <form method="POST" id="example-form" action="{% url 'dashboard:tables' %}"  novalidate="novalidate">
+    <div class=" m-b-20 w-50 w-md-25">
+        <form method="POST" id="example-form" action="{% url 'dashboard:tables' %}" novalidate="novalidate">
             {% csrf_token %}
             <!-- <div class="d-flex "> -->
-                <div class="w-100 m-r-10 no-block">
-                    {{ form | crispy }}
-                </div>
-                <div class="">
-                    <input class="btn btn-info w-100 btn3d" data-toggle="ksjdfkjajs" type="submit" value="Search">
-                </div>
+            <div class="w-100 m-r-10 no-block">
+                {{ form | crispy }}
+            </div>
+            <div class="">
+                <input class="btn btn-info w-100 btn3d" data-toggle="ksjdfkjajs" type="submit" value="Search">
+            </div>
             <!-- </div> -->
         </form>
     </div>
@@ -86,7 +86,8 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <!-- <li class="breadcrumb-item"><a class="btn btn-success" href="{% url 'dashboard:dashboard' %}">Home</a></li> -->
-                            <li class="breadcrumb-item"><a class="btn btn-success btn3d btn2d"  href="{% url 'dashboard:add-product' %}">Add Product</a></li>
+                            <li class="breadcrumb-item"><a class="btn btn-success btn3d btn2d"
+                                    href="{% url 'dashboard:add-product' %}">Add Product</a></li>
                         </ol>
                     </nav>
                 </div>
@@ -101,65 +102,75 @@
         <div class="table-responsive">
             <table id="zero_config" class="table table-striped table-bordered table-sm tablecenterheadCSS">
                 <thead style="font-weight: 900; background-color: #1f2b3d; color: antiquewhite;" class="text-center">
-                <tr class="text-center text-white " style="font-weight: 900;">
-                    <th id="link" data-toggle="tooltip">Name</th>
-                    <th>Brand</th>
-                    <th>Model</th>
-                    <th>Quantity</th>
-                    <th>Buy Price</th>
-                    <th>Expected Selling Price</th>
-                    <th>Total Buying Amount</th>
-                    <th>Sale Quantity</th>
-                    <th>Actual Sale Amount</th>
-                    <th>Total Profit</th>
-                    <th>Action</th>
-                    <th>Date_Added</th>
-                    <th>Date_Update</th>
-                </tr>
+                    <tr class="text-center text-white " style="font-weight: 900;">
+                        <th id="link" data-toggle="tooltip">Name</th>
+                        <th>Brand</th>
+                        <th>Model</th>
+                        <th>Quantity</th>
+                        <th>Buy Price</th>
+                        <th>Expected Selling Price</th>
+                        <th>Total Buying Amount</th>
+                        <th>Sale Quantity</th>
+                        <th>Actual Sale Amount</th>
+                        <th>Total Profit</th>
+                        <th>Action</th>
+                        <th>Date_Added</th>
+                        <th>Date_Update</th>
+                    </tr>
                 </thead>
                 <tbody class="text-center">
                     {% for product in product_item %}
-                    <tr onmouseover="this.style.fontWeight='bold'; this.style.backgroundColor='#B2EBF2'; this.style.color='black'" onmouseout="this.style.fontWeight='normal'; this.style.backgroundColor='white'">
+                    <tr onmouseover="this.style.fontWeight='bold'; this.style.backgroundColor='#B2EBF2'; this.style.color='black'"
+                        onmouseout="this.style.fontWeight='normal'; this.style.backgroundColor='white'">
                         <td>{{product.product_name}}</td>
                         <td>{{product.model.brand.name}}</td>
                         <td>{{product.model.name}}</td>
-                        {% if product.product_quantity < 5 %}
-                            <td class="text-danger"> <a class="text-danger" title="Added" href="{% url 'dashboard:update-quantity' product.id %}">{{product.product_quantity}}</a></td>
+                        {% if product.product_quantity < 5 %} <td class="text-danger"> <a class="text-danger"
+                                title="Added"
+                                href="{% url 'dashboard:update-quantity' product.id %}">{{product.product_quantity}}</a>
+                            </td>
                             {% else %}
-                            <td class="text-danger"> <a title="Added" href="{% url 'dashboard:update-quantity' product.id %}">{{product.product_quantity}}</a></td>
-                        {% endif %}
-                        <td class="text-right">{{product.buying_price}}</td>
-                        <td class="text-right">{{product.expecting_Saleing_price}}</td>
-                        <td class="text-right">{{ product.buying_price |mul:product.product_quantity|intcomma }}</td>
-                        <td class="text-right">{{product.sale_quantity }}</td>
-                        <td class="text-right">{{product.actual_Sale_price}}</td>
-                        <td class="text-right">{{ product.actual_Sale_price|sub:product.remining_quantity|intcomma }}</td>
-                        <td class="d-flex ">
-                            <a href="{% url 'dashboard:upadate-product' product.id %}" data-toggle="tooltip" data-placement="top" title="Update" class="hover-zoom">
-                                <i class="mdi mdi-check fa-lg text-success"></i>
-                            </a>
-<!-- 
+                            <td class="text-danger"> <a title="Added"
+                                    href="{% url 'dashboard:update-quantity' product.id %}">{{product.product_quantity}}</a>
+                            </td>
+                            {% endif %}
+                            <td class="text-right">{{product.buying_price}}</td>
+                            <td class="text-right">{{product.expecting_Saleing_price}}</td>
+                            <td class="text-right">{{ product.buying_price |mul:product.product_quantity|intcomma }}
+                            </td>
+                            <td class="text-right">{{product.sale_quantity }}</td>
+                            <td class="text-right">{{product.actual_Sale_price}}</td>
+                            <td class="text-right">{{ product.actual_Sale_price|sub:product.remining_quantity|intcomma}}</td>
+                            <td class="d-flex ">
+                                <a href="{% url 'dashboard:upadate-product' product.id %}" data-toggle="tooltip"
+                                    data-placement="top" title="Update" class="hover-zoom">
+                                    <i class="mdi mdi-check fa-lg text-success"></i>
+                                </a>
+                                <!-- 
                             <a href="#deleteEmployeeModal" data-toggle="modal" data-target="#deleteEmployeeModal" class="mdi mdi-close">
                                 <i></i>
                             </a> -->
-                            <a href="{% url 'dashboard:delete-product' product.id %}" data-toggle="tooltip" data-placement="top" title="Delete" class="hover-zoom">
-                                </i><i class="mdi mdi-close text-danger fa-lg"></i>
+                                <a href="{% url 'dashboard:delete-product' product.id %}" data-toggle="tooltip"
+                                    data-placement="top" title="Delete" class="hover-zoom" onclick="return confirm('Are you sure you want to delete this?')">
+                                    </i><i class="mdi mdi-close text-danger fa-lg"></i> </a>
 
-                                {% if product.product_quantity == 0 %}
-                                    <a href="{% url 'dashboard:Sale-quantity' product.id %}" data-toggle="tooltip" data-placement="top" title="Sale" class="Sale hover-zoom">
-                                    </i><i class="mdi mdi-cart-outline text-success fa-lg hover-zoom"></i>    
-                                </a>
-                                {% else %}
-                                <a href="{% url 'dashboard:Sale-quantity' product.id %}" data-toggle="tooltip" data-placement="top" title="Sale" class="Sale hover-zoom">
-                                    </i><i class="mdi mdi-cart-outline text-success fa-lg hover-zoom"></i>    
-                                </a>
-                            {% endif %}
-                        </td>
-                        <td>{{product.added_at }}</td>
-                        <td>{{product.update_at }}</td>
+                                    {% if product.product_quantity == 0 %}
+                                    <a href="{% url 'dashboard:Sale-quantity' product.id %}" data-toggle="tooltip"
+                                        data-placement="top" title="Sale" class="Sale hover-zoom">
+                                        </i><i class="mdi mdi-cart-outline text-success fa-lg hover-zoom confirm-delete"></i>
+                                    </a>
+                                    {% else %}
+                                    <a href="{% url 'dashboard:Sale-quantity' product.id %}" data-toggle="tooltip"
+                                        data-placement="top" title="Sale" class="Sale hover-zoom">
+                                        </i><i class="mdi mdi-cart-outline text-success fa-lg hover-zoom confirm-delete"></i>
+                                    </a>
+                                    {% endif %}
+                            </td>
+                            <td>{{product.added_at }}</td>
+                            <td>{{product.update_at }}</td>
                     </tr>
                     {% endfor %}
-                    
+
                 </tbody>
                 <tfoot style="background-color: rgb(221, 215, 215);">
                     <tr>
@@ -176,49 +187,20 @@
                         <th></th>
                         <th></th>
                         <th></th>
-                        
-                    </tr>
-                </tfoot> 
-            </table>
 
-            <div class="col-md-12">
-                {% if product_item.has_other_pages %}
-                <ul class="pagination">
-                    {% if product_item.has_previous %}
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ product_item.previous_page_number }}">&laquo;</a>
-                        </li>
-                    {% else %}
-                        <li class="page-item disabled">
-                            <a class="page-link">&laquo;</a>
-                        </li>
-                    {% endif %}
-                {% for i in product_item.paginator.page_range %}
-                    {% if product_item.number == i %}
-                    <li class="page-item active">
-                        <a class="page-link">{{ i }}</a>
-                    </li>
-                    {% else %}
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ i }}">{{ i }}</a>
-                    </li>
-                    {% endif %}
-                {% endfor %}
-                    {% if product_item.has_next %}
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ product_item.next_page_number }}">&raquo;</a>
-                        </li>
-                    {% else %}
-                        <li class="page-item disabled">
-                            <a class="page-link">&laquo;</a>
-                        </li>
-                    {% endif %}
-                </ul>
-                {% endif %}
-            </div>
-            </div>
-        </div>               
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
     </div>
-</div> 
+</div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#zero_config').DataTable();
+    });
+</script>
+
 
 {% endblock %}

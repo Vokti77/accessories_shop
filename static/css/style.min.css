@@ -5154,7 +5154,8 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
     display: flex;
     padding-left: 0;
     list-style: none;
-    border-radius: 2px
+    border-radius: 2px;
+    /* position: fixed; */
 }
 
 .page-link {
@@ -5164,7 +5165,7 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
     margin-left: -1px;
     line-height: 1.25;
     color: #7460ee;
-    background-color: #fff;
+    background-color: #fffeee;
     border: 1px solid #dee2e6
 }
 

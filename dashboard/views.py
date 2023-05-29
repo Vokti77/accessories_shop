@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
@@ -129,17 +129,17 @@ def tables(request):
             total_profit += profit 
 
         # Pagination
-        page = request.GET.get('page', 1)
-        paginator = Paginator(product_item, 2)
-        try:
-            product_item = paginator.page(page)
+        # page = request.GET.get('page', 1)
+        # paginator = Paginator(product_item, 10)
+        # try:
+        #     product_item = paginator.page(page)
 
-        except PageNotAnInteger:
-            # fall back to first page
-            product_item = paginator.page(1)
-        except EmptyPage:
-            # fall back to last page
-            product_item = paginator.page(paginator.num_pages) 
+        # except PageNotAnInteger:
+        #     # fall back to first page
+        #     product_item = paginator.page(1)
+        # except EmptyPage:
+        #     # fall back to last page
+        #     product_item = paginator.page(paginator.num_pages) 
     
     models = Model.objects.all()
     brands = Brand.objects.all()
@@ -154,7 +154,7 @@ def tables(request):
         'profit' : profit,
         'total_profit' : total_profit,
         'total_Sale_amount': total_Sale_amount,
-        'paginator': paginator,
+        # 'paginator': paginator,
         'low_quantity_products': low_quantity_products
     }
     return render(request, ['dashboard/tables.html', 'dashboard/index.html'], context)
@@ -249,10 +249,12 @@ def update_quntity_history(request):
 
 @login_required
 def delete_product(request, product_id):
-    product = Product.objects.get(id=product_id)
+    product = get_object_or_404(Product, id=product_id)
     product.delete()
     messages.success(request, "The product has been delete successfully!")
-    return redirect('tables')
+    # return redirect('dashboard:tables')
+    return redirect('dashboard:tables')
+
 
 @login_required
 def sale_quantity(request, product_id):
