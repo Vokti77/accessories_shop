@@ -1,0 +1,11 @@
+<h1>Monthly Sale Profit</h1>
+<p>Current Month: {{ current_month }}</p>
+
+{% for month, data in data_by_month.items %}
+    <h2>{{ month }}</h2>
+    <p>Stock Quantity: {{ data.stock_quantity }}</p>
+    <p>Stock Amount: {{ data.stock_amount }}</p>
+    <p>Sale Quantity: {{ data.sale_quantity }}</p>
+    <p>Sale Amount: {{ data.sale_amount }}</p>
+    <p>Profit: {{ data.profit }}</p>
+{% endfor %}

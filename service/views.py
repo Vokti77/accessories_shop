@@ -19,36 +19,45 @@ def add_service(request):
     }
     return render(request, 'service/service_add.html', context)
 
-def service_info(request, type):
-    values = type.split(',')
-    total_amount = 0
-    if type == 'pending':
-        services = Service.objects.filter(status='pending')
-        for x in services:
-            total_amount += x.sevicing_cost
-        context = {
-            'services': services,
-            'total_amount' : total_amount,
-        }
-        return render(request, 'service/pending_service_info.html', context)
-    
-    elif type == 'complete':
-        service = Service.objects.filter(status='complete')
-        for x in service:
-            total_amount += x.sevicing_cost
-        context = {
-            'service': service,
-            'total_amount' : total_amount,
-        }
-        return render(request, 'service/complete_service_info.html', context)
+def service_info(request):
+    # current_date = timezone.now().date()  # Get the current date
+    # start_of_month = date(current_date.year, current_date.month, 1)  # Calculate the start of the current month
 
+    # monthly_total_cost = Service.objects.filter(date_added__gte=start_of_month) \
+    #     .aggregate(total_cost=Sum('sevicing_cost'))['total_cost']
+
+    # print(monthly_total_cost)
+    # # 'monthly_total_cost' will contain the sum of 'sevicing_cost' for all services added this month.
+
+    # if monthly_total_cost is not None:
+    #     print(f"Monthly total servicing cost: {monthly_total_cost}")
+    # else:
+    #     print("No services added this month.")
+
+
+    total_amount = 0
+    services = Service.objects.filter(status='pending')
+    service = Service.objects.filter(status='complete')
+    for x in services:
+        total_amount += x.sevicing_cost
+
+    for x in service:
+        total_amount += x.sevicing_cost
+
+    context = {
+        'services': services,
+        'total_amount' : total_amount,
+        'service' : service,
+    }
+    return render(request, 'service/service_info.html', context)
+    
 def update_status(request, service_id):
     task = Service.objects.get(id=service_id)
     
     if request.method == 'POST':
         new_status = request.POST.get('status')
         
-        if new_status == 'completed' and task.status == 'pending':
+        if new_status == 'complete' and task.status == 'pending':
             task.status = new_status
             task.save()
             return HttpResponse()  # Return a success response
@@ -77,3 +86,7 @@ def delete_service(request, service_id):
     service = get_object_or_404(Service, id=service_id)
     service.delete()
     return redirect('service-info')
+
+
+
+
