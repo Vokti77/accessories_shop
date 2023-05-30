@@ -8,7 +8,7 @@ class Service(models.Model):
 
     STATUS = [
         ('pending','Pending'),
-        ('complete','Complete'),
+        ('complete','Completed'),
     ]
     
     status = models.CharField(max_length=25, choices=STATUS, default='pending')

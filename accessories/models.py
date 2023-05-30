@@ -66,3 +66,13 @@ class ProductQuantityHistory(models.Model):
 
     def __str__(self):
         return f"{self.quantity_added} added to {self.product.product_name} at {self.added_at}"
+    
+
+
+class MonthlySaleProfitHistory(models.Model):
+     stock_quantity = models.PositiveIntegerField()
+     stock_amount = models.DecimalField(max_digits=10, decimal_places=2)
+     sale_quantity = models.PositiveBigIntegerField()
+     sale_amount = models.DecimalField(max_digits=10, decimal_places=2)
+     profit = models.DecimalField(max_digits=10, decimal_places=2)
+     date_added = models.DateField(auto_now_add=True)
