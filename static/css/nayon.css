@@ -82,7 +82,7 @@ input {
 .form__input:valid,
 .form__input:focus {
   /* size */
-  border: 2px solid var(--form__input_border-cr_active);
+  border: 1px solid var(--form__input_border-cr_active);
 }
 
 .form__input:valid + .form__label,
