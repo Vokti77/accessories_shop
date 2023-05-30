@@ -50,7 +50,7 @@
 
 {% block body %}
 
-<body>
+<body onload="start();">
         <!-- ============================================================== -->
         <!-- Preloader - style you can find in spinners.css' %} -->
         <!-- ============================================================== -->
@@ -141,7 +141,11 @@
 
 
     {% endblock script %}
-
+    <script>
+        window.onload = function() {
+        start();
+    };
+    </script>
 </body>
     {% endblock body %}
 
