@@ -5,28 +5,20 @@ from django.contrib.auth.decorators import login_required
 from accessories.models import Product, Sale, Brand, Model, ProductQuantityHistory
 from account.models import MyUser
 from django.contrib.auth.models import User
-from dashboard.forms import ModelForm, ProductsForm, SaleForm, BrandForm, SearchForm, ReportSearchForm
+from dashboard.forms import ModelForm, ProductsForm, BrandForm, SearchForm
 from dashboard.models import * 
-from django.db.models import Q, F
+from django.db.models import Q, F, Count, F, Sum, Avg
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-import pandas as pd
-import datetime
-from datetime import datetime, timedelta, date
-from bootstrap_datepicker_plus.widgets import DateTimePickerInput
-from django.http import HttpResponse
+from datetime import datetime, date
 from django.http import JsonResponse
-import csv
-import decimal
-import math
-from dateutil.relativedelta import relativedelta
-
-import calendar, datetime
-
-from django.db.models import Sum
+import datetime
+from django.db.models.functions import ExtractYear, ExtractMonth
+from django.http import JsonResponse
 from django.shortcuts import render
-from django import forms
+from utils.charts import months, colorPrimary, colorSuccess, colorDanger, generate_color_palette, get_year_dict
 
-@login_required
+
+@login_required(login_url='account:login')
 def index(request):
     total_amount = 0
     total_item = 0
@@ -89,7 +81,7 @@ def index(request):
     } 
     return render(request, 'dashboard/index.html', context)
 
-@login_required
+@login_required(login_url='account:login')
 def tables(request):
     total_amount = 0
     total_item = 0
@@ -105,7 +97,7 @@ def tables(request):
         product_item = Product.objects.filter(multiple_q)
         
     else:
-        product_item = Product.objects.all()
+        product_item = Product.objects.all().order_by('added_at')
         form = SearchForm(request.POST or None)
         context ={
             'form': form,
@@ -159,12 +151,12 @@ def tables(request):
     }
     return render(request, ['dashboard/tables.html', 'dashboard/index.html'], context)
 
-@login_required
+@login_required(login_url='account:login')
 def add_product(request):
     form = ProductsForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         form.save()
-        messages.success(request, "The brand has been added successfully!")
+        messages.success(request, "The product has been added successfully!")
         return redirect('dashboard:tables')
     else:
         form = ProductsForm()
@@ -173,13 +165,13 @@ def add_product(request):
     }
     return render(request, "dashboard/form_basic.html", context)
 
-@login_required
+@login_required(login_url='account:login')
 def add_brand(request):
     form = BrandForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         form.save()
         messages.success(request, "The brand has been added successfully!")
-        return redirect('dashboard:tables')
+        return redirect('dashboard:add-model')
     else:
         form = BrandForm()
     context = {
@@ -187,13 +179,13 @@ def add_brand(request):
     }
     return render(request, "dashboard/form_brand.html", context)
 
-@login_required
+@login_required(login_url='account:login')
 def add_model(request):
     form = ModelForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         form.save()
-        messages.success(request, "The brand has been added successfully!")
-        return redirect('dashboard:tables')
+        messages.success(request, "The model has been added successfully!")
+        return redirect('dashboard:add-product')
     else:
         form = ModelForm()
     context = {
@@ -201,7 +193,6 @@ def add_model(request):
     }
     return render(request, "dashboard/form_model.html", context)
 
-@login_required
 def upadate_product(request, product_id):
     product = Product.objects.get(id=product_id)
     form = ProductsForm(instance=product)
@@ -218,8 +209,7 @@ def upadate_product(request, product_id):
         form = ProductsForm()
     return render(request, 'product/update.html', context)
 
-
-@login_required
+@login_required(login_url='account:login')
 def update_product_quantity(request, product_id):
     product = Product.objects.get(id=product_id)
     context = {
@@ -228,7 +218,7 @@ def update_product_quantity(request, product_id):
     }
     return render(request, 'product/update_quantity.html', context)
 
-@login_required
+@login_required(login_url='account:login')
 def confirm_update_quantity(request, product_id):
     quantity = int(request.POST.get('quantity'))
     buy_price = int(request.POST.get('buy'))
@@ -242,12 +232,41 @@ def confirm_update_quantity(request, product_id):
     add_q.save()
     return redirect('dashboard:tables')
 
-@login_required
+@login_required(login_url='account:login')
 def update_quntity_history(request):
-    history = ProductQuantityHistory.objects.all()
-    return render(request, 'product/history.html', {'history':history})
+    total_amount = 0
 
-@login_required
+    now = datetime.now()
+    current_year = now.year
+    current_month = now.month
+
+    if request.method == 'POST':
+        month = request.POST.get('month')
+        year = request.POST.get('current_year', current_year)
+
+        from_date = request.POST.get('from_date')
+        to_date = request.POST.get('to_date')
+
+        history = ProductQuantityHistory.objects.all().order_by('added_at')
+
+        if month and len(month) == 2:
+            history = history.filter(added_at__month=month, added_at__year=year)
+
+        elif from_date and to_date:
+            history = history.filter(added_at__range=[from_date, to_date])
+
+        total_amount = sum(history.values_list('buying_price', flat=True))
+
+        return render(request, 'product/history.html', {'history': history, 'total_amount': total_amount})
+
+    else:
+        history = ProductQuantityHistory.objects.all().order_by('added_at')
+        total = sum(history.values_list('buying_price', flat=True))
+        total_amount = sum(history.values_list('buying_price', flat=True))
+        return render(request, 'product/history.html', {'history': history, 'total': total, 'total_amount': total_amount})
+ 
+ 
+@login_required(login_url='account:login')
 def delete_product(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     product.delete()
@@ -256,7 +275,7 @@ def delete_product(request, product_id):
     return redirect('dashboard:tables')
 
 
-@login_required
+@login_required(login_url='account:login')
 def sale_quantity(request, product_id):
     product = Product.objects.get(id=product_id)
     context = {
@@ -265,7 +284,7 @@ def sale_quantity(request, product_id):
     }
     return render(request, 'product/sell.html', context)
 
-@login_required
+@login_required(login_url='account:login')
 def confirm_Sale(request, product_id):
     try:
         quantity = int(request.POST.get('quantity'))
@@ -294,26 +313,8 @@ def confirm_Sale(request, product_id):
         print(e)
         raise Exception("Something wrong")
 
-
-@login_required
-def product_csv(request):
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename = product.csv'
-    writer = csv.writer(response)
-    products = Product.objects.all()
-    writer.writerow(['Product Name', 'Brand Name', 'Quantity', 'Buying Price', 'Saleing Price', 'Saleing Quantity', 'Total Amount'])
-    
-    for product in products:  
-        writer.writerow([product.product_name, product.model, product.product_quantity, product.buying_price, product.expecting_Saleing_price, product.remining_quantity, product.quantity_update_date, product.remining_quantity_date])
-    return response
-
-
-def daily_report(request):
-    pass
-
-
 from datetime import datetime
-@login_required
+@login_required(login_url='account:login')
 def report(request):
     total_amount = 0
     total_profit = 0
@@ -330,7 +331,7 @@ def report(request):
         from_date = request.POST.get('from_date')
         to_date = request.POST.get('to_date')
 
-        queryset = Sale.objects.all()
+        queryset = Sale.objects.all().order_by('-sale_at')
 
         if month and len(month) == 2:
             queryset = queryset.filter(sale_at__month=month, sale_at__year=year)
@@ -344,7 +345,7 @@ def report(request):
         return render(request, 'dashboard/report.html', {'queryset': queryset, 'total_amount': total_amount, 'total_profit': total_profit})
 
     else:
-        queryset = Sale.objects.all()
+        queryset = Sale.objects.all().order_by('-sale_at')
         total = sum(queryset.values_list('sale_quantity', flat=True))
         total_amount = sum(queryset.values_list('total_Sale_price', flat=True))
 
@@ -365,75 +366,71 @@ def report(request):
     # return render(request, 'dashboard/report.html', context)
 
 
-from django.db.models.functions import TruncDay, ExtractWeek
-from django.db.models import Sum
-import json
-def chat(request):
-    data = Sale.objects.annotate(day=TruncDay('sale_at')).values('day').annotate(sale_quantity=Sum('sale_quantity'))
-    
-    # Process the data to create a list of labels and data points
-    labels = [d['day'].strftime("%B %d") for d in data]
-    data_points = [d['sale_quantity'] for d in data]
+def get_filter_options(request):
+    grouped_purchases = Sale.objects.annotate(year=ExtractYear("sale_at")).values("year").order_by("-year").distinct()
+    options = [purchase["year"] for purchase in grouped_purchases]
 
-    # Create the chart data
-    chart_data = {
-        'labels': labels,
-        'datasets': [{
-            'label': 'Sale Quantity per Day',
-            'data': data_points,
-            'fill': False,
-            'borderColor': 'rgba(255, 99, 132, 1)',
-            'lineTension': 0.1
-        }]
-    }
-    chart_data_json = json.dumps(chart_data)
+    return JsonResponse({
+        "options": options,
+    })
 
-    context = {
-        'data_points': data_points,
-        'chart_data_json': chart_data_json
-    }
-    return render(request, "dashboard/chat.html", context)
+def get_sales_chart(request, year):
+    purchases = Sale.objects.filter(sale_at__year=year)
+    grouped_purchases = purchases.annotate(price=F("total_Sale_price")).annotate(month=ExtractMonth("sale_at"))\
+        .values("month").annotate(average=Avg("total_Sale_price")).values("month", "average").order_by("month")
 
+    spend_per_customer_dict = get_year_dict()
 
-def summary(request):
-    products = Product.objects.all()
-    context = {
-        'products': products
-    }
-    return render(request, 'summary.html', context)
+    for group in grouped_purchases:
+        spend_per_customer_dict[months[group["month"]-1]] = round(group["average"], 2)
 
-def accessories_summary(request):
-    todays_date = datetime.date.today()
-    months_ago = todays_date-datetime.timedelta(days=30)
-    items = Product.objects.filter(owner=request.user, added_at__gte=months_ago, added_at__lte=todays_date)
+    return JsonResponse({
+        "title": f"Spend per customer in {year}",
+        "data": {
+            "labels": list(spend_per_customer_dict.keys()),
+            "datasets": [{
+                "label": "Amount ($)",
+                "backgroundColor": colorPrimary,
+                "borderColor": colorPrimary,
+                "data": list(spend_per_customer_dict.values()),
+            }]
+        },
+    })
 
-    finalrep = {}
+def spend_per_customer_chart(request, year):
+    purchases = Sale.objects.filter(sale_at__year=year)
+    grouped_purchases = purchases.annotate(price=F("profit")).annotate(month=ExtractMonth("sale_at"))\
+        .values("month").annotate(average=Avg("profit")).values("month", "average").order_by("month")
 
-    def get_product_item(item):
-        return item.product_name
-    item_list = list(set(map(get_product_item, items)))
-    print(item_list)
+    spend_per_customer_dict = get_year_dict()
 
-    def get_product_quantity(product_quntity):
-        product_quntity = 0
-        filtered_by_product_quntity = items.filter(product_quntity=product_quntity)
+    for group in grouped_purchases:
+        spend_per_customer_dict[months[group["month"]-1]] = round(group["average"], 2)
 
-        for p_item in filtered_by_product_quntity:
-            product_quntity += p_item.product_quantity
+    return JsonResponse({
+        "title": f"Spend per customer in {year}",
+        "data": {
+            "labels": list(spend_per_customer_dict.keys()),
+            "datasets": [{
+                "label": "Amount ($)",
+                "backgroundColor": colorPrimary,
+                "borderColor": colorPrimary,
+                "data": list(spend_per_customer_dict.values()),
+            }]
+        },
+    })
 
-        print(product_quntity)
-        return product_quntity
-
-    for x in items:
-        for y in item_list:
-            finalrep[y] = get_product_quantity(y)
-    print(finalrep)
-
-    return JsonResponse({'accessories_data': finalrep}, safe=False)
+def statistics_view(request):
+    return render(request, "statistics.html", {})
 
 
-def stats_view(request):
-    return render(request, 'stats.html')
+
+
+
+
+
+
+
 
 @login_required
 def charts(request):
@@ -475,125 +472,3 @@ def gallery(request):
 def invoice(request):
     return render(request, "dashboard/invoice.html")
 
-
-from django.contrib.admin.views.decorators import staff_member_required
-from django.db.models import Count, F, Sum, Avg
-from django.db.models.functions import ExtractYear, ExtractMonth
-from django.http import JsonResponse
-from django.shortcuts import render
-
-from utils.charts import months, colorPrimary, colorSuccess, colorDanger, generate_color_palette, get_year_dict
-
-
-@staff_member_required
-def get_filter_options(request):
-    grouped_purchases = Sale.objects.annotate(year=ExtractYear("sale_at")).values("year").order_by("-year").distinct()
-    options = [purchase["year"] for purchase in grouped_purchases]
-
-    return JsonResponse({
-        "options": options,
-    })
-
-
-def get_sales_chart(request, year):
-    purchases = Sale.objects.filter(sale_at__year=year)
-    grouped_purchases = purchases.annotate(price=F("total_Sale_price")).annotate(month=ExtractMonth("sale_at"))\
-        .values("month").annotate(average=Avg("total_Sale_price")).values("month", "average").order_by("month")
-
-    spend_per_customer_dict = get_year_dict()
-
-    for group in grouped_purchases:
-        spend_per_customer_dict[months[group["month"]-1]] = round(group["average"], 2)
-
-    return JsonResponse({
-        "title": f"Spend per customer in {year}",
-        "data": {
-            "labels": list(spend_per_customer_dict.keys()),
-            "datasets": [{
-                "label": "Amount ($)",
-                "backgroundColor": colorPrimary,
-                "borderColor": colorPrimary,
-                "data": list(spend_per_customer_dict.values()),
-            }]
-        },
-    })
-
-
-
-
-def spend_per_customer_chart(request, year):
-    purchases = Sale.objects.filter(sale_at__year=year)
-    grouped_purchases = purchases.annotate(price=F("profit")).annotate(month=ExtractMonth("sale_at"))\
-        .values("month").annotate(average=Avg("profit")).values("month", "average").order_by("month")
-
-    spend_per_customer_dict = get_year_dict()
-
-    for group in grouped_purchases:
-        spend_per_customer_dict[months[group["month"]-1]] = round(group["average"], 2)
-
-    return JsonResponse({
-        "title": f"Spend per customer in {year}",
-        "data": {
-            "labels": list(spend_per_customer_dict.keys()),
-            "datasets": [{
-                "label": "Amount ($)",
-                "backgroundColor": colorPrimary,
-                "borderColor": colorPrimary,
-                "data": list(spend_per_customer_dict.values()),
-            }]
-        },
-    })
-
-
-# @staff_member_required
-# def payment_success_chart(request, year):
-#     purchases = Purchase.objects.filter(time__year=year)
-
-#     return JsonResponse({
-#         "title": f"Payment success rate in {year}",
-#         "data": {
-#             "labels": ["Successful", "Unsuccessful"],
-#             "datasets": [{
-#                 "label": "Amount ($)",
-#                 "backgroundColor": [colorSuccess, colorDanger],
-#                 "borderColor": [colorSuccess, colorDanger],
-#                 "data": [
-#                     purchases.filter(successful=True).count(),
-#                     purchases.filter(successful=False).count(),
-#                 ],
-#             }]
-#         },
-#     })
-
-
-# @staff_member_required
-# def payment_method_chart(request, year):
-#     purchases = Purchase.objects.filter(time__year=year)
-#     grouped_purchases = purchases.values("payment_method").annotate(count=Count("id"))\
-#         .values("payment_method", "count").order_by("payment_method")
-
-#     payment_method_dict = dict()
-
-#     for payment_method in Purchase.PAYMENT_METHODS:
-#         payment_method_dict[payment_method[1]] = 0
-
-#     for group in grouped_purchases:
-#         payment_method_dict[dict(Purchase.PAYMENT_METHODS)[group["payment_method"]]] = group["count"]
-
-#     return JsonResponse({
-#         "title": f"Payment method rate in {year}",
-#         "data": {
-#             "labels": list(payment_method_dict.keys()),
-#             "datasets": [{
-#                 "label": "Amount ($)",
-#                 "backgroundColor": generate_color_palette(len(payment_method_dict)),
-#                 "borderColor": generate_color_palette(len(payment_method_dict)),
-#                 "data": list(payment_method_dict.values()),
-#             }]
-#         },
-#     })
-
-
-@staff_member_required
-def statistics_view(request):
-    return render(request, "statistics.html", {})

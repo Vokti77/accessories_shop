@@ -23,8 +23,8 @@ def register(request):
 
             if form.is_valid():
                 form.save()
-                messages.success(request, 'Login Successful')
-                return redirect('login')
+                messages.success(request, 'Your account create Successfully!')
+                return redirect('accounts:login')
                 # return HttpResponse("Account bas been Created!")
 
         contex = {
