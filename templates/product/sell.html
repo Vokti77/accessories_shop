@@ -73,20 +73,7 @@
     document.getElementById('total').innerHTML = "Total : " + total;
   }
 
-  function enableSubmitButton() {
-    var quantityValue = document.getElementById('input1').value;
-    var priceValue = document.getElementById('input2').value;
-    var submitButton = document.getElementById('submitBtn');
 
-    if (quantityValue !== '' && priceValue !== '') {
-      submitButton.disabled = false;
-    } else {
-      submitButton.disabled = true;
-    }
-  }
-
-  // Call the enableSubmitButton function whenever the user types in the input fields
-  document.getElementById('input1').addEventListener('input', enableSubmitButton);
-  document.getElementById('input2').addEventListener('input', enableSubmitButton);
+  
 </script>
 {% endblock %}
