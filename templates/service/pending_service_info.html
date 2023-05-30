@@ -15,7 +15,7 @@
 
 <div class="page-breadcrumb pb-4">
     <div class="row">
-        <div class="col-12 d-flex no-block align-items-center">
+        <div class="col-12 d-md-flex no-block align-items-center">
             <h4 class="page-title text-success" style="font-size: xx-large;">Pending Servicing Info</h4>
             <div class="ml-auto text-right">
                 <nav aria-label="breadcrumb">
@@ -51,8 +51,8 @@
                         <td>{{ins.servicer_name}}</td>
                         <td>{{ins.servicing_name}}</td>
                         <td>{{ins.sevicing_cost}}</td>
-                        <td  onclick="return confirm('Are you sure you want to delete this?')">
-                            <span class="status-button text-danger test" data-hover="Mark as In Complete" data-task-id="{{ ins.id }}" data-status="completed">Pending</span>
+                        <td  onclick="return confirm('Are you sure you want to complete this service?')">
+                            <span class="status-button text-danger test" data-hover="Mark as In Complete" data-task-id="{{ ins.id }}" data-status="complete">Pending</span>
                         </td>
                         <!-- {% if ins.status == "pending"%}
                         <td style="color: red;"> <a href="{% url 'update-status' ins.id %}">{{ins.status}}</a></td>
