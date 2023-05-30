@@ -15,7 +15,7 @@
 
 <div class="page-breadcrumb pb-4">
     <div class="row">
-        <div class="col-12 d-flex no-block align-items-center">
+        <div class="col-12 d-md-flex no-block align-items-center">
             <h5 class="page-title text-success" style="font-size: xx-large;">Completed Servicing Info</h5>
             <div class="ml-auto text-right">
                 <nav aria-label="breadcrumb">
@@ -35,7 +35,7 @@
         <div class="table-responsive">
             <table id="zero_config" class="table table-striped table-hover table-sm">
                 <thead class="font-bold text-success" style="font-size: medium; font: bold; background-color:#3e5569;">
-                <tr>
+                <tr class="font-bold text-white text-center">
                     <th>Servicer Name</th>
                     <th>Servicing Info</th>
                     <th>Cost</th>
@@ -46,12 +46,12 @@
             <tbody class="text-center">
                 {% for instance in service %}
 
-                    <tr onmouseover="this.style.fontWeight='bold'; this.style.backgroundColor='gray';" onmouseout="this.style.fontWeight='normal'; this.style.backgroundColor='white'">
+                    <tr onmouseover="this.style.fontWeight='bold'; this.style.backgroundColor='#B2EBF2'; this.style.color='black'" onmouseout="this.style.fontWeight='normal'; this.style.backgroundColor='white'">
                         <td>{{instance.servicer_name}}</td>
                         <td>{{instance.servicing_name}}</td>
-                        <td>{{instance.sevicing_cost}}</td>
+                        <td class="text-right">{{instance.sevicing_cost}}</td>
                         {% if instance.status == "complete" %}
-                        <td style="color: rgb(24, 128, 3);">{{instance.status}}</td>
+                        <td style="color: gray;">{{instance.status}}</td>
                         {% endif %}
                         <td>{{instance.date_added}}</td>     
                     </tr>

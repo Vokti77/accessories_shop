@@ -81,19 +81,28 @@
         <form method="POST" id="example-form" action="{% url 'dashboard:report' %}" class=" dG" novalidate="novalidate">
             {% csrf_token %}
            
-            <label class="font-16 p-r-10"> From Date  </label>
-            <input type="date" name="from_date" class="text-16 text-secondary ">
-            <label class="font-16 p-r-30 pr-md-10">To Date  </label>
-            <input type="date" name="to_date" class="text-16 text-secondary">
-            <input type="submit" value="Search" class="btn btn-info m-l-90 ml-md-20">
+            <div class="d-md-flex">
+                <div class="m-2">
+                    <label class="font-16 p-r-10"> From Date </label>
+                    <input type="date" name="from_date" class="text-16 text-secondary p-2">
+                </div>
+                <div class="m-2">
+                    <label class="font-16 p-r-30 pr-md-10">To Date </label>
+                    <input type="date" name="to_date" class="text-16 text-secondary p-2">
+                </div>
+                <div class="m-2 mx-auto m-l-90 ml-md-20" >
+                    <input type="submit" value="Search" class="btn btn-info  p-2">
+                </div>
+
+            </div>
         </form>
     </div>
     <div>
         <form method="POST" id="example-form" action="{% url 'dashboard:report' %}" class="dG" novalidate="novalidate">
             {% csrf_token %}
-            <div class=" ">
+            <div class=" p-2">
                 <label class="p-r-10 font-16">Select :</label>
-                <select name="month" class="m-r-20 text-secondary">
+                <select name="month" class="m-r-20 text-secondary p-2">
                     <option value="">Select A Month </option>
                     <option value="01" {% if current_month == 1 %}selected{% endif %}>January</option>
                     <option value="02" {% if current_month == 2 %}selected{% endif %}>February</option>

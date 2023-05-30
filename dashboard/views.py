@@ -156,7 +156,7 @@ def add_product(request):
     form = ProductsForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         form.save()
-        messages.success(request, "The brand has been added successfully!")
+        messages.success(request, "The product has been added successfully!")
         return redirect('dashboard:tables')
     else:
         form = ProductsForm()
@@ -171,7 +171,7 @@ def add_brand(request):
     if form.is_valid():
         form.save()
         messages.success(request, "The brand has been added successfully!")
-        return redirect('dashboard:tables')
+        return redirect('dashboard:add-model')
     else:
         form = BrandForm()
     context = {
@@ -184,8 +184,8 @@ def add_model(request):
     form = ModelForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         form.save()
-        messages.success(request, "The brand has been added successfully!")
-        return redirect('dashboard:tables')
+        messages.success(request, "The model has been added successfully!")
+        return redirect('dashboard:add-product')
     else:
         form = ModelForm()
     context = {

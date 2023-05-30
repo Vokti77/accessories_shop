@@ -48,7 +48,7 @@ def update_status(request, service_id):
     if request.method == 'POST':
         new_status = request.POST.get('status')
         
-        if new_status == 'completed' and task.status == 'pending':
+        if new_status == 'complete' and task.status == 'pending':
             task.status = new_status
             task.save()
             return HttpResponse()  # Return a success response
@@ -66,7 +66,7 @@ def upadate_service(request, service_id):
     form = ServicingForm(request.POST or None, request.FILES or None, instance=service_inc)
     if form.is_valid():
         form.save()
-        return redirect('service-info')
+        return redirect('service-info', type='pending')
     else:
         form = ServicingForm()
     return render(request, 'service/update.html', context)
@@ -76,4 +76,4 @@ def upadate_service(request, service_id):
 def delete_service(request, service_id):
     service = get_object_or_404(Service, id=service_id)
     service.delete()
-    return redirect('service-info')
+    return redirect('service-info', type='pending')
