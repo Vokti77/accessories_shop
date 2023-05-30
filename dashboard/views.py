@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from accessories.models import Product, Sale, Brand, Model, ProductQuantityHistory
+from service.models import Service
 from account.models import MyUser
 from django.contrib.auth.models import User
 from dashboard.forms import ModelForm, ProductsForm, BrandForm, SearchForm
@@ -32,12 +33,15 @@ def index(request):
     current_day = now.strftime("%d")
     
     sales = len(Sale.objects.all())
+    service = len(Service.objects.all())
 
-    transaction = len(Sale.objects.filter(
-        sale_at__year=current_year,
-        sale_at__month = current_month,
-    
-    ))
+    # monthly_service = len(Service.objects.filter(
+    #     date_added__year=current_year,
+    #     date_added__month = current_month,
+    # )).all()
+
+    # monthly_service_amount = sum(monthly_service.values_list('sevicing_cost', flat=True))
+    # print(monthly_service_amount)
 
     today_sales = Sale.objects.filter(
         sale_at__year=current_year,
