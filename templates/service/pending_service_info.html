@@ -10,8 +10,8 @@
 {% block page_title %}
  Servicing Info
 {% endblock %}
-
 {% block content %}
+
 
 <div class="page-breadcrumb pb-4">
     <div class="row">
@@ -20,8 +20,8 @@
             <div class="ml-auto text-right">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a class="btn btn-success" href="{% url 'dashboard:dashboard' %}">Home</a></li>
-                        <li class="breadcrumb-item"><a class="btn btn-success" href="{% url 'add-service' %}">Add Servicing</a></li>
+                        <li class="breadcrumb-item"><a class="btn btn-success dG" href="{% url 'dashboard:dashboard' %}">Home</a></li>
+                        <li class="breadcrumb-item"><a class="btn btn-success dG" href="{% url 'add-service' %}">Add Servicing</a></li>
                     </ol>
                 </nav>
             </div>
@@ -34,8 +34,8 @@
         <div class="table-responsive">
         <div class="table-responsive">
             <table id="zero_config" class="table table-striped table-hover table-sm">
-                <thead class="font-bold text-success" style="font-size: medium; font: bold; background-color:#3e5569;">
-                <tr>
+                <thead class="font-bold text-success text-center" style="font-size: medium; font: bold; background-color:#1f2b3d;">
+                <tr class="font-bold text-white">
                     <th>Servicer Name</th>
                     <th>Servicing Info</th>
                     <th>Cost</th>
@@ -47,22 +47,24 @@
             <tbody class="text-center">    
                 {% for ins in services %}
                    
-                    <tr onmouseover="this.style.fontWeight='bold'; this.style.backgroundColor='gray';" onmouseout="this.style.fontWeight='normal'; this.style.backgroundColor='white'">
+                    <tr onmouseover="this.style.fontWeight='bold'; this.style.backgroundColor='#B2EBF2'; this.style.color='black'" onmouseout="this.style.fontWeight='normal'; this.style.backgroundColor='white'">
                         <td>{{ins.servicer_name}}</td>
                         <td>{{ins.servicing_name}}</td>
                         <td>{{ins.sevicing_cost}}</td>
-                        <td><span class="status-button" data-task-id="{{ ins.id }}" data-status="complete">Mark as In Complete</span></td>
+                        <td  onclick="return confirm('Are you sure you want to delete this?')">
+                            <span class="status-button text-danger test" data-hover="Mark as In Complete" data-task-id="{{ ins.id }}" data-status="completed">Pending</span>
+                        </td>
                         <!-- {% if ins.status == "pending"%}
                         <td style="color: red;"> <a href="{% url 'update-status' ins.id %}">{{ins.status}}</a></td>
                         {% endif %} -->
                         <td>{{ins.date_added}}</td>
                         <td>
                             <a href="{% url 'upadate-service' ins.id %}" data-toggle="tooltip" data-placement="top" title="Update">
-                                <i class="mdi mdi-check"></i>
+                                <i class="mdi mdi-check fa-lg text-success"></i>
                             </a>
                             
-                            <a href="{% url 'delete-service' ins.id %}" data-toggle="tooltip" data-placement="top" title="Delete">
-                                </i><i class="mdi mdi-close"></i>
+                            <a href="{% url 'delete-service' ins.id %}" data-toggle="tooltip" data-placement="top" title="Delete"  onclick="return confirm('Are you sure you want to delete this?')">
+                                </i><i class="mdi mdi-close text-danger fa-lg"></i>
                         </td>
                     </tr>
                 {% endfor %}     

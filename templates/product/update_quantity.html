@@ -1,29 +1,118 @@
-{% extends 'base.html' %}
-{% block content %}
-  <h1 align="center"> Product Quantity Update. </h1>
+{% extends 'base.html' %} {% block content %}
+
+<!-- <style>
+  .dG {
+      font-size: large;
+      color: #fff;
+      border: 2px double transparent;
+      /* background-image: linear-gradient(#046491,#046491); */
+      background-image: linear-gradient(#14A44D,#14A4),radial-gradient(circle at left top,#016eda,#d900c0);
+      /* background-color: aliceblue; */
+      background-origin: border-box;
+      background-clip: padding-box,border-box;
+      box-shadow: 20px 10px linear-gradient(90deg,red,#ffc800 22%,#ff117c 50%,#4e1dff 79%,#0f0);
+      padding: 10px;
+      border-radius: 10px;
+  }
+</style> -->
+
+
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 d-flex no-block align-items-center">
+      <h4 class="page-title">
+        {% for message in messages %}
+        <div class="container-fluid p-0">
+          <div class="alert {{ message.tags }} alert-success" role="alert">
+            <button
+              type="button"
+              class="close"
+              data-dismiss="alert"
+              aria-label="Close"
+            >
+              <span aria-hidden="True">&times;</span>
+            </button>
+            {{ message }}
+          </div>
+        </div>
+        {% endfor %}
+      </h4>
+      <div class="ml-auto text-right">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <!-- <li class="breadcrumb-item"><a class="btn btn-success" href="{% url 'dashboard:add-brand' %}">Add Brand</a></li> -->
+            <li class="breadcrumb-item">
+              <a class="btn btn-success dG" href="{% url 'dashboard:tables' %}"
+                >Back To Products</a
+              >
+            </li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-6 mx-auto shadow-sm">
+      <div class="card shadow-lg dG">
+        <div class="card-body wizard-content">
+          <h1 align="center"> Product Quantity Update. </h1>
 
 <div class=" display: flex; justify-content: center;">
   <form action="{% url 'dashboard:update-confirm' product_id %}" method="POST" novalidate style="margin-top: 50px;" enctype="multipart/form-data"  >
-    <p>Product Name : {{ product.product_name }} </p>
-    <p>Stock_Quantity : {{ product.product_quantity}}</p>
-    <p>Last Buying Price : {{ product.buying_price}}</p>
+    
+    
+    
+    <table id="zero-config" class="table table-striped table-hover table-sm">
+      <thead  class="text-center" style="font-size: medium; background-color: #1f2b3d;">
+        <tr class="font-bold text-white">
+          <th>Product Name</th>
+          <th>Stock Quantity</th>
+          <th>Last Buying Price</th>
+        </tr>
+      </thead>
+      <tbody class="text-center font-bold">
+        <tr>
+          <td>{{ product.product_name }}</td>
+          <td>{{ product.product_quantity}}</td>
+          <td>{{ product.buying_price}}</td>
+        </tr>
+      </tbody>
+    </table>
     <br><br>
       {% csrf_token %}
-      Add New Quantity : <input type="number" id="input1" name="quantity" onkeyup="mul()" style="padding-left: 50px;" ><br><br>
-      Buying Price : <input type="number" id="input2" name="buy" onkeyup="mul()" style="padding-left: 50px;">
-      
-      <br><br>
+
+      <div class="form__linput">
+        <input class="form__input" type="number" name="quantity" id="input1" pattern="\w{1,}" required onkeyup="mul()" />
+        <label class="form__label" style="background-color: white;" for="fname">Add New Quantity</label>
+      </div>
+      <br>
+      <div class="form__linput">
+        <input class="form__input" type="number" name="buy" id="input2" pattern="\w{1,}" required  onkeyup="mul()"/>
+        <label class="form__label"  style="background-color: white;" for="lname">Buying Price </label>
+      </div>
+      <!-- Add New Quantity : <input type="number" id="input1" name="quantity" onkeyup="mul()" style="padding-left: 50px;" ><br><br>
+      Buying Price : <input type="number" id="input2" name="buy" onkeyup="mul()" style="padding-left: 50px;"> -->
+      <br>
       <span id="total"  style="font-size: 20px; font-weight: bold; text-align: center;"></span>
-        <br><br>
-      <input class="btn btn-outline-dark btn-block" type="submit" value="Add Quantity">
+        <br>
+      <input class="btn btn-success btn-block" type="submit"  value="Add Quantity">
   </form>
 </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
-  function mul(){
-    var input1 = document.getElementById('input1').value;
-    var input2 = document.getElementById('input2').value;
+  function mul() {
+    var input1 = document.getElementById("input1").value;
+    var input2 = document.getElementById("input2").value;
     var total = input1 * input2;
-    document.getElementById('total').innerHTML = "Total : " + total;
+    document.getElementById("total").innerHTML = "Total : " + total;
   }
 </script>
 {% endblock %}

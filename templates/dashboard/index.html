@@ -1,8 +1,14 @@
 {% extends 'base.html' %} 
+{% load mathfilters %}
+{% load i18n %}
 {% load static %} 
 {% load humanize %} 
+{% block extra_css %}
+<style xmlns="http://www.w3.org/1999/html">
+</style>
+{% endblock %}
 {% block content%}
-
+<div>
 <body>
 <div class="page-breadcrumb">
   <div class="row">
@@ -45,30 +51,30 @@
             <!-- column -->
             <div class="col-lg-12 p-b-20">
               <div class="row">
-                <div class="col-md-6 col-lg-2 col-xlg-3 card card-hover">
-                  <div class="bg-dark p-10 text-white text-center">
+                <div class="col-md-6 col-lg-2 col-xlg-3 card card-hover rounded">
+                  <div class="bg-dark p-10 text-white text-center h-100 rounded shadow-sm">
                     <i class="fa fa-user m-b-5 font-16"></i>
                     <h5 class="m-b-0 m-t-5">{{users}}</h5>
                     <small class="font-light">Total Users</small>
                   </div>
                 </div>
-                <div class="col-md-6 col-lg-2 col-xlg-3 card card-hover">
-                  <div class="bg-warning p-10 text-white text-center">
+                <div class="col-md-6 col-lg-2 col-xlg-3 card card-hover rounded">
+                  <div class="bg-warning p-10 text-white text-center h-100 rounded shadow-sm">
                     <i class="fa fa-plus m-b-5 font-16"></i>
                     <h5 class="m-b-0 m-t-5">{{ total_item }}</h5>
                     <small class="font-light">Total Items</small>
                   </div>
                 </div>
 
-                <div class="col-md-6 col-lg-2 col-xlg-3 card card-hover">
-                  <div class="bg-info p-10 text-white text-center">
+                <div class="col-md-6 col-lg-2 col-xlg-3 card card-hover rounded">
+                  <div class="bg-info p-10 text-white text-center h-100 rounded shadow-sm">
                     <i class="m-r-10 mdi mdi-cash-multiple m-b-5 font-16"></i>
                     <h5 class="m-b-0 m-t-5">{{ total_amount|intcomma }} TK.</h5>
                     <small class="font-light">Total Amount</small>
                   </div>
                 </div>
-                <div class="col-md-6 col-lg-2 col-xlg-3 card card-hover">
-                  <div class="bg-info p-10 text-white text-center">
+                <div class="col-md-6 col-lg-2 col-xlg-3 card card-hover rounded">
+                  <div class="bg-info p-10 text-white text-center h-100 rounded shadow-sm">
                     <i class="fa fa-cart-plus m-b-5 font-16"></i>
                     <h5 class="m-b-0 m-t-5">
                       {{ total_Sale_amount|intcomma }}
@@ -76,8 +82,8 @@
                     <small class="font-light">Total Sales Amount</small>
                   </div>
                 </div>
-                <div class="col-md-6 col-lg-2 col-xlg-3 card card-hover">
-                  <div class="bg-success p-10 text-white text-center">
+                <div class="col-md-6 col-lg-2 col-xlg-3 card card-hover rounded">
+                  <div class="bg-success p-10 text-white text-center h-100 rounded shadow-sm">
                     <i class="m-r-10 mdi mdi-cash-multiple m-b-5 font-16"></i>
                     <h5 class="m-b-0 m-t-5">
                       {{today_sale_amount|intcomma }} TK.
@@ -85,8 +91,8 @@
                     <small class="font-light">Today Sale Amount</small>
                   </div>
                 </div>
-                <div class="col-md-6 col-lg-2 col-xlg-3 card card-hover">
-                  <div class="bg-success p-10 text-white text-center">
+                <div class="col-md-6 col-lg-2 col-xlg-3 card card-hover rounded">
+                  <div class="bg-success p-10 text-white text-center h-100 rounded shadow-sm">
                     <i class="m-r-10 mdi mdi-cash m-b-5 font-16"></i>
                     <h5 class="m-b-0 m-t-5">{{ today_profit|intcomma }} TK.</h5>
                     <small class="font-light">Today Profit</small>

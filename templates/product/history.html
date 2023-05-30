@@ -13,6 +13,22 @@
 {% load crispy_forms_tags %}
 {% block content %}
 
+<!-- <style>
+    .dG {
+        font-size: large;
+        color: black;
+        border: 2px double transparent;
+        /* background-image: linear-gradient(#046491,#046491); */
+        background-image: linear-gradient(#14A44D,#14A4),radial-gradient(circle at left top,#016eda,#d900c0);
+        /* background-color: aliceblue; */
+        background-origin: border-box;
+        background-clip: padding-box,border-box;
+        box-shadow: 20px 10px linear-gradient(90deg,red,#ffc800 22%,#ff117c 50%,#4e1dff 79%,#0f0);
+        padding: 10px;
+        border-radius: 10px;
+    }
+</style> -->
+
 <div class="page-breadcrumb">
     <div class="row">
         <div class="col-12 d-flex no-block align-items-center">
@@ -20,40 +36,84 @@
         </div>
     </div>
 </div>
-<form method="POST" id="example-form" action="{% url 'dashboard:update-history' %}" class="m-t-40" novalidate="novalidate">
+
+
+<!-- <div class="d-md-flex justify-content-around m-t-40 m-l-20 m-b-40 w-100 mx-auto">
+    <form method="POST" id="example-form" action="{% url 'dashboard:report' %}" class=" dG"
+    novalidate="novalidate">
     {% csrf_token %}
-    <label class="font-16 p-r-10"> From Date : </label>
-    <input type="date" name="from_date" class="text-16 text-secondary">
-    <label class="font-16 p-r-10">To Date : </label>
-    <input type="date" name="to_date" class="text-16 text-secondary">
-    <input type="submit" value="Search" class="btn btn-info">
-</form>
-<br>
-<form method="POST" id="example-form" action="{% url 'dashboard:update-history' %}" novalidate="novalidate">
-    {% csrf_token %}
-    <div class="d-flex "  >
-        <label class="p-r-10 font-16" >Select  :</label>
-        <select name="month" >
-        <option value="">Select A Month </option>
-        <option value="01" {% if current_month == 1 %}selected{% endif %}>January</option>
-        <option value="02" {% if current_month == 2 %}selected{% endif %}>February</option>
-        <option value="03" {% if current_month == 3 %}selected{% endif %}>March</option>
-        <option value="04" {% if current_month == 4 %}selected{% endif %}>April</option>
-        <option value="05" {% if current_month == 5 %}selected{% endif %}>May</option>
-        <option value="06" {% if current_month == 6 %}selected{% endif %}>June</option>
-        <option value="07" {% if current_month == 7 %}selected{% endif %}>July</option>
-        <option value="08" {% if current_month == 8 %}selected{% endif %}>August</option>
-        <option value="09" {% if current_month == 9 %}selected{% endif %}>September</option>
-        <option value="10" {% if current_month == 10 %}selected{% endif %}>October</option>
-        <option value="11" {% if current_month == 11 %}selected{% endif %}>November</option>
-        <option value="12" {% if current_month == 12 %}selected{% endif %}>December</option>
-    </select>
-    <!-- <p type="text" name="year" placeholder="Year" value="{{ year }}" >
-        {% now 'Y' %}
-    </p> -->
-    <input type="submit" value="Search" class="btn btn-info">
+        <h4>Day to Day Or Year to Year Report</h4>
+        <label class="font-16 p-r-10"> From Date : </label>
+        <input type="date" name="from_date" class="text-16 text-secondary w-100 "> <br><br>
+        <label class="font-16 p-r-10">To Date : </label>
+        <input type="date" name="to_date" class="text-16 text-secondary w-100"> <br><br>
+        <input type="submit" value="Search" class="btn btn-info btn-block dG">
+    </form>
+
+    <form method="POST" id="example-form" action="{% url 'dashboard:report' %}" class="dG"
+        novalidate="novalidate">
+        {% csrf_token %}
+        <div class=" w-100">
+            <h4>Monthly Report</h4>
+            <label class="p-r-10 font-16">Select :</label><br>
+            <select name="month" class="m-r-20 text-secondary w-100">
+                <option value="">Select A Month </option>
+                <option value="01" {% if current_month == 1 %}selected{% endif %}>January</option>
+                <option value="02" {% if current_month == 2 %}selected{% endif %}>February</option>
+                <option value="03" {% if current_month == 3 %}selected{% endif %}>March</option>
+                <option value="04" {% if current_month == 4 %}selected{% endif %}>April</option>
+                <option value="05" {% if current_month == 5 %}selected{% endif %}>May</option>
+                <option value="06" {% if current_month == 6 %}selected{% endif %}>June</option>
+                <option value="07" {% if current_month == 7 %}selected{% endif %}>July</option>
+                <option value="08" {% if current_month == 8 %}selected{% endif %}>August</option>
+                <option value="09" {% if current_month == 9 %}selected{% endif %}>September</option>
+                <option value="10" {% if current_month == 10 %}selected{% endif %}>October</option>
+                <option value="11" {% if current_month == 11 %}selected{% endif %}>November</option>
+                <option value="12" {% if current_month == 12 %}selected{% endif %}>December</option>
+            </select> <br><br>
+            <input type="submit" value="Search" class="btn btn-info btn-block dG">
+        </div>
+    </form>
+</div> -->
+
+<div class="d-md-flex justify-content-between p-10 p-md-40">
+    <div class="m-b-20">
+        <form method="POST" id="example-form" action="{% url 'dashboard:report' %}" class=" dG" novalidate="novalidate">
+            {% csrf_token %}
+           
+            <label class="font-16 p-r-10"> From Date  </label>
+            <input type="date" name="from_date" class="text-16 text-secondary ">
+            <label class="font-16 p-r-30 pr-md-10">To Date  </label>
+            <input type="date" name="to_date" class="text-16 text-secondary">
+            <input type="submit" value="Search" class="btn btn-info m-l-90 ml-md-20">
+        </form>
     </div>
-</form>
+    <div>
+        <form method="POST" id="example-form" action="{% url 'dashboard:report' %}" class="dG" novalidate="novalidate">
+            {% csrf_token %}
+            <div class=" ">
+                <label class="p-r-10 font-16">Select :</label>
+                <select name="month" class="m-r-20 text-secondary">
+                    <option value="">Select A Month </option>
+                    <option value="01" {% if current_month == 1 %}selected{% endif %}>January</option>
+                    <option value="02" {% if current_month == 2 %}selected{% endif %}>February</option>
+                    <option value="03" {% if current_month == 3 %}selected{% endif %}>March</option>
+                    <option value="04" {% if current_month == 4 %}selected{% endif %}>April</option>
+                    <option value="05" {% if current_month == 5 %}selected{% endif %}>May</option>
+                    <option value="06" {% if current_month == 6 %}selected{% endif %}>June</option>
+                    <option value="07" {% if current_month == 7 %}selected{% endif %}>July</option>
+                    <option value="08" {% if current_month == 8 %}selected{% endif %}>August</option>
+                    <option value="09" {% if current_month == 9 %}selected{% endif %}>September</option>
+                    <option value="10" {% if current_month == 10 %}selected{% endif %}>October</option>
+                    <option value="11" {% if current_month == 11 %}selected{% endif %}>November</option>
+                    <option value="12" {% if current_month == 12 %}selected{% endif %}>December</option>
+                </select>
+                <input type="submit" value="Search" class="btn btn-info dG">
+            </div>
+        </form>
+
+    </div>
+</div>
 
 <script>
     document.getElementById("search_by").addEventListener("change", function() {
@@ -76,8 +136,8 @@
    <div class="table-responsive">
         
             <table id="zero_config" class="table table-striped table-hover table-sm">
-                <thead class="text-center" style="font-size: medium; background-color: #1F262D;">
-                <tr class="font-bold text-success">
+                <thead class="text-center" style="font-size: medium; background-color: #1f2b3d;">
+                <tr class="font-bold text-white">
                     <th>Name</th>
                     <th>Brand</th>
                     <th>Received Quantity</th>
@@ -89,7 +149,7 @@
             </thead>
             <tbody class="text-center">
                 {% for quantity in history %}
-                <tr onmouseover="this.style.fontWeight='bold'; this.style.backgroundColor='gray';" onmouseout="this.style.fontWeight='normal'; this.style.backgroundColor='white'">
+                <tr onmouseover="this.style.fontWeight='bold'; this.style.backgroundColor='#B2EBF2';this.style.color='black';" onmouseout="this.style.fontWeight='normal'; this.style.backgroundColor='white'">
                     <td>{{ quantity.product.product_name }}</td>
                     <td>{{ quantity.product.model.brand.name }}</td>
                     <td>{{ quantity.quantity_added }}</td>
@@ -100,8 +160,17 @@
                 </tr>
                 {% endfor %}   
             </tbody>
-            <tfoot style="background-color: rgb(221, 215, 215); font-family: garamond; ">
-             
+            <tfoot style="background-color: rgb(221, 215, 215); font-family: garamond; font-weight: 900;">
+                <tr >
+                    <th class="text-center">Total </th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </tfoot> 
         </table>
         <div class="col-md-12">
             {% if products.has_other_pages %}

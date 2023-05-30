@@ -48,7 +48,7 @@ def update_status(request, service_id):
     if request.method == 'POST':
         new_status = request.POST.get('status')
         
-        if new_status == 'complete' and task.status == 'pending':
+        if new_status == 'completed' and task.status == 'pending':
             task.status = new_status
             task.save()
             return HttpResponse()  # Return a success response

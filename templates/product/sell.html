@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 
+
 <div class="page-breadcrumb">
   <div class="row">
     <div class="col-12 d-flex no-block align-items-center">
@@ -26,7 +27,7 @@
           <ol class="breadcrumb">
             <!-- <li class="breadcrumb-item"><a class="btn btn-success" href="{% url 'dashboard:add-brand' %}">Add Brand</a></li> -->
             <li class="breadcrumb-item">
-              <a class="btn btn-success" href="{% url 'dashboard:tables' %}"
+              <a class="btn btn-success dG" href="{% url 'dashboard:tables' %}"
                 >Back To Products</a
               >
             </li>
@@ -40,21 +41,43 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-6 mx-auto shadow-sm">
-      <div class="card shadow-lg">
+      <div class="card shadow-lg dG">
         <div class="card-body wizard-content">
           <h2 align="center">Product Saleing Info.</h2>
-          <form action="{% url 'dashboard:confirm-Sale' product_id %}" method="POST" novalidate style="margin-top: 50px;" enctype="multipart/form-data"  >
-            <p>Product: {{ product.product_name }} </p>
-            <p>Total Quantity: {{ product.product_quantity}}</p>
-            <p>Excepted Saleing Price: {{ product.expecting_Saleing_price}}</p>
-            <br><br>
+          <form action="{% url 'dashboard:confirm-Sale' product_id %}" method="POST" novalidate style="margin-top: 20px;" enctype="multipart/form-data" >
+            <table id="zero-config" class="table table-striped table-hover table-sm">
+              <thead class="text-center" style="font-size: medium; background-color: #1f2b3d;">
+                <tr class="font-bold text-white">
+                  <th>Product</th>
+                  <th>Total Qunatity</th>
+                  <th>Exepted Saleing Price</th>
+                </tr>
+              </thead>
+              <tbody class="text-center font-bold">
+                <tr>
+                  <td>{{ product.product_name }}</td>
+                  <td>{{ product.product_quantity}}</td>
+                  <td>{{ product.expecting_Saleing_price}}</td>
+                </tr>
+              </tbody>
+            </table>
+            <br>
               {% csrf_token %}
-              Quantity : <input type="number" id="input1" name="quantity" required="True" onkeyup="mul()" style="padding-left: 50px;" ><br><br>
-              Sale Price : <input type="number" id="input2" name="price" required="True" onkeyup="mul()" style="padding-left: 50px;">
-              <br><br>
+
+              <div class="form__linput">
+                <input class="form__input" type="number" name="quantity" id="input1" pattern="\w{1,}" required onkeyup="mul()" />
+                <label class="form__label" style="background-color: white;" for="fname">Quantity</label>
+              </div>
+              <br>
+              <div class="form__linput">
+                <input class="form__input" type="number" name="price" id="input2" pattern="\w{1,}" required  onkeyup="mul()"/>
+                <label class="form__label"  style="background-color: white;" for="lname">Sale Price</label>
+              </div>
+              <br>
               <span id="total"  style="font-size: 20px; font-weight: bold; text-align: center;"></span>
                 <br><br>
-              <input class="btn btn-success btn-block" type="submit" value="Sale" id="submitBtn" disabled>
+              
+              <input class="btn btn-success btn-block dG" type="submit" value="Sale" id="submitBtn" disabled>
           </form>
         </div>
       </div>

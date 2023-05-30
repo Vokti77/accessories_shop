@@ -4,7 +4,7 @@ from django.db import models
 class Service(models.Model):
     servicer_name = models.CharField(max_length=100)
     servicing_name = models.CharField(max_length=100, null=False, blank=False)
-    sevicing_cost = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    sevicing_cost = models.DecimalField(max_digits=10, decimal_places=2)
 
     STATUS = [
         ('pending','Pending'),
