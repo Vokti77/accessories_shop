@@ -78,7 +78,7 @@
 
 <div class="d-md-flex justify-content-between p-10 p-md-40">
     <div class="m-b-20">
-        <form method="POST" id="example-form" action="{% url 'dashboard:report' %}" class=" dG" novalidate="novalidate">
+        <form method="POST" id="example-form" action="{% url 'dashboard:update-history' %}" class=" dG" novalidate="novalidate">
             {% csrf_token %}
            
             <div class="d-md-flex">
@@ -98,7 +98,7 @@
         </form>
     </div>
     <div>
-        <form method="POST" id="example-form" action="{% url 'dashboard:report' %}" class="dG" novalidate="novalidate">
+        <form method="POST" id="example-form" action="{% url 'dashboard:update-history' %}" class="dG" novalidate="novalidate">
             {% csrf_token %}
             <div class=" p-2">
                 <label class="p-r-10 font-16">Select :</label>
