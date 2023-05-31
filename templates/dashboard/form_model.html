@@ -66,7 +66,28 @@
                         <h6 class="card-subtitle"></h6>
                         <form method="POST" id="example-form" action="#" class="m-t-40" novalidate="novalidate">
                             {% csrf_token %}
-                            {{ form | crispy }}
+                            <!-- {{form | crispy}} -->
+                            <div class="form__linput">
+                                <label
+                                  class="form__label"
+                                  style="background-color: white"
+                                  for="lname"
+                                  >Model Name<span class="text-danger">*</span></label
+                                >
+                              </div>
+                              <div class="form__input" style="width: 100%;">{{ form.name }}</div>
+                            <!-- {{ form.name }} -->
+                              <br>
+                            <div class="form__linput">
+                                <label
+                                  class="form__label"
+                                  style="background-color: white"
+                                  for="lname"
+                                  >Brand Name<span class="text-danger">*</span></label
+                                >
+                              </div>
+                              <div class="form__input">{{ form.brand }}</div>
+                            <!-- {{ form.brand}} -->
                             <br><br>
                             <input class="btn btn-success btn-block dG" type="submit" value="Add">
                         </form>

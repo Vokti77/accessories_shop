@@ -78,18 +78,13 @@
           >
             {% csrf_token %}
             <!-- {{form | crispy }} -->
-
-            <!-- <div class="form__linput">
-                                <label class="form__label" style="background-color: white;" for="fname">Quantity</label>
-                            </div>
-                              <br> -->
             <br />
             <div class="form__linput">
               <label
                 class="form__label"
                 style="background-color: white"
                 for="lname"
-                >Product Name</label
+                >Product Name<span class="text-danger">*</span></label
               >
             </div>
             <div class="form__input">{{ form.product_name }}</div>
@@ -99,7 +94,7 @@
                 class="form__label"
                 style="background-color: white"
                 for="lname"
-                >Model Name</label
+                >Model Name<span class="text-danger">*</span></label
               >
             </div>
             <div class="form__input">{{form.model}}</div>
@@ -109,7 +104,7 @@
                 class="form__label"
                 style="background-color: white"
                 for="lname"
-                >Product Quantity</label
+                >Product Quantity<span class="text-danger">*</span></label
               >
             </div>
             <div class="form__input">{{form.product_quantity}}</div>
@@ -119,7 +114,7 @@
                 class="form__label"
                 style="background-color: white"
                 for="lname"
-                >Buying Price</label
+                >Buying Price<span class="text-danger">*</span></label
               >
             </div>
             <div class="form__input">{{form.buying_price}}</div>
@@ -129,7 +124,7 @@
                 class="form__label"
                 style="background-color: white"
                 for="lname"
-                >Expecting Saleing Price</label
+                >Expecting Saleing Price<span class="text-danger">*</span></label
               >
             </div>
             <div class="form__input">{{form.expecting_Saleing_price}}</div>
@@ -148,22 +143,12 @@
 
 {% endblock %} {% block extra_js %}
 <script>
-  //***********************************//
-  // For select 2
-  //***********************************//
+
   $(".select2").select2();
 
   /*colorpicker*/
   $(".demo").each(function () {
-    //
-    // Dear reader, it's actually very easy to initialize MiniColors. For example:
-    //
-    //  $(selector).minicolors();
-    //
-    // The way I've done it below is just for the demo, so don't get confused
-    // by it. Also, data- attributes aren't supported at this time...they're
-    // only used for this demo.
-    //
+  
     $(this).minicolors({
       control: $(this).attr("data-control") || "hue",
       position: $(this).attr("data-position") || "bottom left",

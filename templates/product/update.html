@@ -58,15 +58,67 @@
     <div class="col-md-6 mx-auto shadow-sm">
       <div class="card shadow-lg dG">
         <div class="card-body wizard-content">
-          <h2 align="center">Update Product</h2>
+          <!-- <i class="mdi mdi-motorbike"></i>
+          <h2 align="center">Update Product</h2> -->
+          <h1 align="center"><i class="mdi mdi-motorbike" style="color: red;"></i> Update Product</h1>
           <form
             method="POST"
             novalidate
             style="margin-top: 50px"
             enctype="multipart/form-data"
           >
-            {% csrf_token %} {{ form | crispy }}
-            <br /><br />
+            {% csrf_token %} 
+            <!-- {{ form | crispy }} -->
+            <div class="form__linput">
+              <label
+                class="form__label"
+                style="background-color: white"
+                for="lname"
+                >Product Name<span class="text-danger">*</span></label
+              >
+            </div>
+            <div class="form__input">{{ form.product_name }}</div>
+            <br />
+            <div class="form__linput">
+              <label
+                class="form__label"
+                style="background-color: white"
+                for="lname"
+                >Model Name<span class="text-danger">*</span></label
+              >
+            </div>
+            <div class="form__input">{{form.model}}</div>
+            <br />
+            <div class="form__linput">
+              <label
+                class="form__label"
+                style="background-color: white"
+                for="lname"
+                >Product Quantity<span class="text-danger">*</span></label
+              >
+            </div>
+            <div class="form__input">{{form.product_quantity}}</div>
+            <br />
+            <div class="form__linput">
+              <label
+                class="form__label"
+                style="background-color: white"
+                for="lname"
+                >Buying Price<span class="text-danger">*</span></label
+              >
+            </div>
+            <div class="form__input">{{form.buying_price}}</div>
+            <br />
+            <div class="form__linput">
+              <label
+                class="form__label"
+                style="background-color: white"
+                for="lname"
+                >Expecting Saleing Price<span class="text-danger">*</span></label
+              >
+            </div>
+            <div class="form__input">{{form.expecting_Saleing_price}}</div>
+            <br />
             <input
               class="btn btn-success btn-block dG"
               type="submit"

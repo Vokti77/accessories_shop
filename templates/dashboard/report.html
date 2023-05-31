@@ -35,20 +35,21 @@ Product Table
         </svg>
 </div> -->
 
-<div class="d-md-flex justify-content-between p-10 p-md-40">
-    <div class="m-b-20">
+<div class="d-md-flex justify-content-between p-10 p-md-40 m-l-20 m-r-20">
+    <div class=" m-b-20">
         <form method="POST" id="example-form" action="{% url 'dashboard:report' %}" class=" dG" novalidate="novalidate">
             {% csrf_token %}
 
-            <div class="d-md-flex">
-                <div class="m-2">
-                    <label class="font-16 p-r-10"> From Date </label>
-                    <input type="date" name="from_date" class="text-16 text-secondary p-2">
-                </div>
-                <div class="m-2">
-                    <label class="font-16 p-r-30 pr-md-10">To Date </label>
-                    <input type="date" name="to_date" class="text-16 text-secondary p-2">
-                </div>
+            <div class="d-md-flex my-auto">
+                <div class="form__linput m-r-10 m-2">
+                    <input class="form__input" type="date" name="from_date" id="input" value="date"/>
+                    <label class="form__label" style="background-color: #eeeeee;" for="fname">From Date</label>
+                  </div>
+                
+                  <div class="form__linput m-2">
+                    <input class="form__input" type="date" name="to_date" id="input" value="date"/>
+                    <label class="form__label"  style="background-color: #eeeeee;" for="lname">To Date</label>
+                  </div>
                 <div class="m-2">
                     <input type="submit" value="Search" class="btn btn-info m-l-90 ml-md-20 p-2">
                 </div>
@@ -56,12 +57,12 @@ Product Table
             </div>
         </form>
     </div>
-    <div>
+    <div >
         <form method="POST" id="example-form" action="{% url 'dashboard:report' %}" class="dG" novalidate="novalidate">
             {% csrf_token %}
-            <div class=" p-2">
-                <label class="p-r-30 pr-md-10 font-16">Select :</label>
-                <select name="month" class="m-r-20 text-secondary p-2">
+
+            <div class="form__linput m-2 d-flex">
+                <select class="form__input" name="month">
                     <option value="">Select A Month </option>
                     <option value="01" {% if current_month == 1 %}selected{% endif %}>January</option>
                     <option value="02" {% if current_month == 2 %}selected{% endif %}>February</option>
@@ -75,9 +76,13 @@ Product Table
                     <option value="10" {% if current_month == 10 %}selected{% endif %}>October</option>
                     <option value="11" {% if current_month == 11 %}selected{% endif %}>November</option>
                     <option value="12" {% if current_month == 12 %}selected{% endif %}>December</option>
+
                 </select>
-                <input type="submit" value="Search" class="btn btn-info dG">
-            </div>
+                <label class="form__label"  style="background-color: #eeeeee;" for="lname">Select</label>
+                <div class="m-1" >
+                    <input type="submit" value="Search" class="btn btn-info  p-2">
+                </div>
+              </div>
         </form>
 
     </div>
@@ -178,6 +183,7 @@ Product Table
                 var selectedOption = this.value;
                 if (selectedOption === "date") {
                     document.getElementById("example-form").action = "{% url 'dashboard:report' %}";
+                    document.getElementById("input").innerHTML.value;
                 } else if (selectedOption === "month") {
                     document.getElementById("example-form").action = "{% url 'dashboard:report' %}";
                 }

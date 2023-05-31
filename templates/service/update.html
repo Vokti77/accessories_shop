@@ -33,11 +33,51 @@
     <div class="col-md-6 mx-auto shadow-sm">
         <div class="card shadow-lg">
             <div class="card-body wizard-content">
-              <h2 align="center">Update Serving Info.</h2>
+              <h2 align="center"><i class="mdi mdi-update"></i> Update Serving Info.</h2>
               <form method="POST" novalidate style="margin-top: 50px" enctype="multipart/form-data" >
                   {% csrf_token %}
-                  {{ form | crispy }}
-                    <br><br>
+                  <!-- {{ form | crispy }} -->
+                    <!-- <br><br> -->
+                    <div class="form__linput">
+                      <label
+                        class="form__label"
+                        style="background-color: white"
+                        for="lname"
+                        >Servicer Name<span class="text-danger">*</span></label
+                      >
+                    </div>
+                    <div class="form__input">{{ form.servicer_name }}</div>
+                    <br />
+                    <div class="form__linput">
+                      <label
+                        class="form__label"
+                        style="background-color: white"
+                        for="lname"
+                        >Servicing Name<span class="text-danger">*</span></label
+                      >
+                    </div>
+                    <div class="form__input">{{form.servicing_name}}</div>
+                    <br />
+                    <div class="form__linput">
+                      <label
+                        class="form__label"
+                        style="background-color: white"
+                        for="lname"
+                        >Servicing Cost<span class="text-danger">*</span></label
+                      >
+                    </div>
+                    <div class="form__input">{{form.sevicing_cost}}</div>
+                    <br />
+                    <div class="form__linput">
+                      <label
+                        class="form__label"
+                        style="background-color: white"
+                        for="lname"
+                        >Status<span class="text-danger">*</span></label
+                      >
+                    </div>
+                    <div class="form__input">{{form.status}}</div>
+                    <br>
                   <input class="btn btn-success btn-block" type="submit" value="Update">
               </form>
             </div>
