@@ -56,7 +56,8 @@
                      <li class="nav-item"><a class="nav-link" href="{% url 'dashboard:dashboard' %}">Dashboard</a></li>
                      <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
                   {% else %}
-                     <li class="nav-item"><a class="nav-link" href="{% url 'account:login' %}">Login</a></li>
+                     <!-- <li class="nav-item"><a class="nav-link" href="{% url 'account:login' %}" data-toggle="modal" data-target="#largeModal">Login</a></li> -->
+                     <li class="nav-item"><a class="nav-link" href="{% url 'account:login' %}" >Login</a></li>
                      <li class="nav-item"><a class="nav-link" href="{% url 'account:register' %}">Register</a></li>
                      {% endif %}
                         
@@ -149,7 +150,78 @@
          </div>
          <!-- banner section end -->
       </div>
-     
+      
+     <!-- modal open -->
+
+     <!-- <div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+      <div class="modal-dialog ">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel">Login Page</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="container-fluid">
+               <div class="row">
+                   <div class="col-md-12 mx-auto shadow-sm inner-shadow">
+                       <div class="card shadow-lg inner-shadow">
+                           <div class="card-body wizard-content">
+                               <div class="text-center p-t-20 p-b-20">
+                                   <span class="db"><img class="border border-3 border-success rounded-circle p-1 inner-img" src="{% static 'images/logo.png' %}" alt="logo"
+                                           style="width: 100px;" /></span>
+                               </div>
+                              <p class="text-center font-bold " style="color: #555; letter-spacing: 1.3px; font-size: 1.4rem;">AinoviQ Accessories</p>
+                               <form class="form-horizontal m-t-20" id="loginform" action="" method="post">
+                                   {% csrf_token %}
+                                   <div class="row p-b-30">
+                                       <div class="col-12">
+                                           <div class="input-group mb-3">
+                                               <div class="input-group-prepend">
+                                                   <span class="input-group-text bg-success text-white"
+                                                       id="basic-addon1"><i class="ti-user"></i></span>
+                                               </div>
+                                               <input type="text" name="username" class="form-control form-control-lg"
+                                                   placeholder="Username" aria-label="Username"
+                                                   aria-describedby="basic-addon1" required="True">
+                                           </div>
+                                           <div class="input-group mb-3">
+                                               <div class="input-group-prepend">
+                                                   <span class="input-group-text bg-warning text-white"
+                                                       id="basic-addon2"><i class="ti-pencil"></i></span>
+                                               </div>
+                                               <input type="password" name="password" class="form-control form-control-lg"
+                                                   placeholder="Password" aria-label="Password"
+                                                   aria-describedby="basic-addon1" required="True">
+                                           </div>
+                                       </div>
+                                   </div>
+                                   <div class="row border-top border-secondary">
+                                       <div class="col-12">
+                                           <div class="form-group">
+                                               <div class="p-t-20">
+                                                   <button class="btn btn-info" id="to-recover" type="button"><a href="{% url 'account:register' %}" class="text-green">Registration Here!</a></button>
+                                                   <button class="btn btn-block btn-lg btn-success"
+                                                       type="submit">Login</button>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </form>
+                               <small style="color: black;">Don't have an account? <a
+                                       href="{% url 'account:register' %}" style="text-decoration: 1px underline red;"
+                                       class="text-secondary">Registration Here!</a></small>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+           </div>
+          </div>
+         
+        </div>
+      </div>
+    </div> -->
      
       <!-- footer section end -->
       <!-- copyright section start -->

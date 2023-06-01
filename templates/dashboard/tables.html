@@ -15,55 +15,15 @@ Product Table
 {% load crispy_forms_tags %}
 {% block content %}
 
-<!-- <style>
 
-     .btnColor {
-        background: #1f2b3d;
-     }
-    .btn3d {
-        position: relative;
-        top: -6px;
-        border: 0;
-        transition: all 40ms linear;
-        margin-top: 10px;
-        margin-bottom: 10px;
-        margin-left: 2px;
-        margin-right: 2px;
-    }
-    .btn3d:active:focus,
-    .btn3d:focus:hover,
-    .btn3d:focus {
-        -moz-outline-style: none;
-        outline: medium none;
-    }
-    .btn3d:active,
-    .btn3d.active {
-        top: 2px;
-    }
-    .btn3d.btn-info {
-        color: #113343;
-        box-shadow: 0 0 0 1px #2255a4 inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset, 0 3px 0 0 #4f77b3, 0 3px 3px 1px rgba(0, 0, 0, 0.5);
-        background-color: #2255a4;
-    }
-    .btn3d.btn-info:active,
-    .btn3d.btn-info.active {
-        color: #113343;
-        box-shadow: 0 0 0 1px #2255a4 inset, 0 0 0 1px rgba(255, 255, 255, 0.15) inset, 0 1px 3px 1px rgba(0, 0, 0, 0.3);
-        background-color: #2255a4;
-    }
+<div class="page-breadcrumb">
+    <div class="row">
+        <div class="col-12 d-flex no-block align-items-center">
+            <h4 class="page-title text-success" style="font-size: xx-large;">Product Datatable</h4>
 
-    .btn3d.btn-success {
-        color: #fff;
-        box-shadow: 0 0 0 1px #28b779 inset, 0 0 0 2px rgba(255, 255, 255, 0.10) inset, 0 8px 0 0 #66b995, 0 8px 8px 1px rgba(0, 0, 0, .2);
-        background-color: #28b779;
-    }
-    .btn3d.btn-success:active,
-    .btn3d.btn-success.active {
-        color: #fff;
-        box-shadow: 0 0 0 1px #28b779 inset, 0 0 0 1px rgba(255, 255, 255, 0.15) inset, 0 1px 3px 1px rgba(0, 0, 0, .1);
-        background-color: #28b779;
-    }
-</style> -->
+        </div>
+    </div>
+</div>
 
 <div class="d-flex justify-content-between p-t-20 p-r-20 p-l-20">
     <div class=" m-b-20 w-50 w-md-25">
@@ -71,8 +31,18 @@ Product Table
             {% csrf_token %}
             <!-- <div class="d-flex "> -->
             <div class="w-100 m-r-10 no-block">
-                {{ form | crispy }}
+                <!-- {{ form | crispy }} -->
+                <div class="form__linput">
+                    <label
+                      class="form__label"
+                      style="background-color: #eeeeee"
+                      for="lname"
+                      >Model Name</label
+                    >
+                  </div>
+                  <div class="form__input" style="border-color: rgb(171, 76%, 45%);">{{ form.model }}</div>
             </div>
+            <br>
             <div class="">
                 <input class="btn btn-info w-100 btn3d" data-toggle="ksjdfkjajs" type="submit" value="Search">
             </div>
@@ -98,7 +68,7 @@ Product Table
 
 <div class="card">
     <div class="card-body">
-        <h5 class="card-title text-success font-bold" style="font-size: xx-large;">Product Datatable</h5>
+        <!-- <h5 class="card-title text-success font-bold" style="font-size: xx-large;">Product Datatable</h5> -->
         <div class="table-responsive">
             <table id="zero_config" class="table table-striped table-bordered table-sm tablecenterheadCSS">
                 <thead style="font-weight: 900; background-color: #1f2b3d; color: antiquewhite;" class="text-center">
@@ -108,10 +78,10 @@ Product Table
                         <th>Model</th>
                         <th>Quantity</th>
                         <th>Buy Price</th>
-                        <th>Expected Selling Price</th>
-                        <th>Total Buying Amount</th>
+                        <th data-toggle="tooltip" data-placement="Top" title="Expected Selling Price">ES Price</th>
+                        <th data-toggle="tooltip" data-placement="Top" title="Total Buying Amount">TB Amount</th>
                         <th>Sale Quantity</th>
-                        <th>Actual Sale Amount</th>
+                        <th data-toggle="tooltip" data-placement="Top" title="Actual Sale Amount">AS Amount</th>
                         <th>Total Profit</th>
                         <th>Action</th>
                         <th>Date_Added</th>
@@ -125,12 +95,14 @@ Product Table
                         <td>{{product.product_name}}</td>
                         <td>{{product.model.brand.name}}</td>
                         <td>{{product.model.name}}</td>
-                        {% if product.product_quantity < 5 %} <td class="text-danger"> <a class="text-danger"
-                                title="Added"
+                        
+                        {% if product.product_quantity < 5 %} 
+                        <td class="text-danger"> <a class="text-danger"
+                                data-toggle="tooltip" data-placement="Top" title="Added More Quantity"
                                 href="{% url 'dashboard:update-quantity' product.id %}">{{product.product_quantity}}</a>
                             </td>
                             {% else %}
-                            <td class="text-danger"> <a title="Added"
+                            <td class="text-danger"> <a data-toggle="tooltip" data-placement="Top" title="Added More Quantity"
                                     href="{% url 'dashboard:update-quantity' product.id %}">{{product.product_quantity}}</a>
                             </td>
                             {% endif %}
@@ -200,7 +172,15 @@ Product Table
     $(document).ready(function () {
         $('#zero_config').DataTable();
     });
+
+   
 </script>
+<script>
+     $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+</script>
+
 
 
 {% endblock %}

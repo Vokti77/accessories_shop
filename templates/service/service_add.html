@@ -1,96 +1,133 @@
-{% extends "base.html" %}
-{% load i18n %}
-{% load static %}
-{% block extra_css %}
-    <style xmlns="http://www.w3.org/1999/html">
-    </style>
-{% endblock %}
-{% block page_title %}
- Form
-{% endblock %}
-{% load crispy_forms_tags %}
-{% block content %}
+{% extends "base.html" %} {% load i18n %} {% load static %} 
+{% block extra_css%}
+<style xmlns="http://www.w3.org/1999/html"></style>
+{% endblock %} {% block page_title %} Form {% endblock %} 
+{% load crispy_forms_tags %} {% block content %}
 
-<!-- <style>
-    .dG {
-        font-size: large;
-        color: black;
-        border: 2px double transparent;
-        /* background-image: linear-gradient(#046491,#046491); */
-        background-image: linear-gradient(#14A44D,#14A4),radial-gradient(circle at left top,#016eda,#d900c0);
-        /* background-color: aliceblue; */
-        background-origin: border-box;
-        background-clip: padding-box,border-box;
-        box-shadow: 20px 10px linear-gradient(90deg,red,#ffc800 22%,#ff117c 50%,#4e1dff 79%,#0f0);
-        padding: 10px;
-        border-radius: 10px;
-    }
-</style> -->
+
 
 <div class="page-breadcrumb">
-    <div class="row">
-        <div class="col-12 d-flex no-block align-items-center">
-            <!-- <h4 class="page-title text-success" style="font-size: xx-large;">Servicing Info.</h4> -->
-            <div class="ml-auto text-right">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a class="btn btn-success" href="{% url 'service-info' %}">Back To Service</a></li>
-                    </ol>
-                </nav>
-            </div>
-        </div>
+  <div class="row">
+    <div class="col-12 d-flex no-block align-items-center">
+      <!-- <h4 class="page-title text-success" style="font-size: xx-large;">Servicing Info.</h4> -->
+      <div class="ml-auto text-right">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a class="btn btn-success" href="{% url 'service-info' %}"
+                >Back To Service</a
+              >
+            </li>
+          </ol>
+        </nav>
+      </div>
     </div>
+  </div>
 </div>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-6 mx-auto shadow-sm">
-            <div class="card shadow-lg dG">
-                <div class="card-body wizard-content">
-                    <h4 class="card-title">Add New Service</h4>
-                    <form method="POST" novalidate style="margin-top: 50px" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        {{ form | crispy }}
-                        <br><br>
-                        <input class="btn btn-success btn-block dG" type="submit" value="Add">
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-               
-{% endblock %}
 
-{% block extra_js %}
+
+<div class="container-fluid mx-auto">
+    <div class="row mx-auto">
+      <div class="col-md-6 mx-auto shadow-sm">
+        <div class="card shadow-lg dG">
+          <div class="card-body wizard-content">
+            <h2 class="card-title text-bold" align="center">Add New Service</h2>
+            <h6 class="card-subtitle"></h6>
+            <form
+              method="POST"
+              id="example-form"
+              action="#"
+              class="m-t-40"
+              novalidate="novalidate"
+            >
+              {% csrf_token %}
+              <!-- {{form | crispy }} -->
+  
+           
+              <br />
+              <div class="form__linput">
+                <label
+                  class="form__label"
+                  style="background-color: white"
+                  for="lname"
+                  >Servicer Name<span class="text-danger">*</span></label
+                >
+              </div>
+              <div class="form__input">{{ form.servicer_name }}</div>
+              <br />
+              <div class="form__linput">
+                <label
+                  class="form__label"
+                  style="background-color: white"
+                  for="lname"
+                  >Servicing Name<span class="text-danger">*</span></label
+                >
+              </div>
+              <div class="form__input">{{form.servicing_name}}</div>
+              <br />
+              <div class="form__linput">
+                <label
+                  class="form__label"
+                  style="background-color: white"
+                  for="lname"
+                  >Servicing Cost<span class="text-danger">*</span></label
+                >
+              </div>
+              <div class="form__input">{{form.sevicing_cost}}</div>
+              <br />
+              <div class="form__linput">
+                <label
+                  class="form__label"
+                  style="background-color: white"
+                  for="lname"
+                  >Status<span class="text-danger">*</span></label
+                >
+              </div>
+              <div class="form__input">{{form.status}}</div>
+              <br />
+              
+              
+              <input
+                class="btn btn-success btn-block dG"
+                type="submit"
+                value="Add"
+              />
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %} {% block extra_js %}
 <script>
-    $(".select2").select2();
-    $('.demo').each(function () {
-        
-        $(this).minicolors({
-            control: $(this).attr('data-control') || 'hue',
-            position: $(this).attr('data-position') || 'bottom left',
+  $(".select2").select2();
+  $(".demo").each(function () {
+    $(this).minicolors({
+      control: $(this).attr("data-control") || "hue",
+      position: $(this).attr("data-position") || "bottom left",
 
-            change: function (value, opacity) {
-                if (!value) return;
-                if (opacity) value += ', ' + opacity;
-                if (typeof console === 'object') {
-                    console.log(value);
-                }
-            },
-            theme: 'bootstrap'
-        });
+      change: function (value, opacity) {
+        if (!value) return;
+        if (opacity) value += ", " + opacity;
+        if (typeof console === "object") {
+          console.log(value);
+        }
+      },
+      theme: "bootstrap",
+    });
+  });
 
-    });
-    /*datwpicker*/
-    jQuery('.mydatepicker').datepicker();
-    jQuery('#datepicker-autoclose').datepicker({
-        autoclose: true,
-        todayHighlight: true
-    });
+  /*datwpicker*/
+  jQuery(".mydatepicker").datepicker();
+  jQuery("#datepicker-autoclose").datepicker({
+    autoclose: true,
+    todayHighlight: true,
+  });
 
-    var quill = new Quill('#editor', {
-        theme: 'snow'
-    });
+  var quill = new Quill("#editor", {
+    theme: "snow",
+  });
 </script>
 
 {% endblock %}
