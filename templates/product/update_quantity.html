@@ -1,5 +1,20 @@
-{% extends 'base.html' %}
-{% block content %}
+{% extends 'base.html' %} {% block content %}
+
+<!-- <style>
+  .dG {
+      font-size: large;
+      color: #fff;
+      border: 2px double transparent;
+      /* background-image: linear-gradient(#046491,#046491); */
+      background-image: linear-gradient(#14A44D,#14A4),radial-gradient(circle at left top,#016eda,#d900c0);
+      /* background-color: aliceblue; */
+      background-origin: border-box;
+      background-clip: padding-box,border-box;
+      box-shadow: 20px 10px linear-gradient(90deg,red,#ffc800 22%,#ff117c 50%,#4e1dff 79%,#0f0);
+      padding: 10px;
+      border-radius: 10px;
+  }
+</style> -->
 
 
 <div class="page-breadcrumb">
@@ -43,61 +58,63 @@
     <div class="col-md-6 mx-auto shadow-sm">
       <div class="card shadow-lg dG">
         <div class="card-body wizard-content">
-          <!-- <h2 align="center">Product Saleing Info.</h2> -->
-          <h1 align="center"><i class="mdi mdi-sale"></i> Product Saleing Info.</h1>
+          <h1 align="center"> Product Quantity Update. </h1>
 
-          <form action="{% url 'dashboard:confirm-Sale' product_id %}" method="POST" novalidate style="margin-top: 20px;" enctype="multipart/form-data" >
-            <table id="zero-config" class="table table-striped table-hover table-sm">
-              <thead class="text-center" style="font-size: medium; background-color: #1f2b3d;">
-                <tr class="font-bold text-white">
-                  <th>Product</th>
-                  <th>Total Qunatity</th>
-                  <th>Exepted Saleing Price</th>
-                </tr>
-              </thead>
-              <tbody class="text-center font-bold">
-                <tr>
-                  <td>{{ product.product_name }}</td>
-                  <td>{{ product.product_quantity}}</td>
-                  <td>{{ product.expecting_Saleing_price}}</td>
-                </tr>
-              </tbody>
-            </table>
-            <br>
-              {% csrf_token %}
+<div class=" display: flex; justify-content: center;">
+  <form action="{% url 'dashboard:update-confirm' product_id %}" method="POST" novalidate style="margin-top: 50px;" enctype="multipart/form-data"  >
+    
+    
+    
+    <table id="zero-config" class="table table-striped table-hover table-sm">
+      <thead  class="text-center" style="font-size: medium; background-color: #1f2b3d;">
+        <tr class="font-bold text-white">
+          <th>Product Name</th>
+          <th>Stock Quantity</th>
+          <th>Last Buying Price</th>
+        </tr>
+      </thead>
+      <tbody class="text-center font-bold">
+        <tr>
+          <td>{{ product.product_name }}</td>
+          <td>{{ product.product_quantity}}</td>
+          <td>{{ product.buying_price}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <br><br>
+      {% csrf_token %}
 
-              <div class="form__linput">
-                <input class="form__input" type="number" name="quantity" id="input1" pattern="\w{1,}" required onkeyup="mul()" />
-                <label class="form__label" style="background-color: white;" for="fname">Quantity</label>
-              </div>
-              <br>
-              <div class="form__linput">
-                <input class="form__input" type="number" name="price" id="input2" pattern="\w{1,}" required  onkeyup="mul()"/>
-                <label class="form__label"  style="background-color: white;" for="lname">Sale Price</label>
-              </div>
-              <br>
-              <span id="total"  style="font-size: 20px; font-weight: bold; text-align: center;"></span>
-                <br>
-              
-              <input class="btn btn-success btn-block dG" type="submit" value="Sale" id="submitBtn" disabled>
-          </form>
+      <div class="form__linput">
+        <input class="form__input" type="number" name="quantity" id="input1" pattern="\w{1,}" required onkeyup="mul()" />
+        <label class="form__label" style="background-color: white;" for="fname">Add New Quantity</label>
+      </div>
+      <br>
+      <div class="form__linput">
+        <input class="form__input" type="number" name="buy" id="input2" pattern="\w{1,}" required  onkeyup="mul()"/>
+        <label class="form__label"  style="background-color: white;" for="lname">Buying Price </label>
+      </div>
+      <!-- Add New Quantity : <input type="number" id="input1" name="quantity" onkeyup="mul()" style="padding-left: 50px;" ><br><br>
+      Buying Price : <input type="number" id="input2" name="buy" onkeyup="mul()" style="padding-left: 50px;"> -->
+      <br>
+      <span id="total"  style="font-size: 20px; font-weight: bold; text-align: center;"></span>
+        <br>
+      <input class="btn btn-success btn-block" type="submit"  value="Add Quantity">
+  </form>
+</div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-
-
-
 <script>
-  function mul(){
-    var input1 = document.getElementById('input1').value;
-    var input2 = document.getElementById('input2').value;
+  function mul() {
+    var input1 = document.getElementById("input1").value;
+    var input2 = document.getElementById("input2").value;
     var total = input1 * input2;
-    document.getElementById('total').innerHTML = "Total : " + total;
+    document.getElementById("total").innerHTML = "Total : " + total;
   }
-
+  
   function enableSubmitButton() {
     var quantityValue = document.getElementById('input1').value;
     var priceValue = document.getElementById('input2').value;
@@ -113,6 +130,6 @@
   // Call the enableSubmitButton function whenever the user types in the input fields
   document.getElementById('input1').addEventListener('input', enableSubmitButton);
   document.getElementById('input2').addEventListener('input', enableSubmitButton);
-  
+
 </script>
 {% endblock %}
