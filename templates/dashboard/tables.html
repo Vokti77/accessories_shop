@@ -25,7 +25,7 @@ Product Table
     </div>
 </div>
 
-<div class="d-flex justify-content-between p-t-20 p-r-20 p-l-20">
+<div class="d-md-flex justify-content-between p-t-20 p-r-20 p-l-20">
     <div class=" m-b-20 w-50 w-md-25">
         <form method="POST" id="example-form" action="{% url 'dashboard:tables' %}" novalidate="novalidate">
             {% csrf_token %}
@@ -51,12 +51,14 @@ Product Table
     </div>
     <div class="page-breadcrumb p-0">
         <div class="row">
-            <div class="col-12 d-flex no-block align-items-center">
+            <div class="col-12 d-flex align-items-center">
                 <div class=" text-right">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a class="btn btn-success" href="{% url 'dashboard:add-brand' %}">Add New Brand</a></li>
+                            <li class="breadcrumb-item"><a class="btn btn-success" href="{% url 'dashboard:add-model' %}">Add New Model</a></li>
                             <!-- <li class="breadcrumb-item"><a class="btn btn-success" href="{% url 'dashboard:dashboard' %}">Home</a></li> -->
-                            <li class="breadcrumb-item"><a class="btn btn-success btn3d btn2d"
+                            <li class="breadcrumb-item"><a class="btn btn-success  "
                                     href="{% url 'dashboard:add-product' %}">Add Product</a></li>
                         </ol>
                     </nav>

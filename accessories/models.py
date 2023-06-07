@@ -3,7 +3,7 @@ from django.utils import timezone
 
 # Create your models here.
 class Brand(models.Model):
-    name = models.TextField(unique=True)
+    name = models.CharField(unique=True, max_length=100)
     date_added = models.DateTimeField(default=timezone.now) 
     date_updated = models.DateTimeField(auto_now=True) 
 
@@ -11,7 +11,7 @@ class Brand(models.Model):
         return self.name
     
 class Model(models.Model):
-    name = models.TextField(unique=True)
+    name = models.CharField(unique=True, max_length=100)
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE,  blank=True, default=True)
     date_added = models.DateTimeField(default=timezone.now) 
     date_updated = models.DateTimeField(auto_now=True) 

@@ -30,12 +30,12 @@
 
     <div class="page-breadcrumb">
         <div class="row">
-            <div class="col-12 d-flex no-block align-items-center">
+            <div class="col-md-12 no-block align-items-center">
                 <h4 class="page-title">
                     {% for message in messages %}
                     <div class="container-fluid p-0">
                     <div class="alert {{ message.tags }} alert-success" role="alert" >
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <button type="button" class="close btn-danger" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="True">&times;</span>
                     </button>
                     {{ message }}
@@ -43,10 +43,16 @@
                     </div>
                     {% endfor %}
                 </h4>
+                
+            </div>
+           
+        </div>
+        <div class="row">
+            <div class="col-md-12 mx-auto">
                 <div class="mx-auto text-right">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a class="btn btn-success dG" href="{% url 'dashboard:add-model' %}">Back to Add Model</a></li>
+                            <li class="breadcrumb-item"><a class="btn btn-success dG" href="{% url 'dashboard:tables' %}">Back to Add Products</a></li>
                         </ol>
                     </nav>
                 </div>
