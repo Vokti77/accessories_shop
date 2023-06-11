@@ -38,9 +38,7 @@ def service_info(request):
     total_amount = 0
     services = Service.objects.filter(status='pending')
     service = Service.objects.filter(status='complete')
-    # for x in services:
-    #     total_amount += x.sevicing_cost
-
+ 
     for x in service:
         total_amount += x.sevicing_cost
 

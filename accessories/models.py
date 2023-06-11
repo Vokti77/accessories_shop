@@ -3,7 +3,7 @@ from django.utils import timezone
 
 # Create your models here.
 class Brand(models.Model):
-    name = models.CharField(unique=True, max_length=100)
+    name = models.CharField(max_length=50, unique=True)
     date_added = models.DateTimeField(default=timezone.now) 
     date_updated = models.DateTimeField(auto_now=True) 
 
@@ -11,7 +11,7 @@ class Brand(models.Model):
         return self.name
     
 class Model(models.Model):
-    name = models.CharField(unique=True, max_length=100)
+    name = models.CharField(max_length=50, unique=True)
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE,  blank=True, default=True)
     date_added = models.DateTimeField(default=timezone.now) 
     date_updated = models.DateTimeField(auto_now=True) 
@@ -21,7 +21,8 @@ class Model(models.Model):
     
 class Product(models.Model):
     product_name = models.CharField(max_length=100, null=False, blank=False)
-    model = models.ForeignKey(Model, on_delete=models.CASCADE,  blank=True, default=True)
+    brand = models.ForeignKey(Brand, on_delete=models.CASCADE,  null=False, default='')
+    model = models.ForeignKey(Model, on_delete=models.CASCADE,  null=False, default='')
     product_quantity = models.PositiveIntegerField()  # Initial product quantity
     buying_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     sale_quantity = models.PositiveIntegerField(default=0)

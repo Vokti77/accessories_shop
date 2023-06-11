@@ -28,8 +28,8 @@
 </style> -->
 
     <div class="page-breadcrumb">
-        <div class="row">
-            <div class="col-12 d-flex no-block align-items-center">
+        <div class="row justify-content-center">
+            <div class="col-12 align-items-center">
                 <h4 class="page-title">
                     {% for message in messages %}
                     <div class="container-fluid p-0">
@@ -42,10 +42,10 @@
                     </div>
                     {% endfor %}
                 </h4>
-                <div class="mx-auto text-center">
+                <div class=" text-center" style="width: 50%; margin: 0 auto;">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a class="btn btn-success dG" href="{% url 'dashboard:add-product' %}">Back To Add Product</a></li>
+                            <li class="breadcrumb-item"><a class="btn btn-success dG" href="{% url 'dashboard:tables' %}">Back To Products</a></li>
                             <!-- <li class="breadcrumb-item"><a class="btn btn-success dG" href="{% url 'dashboard:add-brand' %}">Add New Brand</a></li> -->  
                         </ol>
                     </nav>

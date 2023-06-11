@@ -92,14 +92,18 @@ def tables(request):
     total_Sale_amount = 0
     profit = 0
     total_profit = 0
-   
+
+    models = Model.objects.all()
+    brands = Brand.objects.all()
+
+    brandID = request.GET.get('brands')
+    
+
    # Search
     if 'quary_set' in request.GET:
         quary_set = request.GET['quary_set']
-        # product_item = Product.objects.filter(product_name__icontains=quary_set, model_name__icontains=quary_set)
         multiple_q = Q(Q(product_name__icontains=quary_set) | Q(model__icontains=quary_set))
         product_item = Product.objects.filter(multiple_q)
-        
     else:
         product_item = Product.objects.all().order_by('added_at')
         form = SearchForm(request.POST or None)
@@ -113,6 +117,11 @@ def tables(request):
             if (model != ''):
                 product_item = product_item.filter(model_id=model)
 
+        elif brandID:
+            product_item = Product.objects.filter(model=brandID)
+        else:
+            product_item = Product.objects.all()
+
         total_item = product_item.count()
         low_quantity_products = Product.objects.filter(product_quantity__lt=5).count()
         for product in product_item:
@@ -123,22 +132,7 @@ def tables(request):
             total_amount += product.buying_price*product.product_quantity
             total_Sale_amount += product.actual_Sale_price
             total_profit += profit 
-
-        # Pagination
-        # page = request.GET.get('page', 1)
-        # paginator = Paginator(product_item, 10)
-        # try:
-        #     product_item = paginator.page(page)
-
-        # except PageNotAnInteger:
-        #     # fall back to first page
-        #     product_item = paginator.page(1)
-        # except EmptyPage:
-        #     # fall back to last page
-        #     product_item = paginator.page(paginator.num_pages) 
-    
-    models = Model.objects.all()
-    brands = Brand.objects.all()
+  
 
     context = {
         'form':form,
@@ -150,10 +144,9 @@ def tables(request):
         'profit' : profit,
         'total_profit' : total_profit,
         'total_Sale_amount': total_Sale_amount,
-        # 'paginator': paginator,
         'low_quantity_products': low_quantity_products
     }
-    return render(request, ['dashboard/tables.html', 'dashboard/index.html'], context)
+    return render(request, 'dashboard/tables.html', context)
 
 @login_required(login_url='account:login')
 def add_product(request):
@@ -161,7 +154,7 @@ def add_product(request):
     if form.is_valid():
         form.save()
         messages.success(request, "The product has been added successfully!")
-        return redirect('dashboard:tables')
+        return redirect('dashboard:add-product')
     else:
         form = ProductsForm()
     context = {
@@ -171,15 +164,17 @@ def add_product(request):
 
 @login_required(login_url='account:login')
 def add_brand(request):
+    brands = Brand.objects.all()
     form = BrandForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         form.save()
         messages.success(request, "The brand has been added successfully!")
-        return redirect('dashboard:add-model')
+        return redirect('dashboard:add-brand')
     else:
         form = BrandForm()
     context = {
         'form': form,
+        'brands': brands,
     }
     return render(request, "dashboard/form_brand.html", context)
 
@@ -189,7 +184,7 @@ def add_model(request):
     if form.is_valid():
         form.save()
         messages.success(request, "The model has been added successfully!")
-        return redirect('dashboard:add-product')
+        return redirect('dashboard:add-model')
     else:
         form = ModelForm()
     context = {
@@ -212,6 +207,30 @@ def upadate_product(request, product_id):
     else:
         form = ProductsForm()
     return render(request, 'product/update.html', context)
+
+def upadate_brand(request, brand_id):
+    brand = Brand.objects.get(id=brand_id)
+    form = BrandForm(instance=brand)
+    
+    context = {
+        "form": form,
+    }
+    brand_inc = Brand.objects.get(id=brand_id)
+    form = BrandForm(request.POST or None, request.FILES or None, instance=brand_inc)
+    if form.is_valid():
+        form.save()
+        return redirect('dashboard:add-brand')
+    else:
+        form = ProductsForm()
+    return render(request, 'product/brand_update.html', context)
+
+@login_required(login_url='account:login')
+def delete_brand(request, brand_id):
+    brand = get_object_or_404(Brand, id=brand_id)
+    brand.delete()
+    messages.success(request, "The product has been delete successfully!")
+    # return redirect('dashboard:tables')
+    return redirect('dashboard:add-brand')
 
 @login_required(login_url='account:login')
 def update_product_quantity(request, product_id):
@@ -290,6 +309,7 @@ def sale_quantity(request, product_id):
 
 @login_required(login_url='account:login')
 def confirm_Sale(request, product_id):
+
     try:
         quantity = int(request.POST.get('quantity'))
         sale_price = int(request.POST.get('price'))
@@ -302,6 +322,7 @@ def confirm_Sale(request, product_id):
         #     sale.total_Sale_price += (sale_price*quantity)
         #     sale.save()
         # else:
+        
         sale = Sale(sale_quantity=quantity, sale_price=sale_price, product=sale_q, sale_at=date.today())
         sale.total_Sale_price = sale_price * quantity
         sale.save()
@@ -316,6 +337,7 @@ def confirm_Sale(request, product_id):
     except Exception as e:
         print(e)
         raise Exception("Something wrong")
+
 
 from datetime import datetime
 @login_required(login_url='account:login')

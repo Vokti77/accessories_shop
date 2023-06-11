@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
 
-
 <div class="page-breadcrumb">
   <div class="row">
     <div class="col-12 d-flex no-block align-items-center">
@@ -27,7 +26,7 @@
           <ol class="breadcrumb">
             <!-- <li class="breadcrumb-item"><a class="btn btn-success" href="{% url 'dashboard:add-brand' %}">Add Brand</a></li> -->
             <li class="breadcrumb-item">
-              <a class="btn btn-success dG" href="{% url 'dashboard:tables' %}"
+              <a class="btn btn-success" href="{% url 'dashboard:tables' %}"
                 >Back To Products</a
               >
             </li>
@@ -41,7 +40,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-6 mx-auto shadow-sm">
-      <div class="card shadow-lg dG">
+      <div class="card shadow-lg">
         <div class="card-body wizard-content">
           <!-- <h2 align="center">Product Saleing Info.</h2> -->
           <h1 align="center"><i class="mdi mdi-sale"></i> Product Saleing Info.</h1>
@@ -65,7 +64,6 @@
             </table>
             <br>
               {% csrf_token %}
-
               <div class="form__linput">
                 <input class="form__input" type="number" name="quantity" id="input1" pattern="\w{1,}" required onkeyup="mul()" />
                 <label class="form__label" style="background-color: white;" for="fname">Quantity</label>
@@ -73,7 +71,7 @@
               <br>
               <div class="form__linput">
                 <input class="form__input" type="number" name="price" id="input2" pattern="\w{1,}" required  onkeyup="mul()"/>
-                <label class="form__label"  style="background-color: white;" for="lname">Sale Price</label>
+                <label class="form__label"  style="background-color: white;" for="lname">Sale Price </label>
               </div>
               <br>
               <span id="total"  style="font-size: 20px; font-weight: bold; text-align: center;"></span>
@@ -90,29 +88,29 @@
 
 
 
-<script>
-  function mul(){
-    var input1 = document.getElementById('input1').value;
-    var input2 = document.getElementById('input2').value;
-    var total = input1 * input2;
-    document.getElementById('total').innerHTML = "Total : " + total;
-  }
-
-  function enableSubmitButton() {
-    var quantityValue = document.getElementById('input1').value;
-    var priceValue = document.getElementById('input2').value;
-    var submitButton = document.getElementById('submitBtn');
-
-    if (quantityValue !== '' && priceValue !== '') {
-      submitButton.disabled = false;
-    } else {
-      submitButton.disabled = true;
+  <script>
+    function mul(){
+      var input1 = document.getElementById('input1').value;
+      var input2 = document.getElementById('input2').value;
+      var total = input1 * input2;
+      document.getElementById('total').innerHTML = "Total : " + total;
     }
-  }
 
-  // Call the enableSubmitButton function whenever the user types in the input fields
-  document.getElementById('input1').addEventListener('input', enableSubmitButton);
-  document.getElementById('input2').addEventListener('input', enableSubmitButton);
-  
-</script>
+    function enableSubmitButton() {
+      var quantityValue = document.getElementById('input1').value;
+      var priceValue = document.getElementById('input2').value;
+      var submitButton = document.getElementById('submitBtn');
+
+      if (quantityValue !== '' && priceValue !== '') {
+        submitButton.disabled = false;
+      } else {
+        submitButton.disabled = true;
+      }
+    }
+
+    // Call the enableSubmitButton function whenever the user types in the input fields
+    document.getElementById('input1').addEventListener('input', enableSubmitButton);
+    document.getElementById('input2').addEventListener('input', enableSubmitButton);
+    
+  </script>
 {% endblock %}
