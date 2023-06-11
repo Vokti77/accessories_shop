@@ -189,4 +189,10 @@ input {
         -8px -8px 15px #fff;
   }
 
+
+.hudaiBg {
+  background: #654ea3;
+  background: -webkit-linear-gradient(to left, #654ea3, #eaafc8);
+  background: linear-gradient(to left, #654ea3, #eaafc8);
+}
   
