@@ -1,74 +1,87 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 
-<div class="col-md-6">
-    <h5 class="text-success" style="font-size: large;text-align: center;"> Latest Sale Products</h5>
+<div class="col-md-6 mx-auto">
+  <h5 class="text-success" style="font-size: large; text-align: center">
+    Latest Sale Products
+  </h5>
+  <canvas id="myChart"></canvas>
+  <!-- <div class="chart-container" style="position: relative; height:30vh; width:50vw">
     <canvas id="myChart"></canvas>
+</div> -->
 </div>
 
 <script>
-    var ctx = document.getElementById('myChart').getContext('2d');
+  var ctx = document.getElementById('myChart').getContext('2d');
 
-    // Generate an array of product names and sale quantities
-    var products = [{% for product in product_item %} '{{ product.product_name }}', {% endfor %}];
-    var quantities = [{% for product in product_item %} {{ product.sale_quantity }}, {% endfor %}];
+  // Generate an array of product names and sale quantities
+  var products = [{% for product in product_item %} '{{ product.product_name }}', {% endfor %}];
+  var quantities = [{% for product in product_item %} {{ product.sale_quantity }}, {% endfor %}];
 
-    // Calculate the total quantity
-    var totalQuantity = quantities.reduce(function(a, b) {
-        return a + b;
-    }, 0);
+  // Calculate the total quantity
+  var totalQuantity = quantities.reduce(function(a, b) {
+      return a + b;
+  }, 0);
 
-    // Calculate the percentage for each quantity
-    var percentages = quantities.map(function(sale_quantity) {
-        return ((sale_quantity / totalQuantity) * 100).toFixed(2);
-    });
+  // Calculate the percentage for each quantity
+  var percentages = quantities.map(function(sale_quantity) {
+      return ((sale_quantity / totalQuantity) * 100).toFixed(2);
+  });
 
-    var myChart = new Chart(ctx, {
-        type: 'pie',
-        data: {
-            labels: products,
-            datasets: [{
-                label: 'Summary of Products',
-                data: quantities,
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.8)',
-                    'rgba(54, 162, 235, 0.8)',
-                    'rgba(255, 206, 86, 0.8)',
-                    'rgba(75, 192, 192, 0.8)',
-                    'rgba(153, 102, 255, 0.8)',
-                    'rgba(255, 159, 64, 0.8)',
-                    'rgba(240, 120, 50, 0.8)',
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)',
-                    'rgba(240, 120, 50, 1)',
-                ],
-                borderWidth: 2
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            },
-            plugins: {
-                tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            var dataIndex = context.dataIndex;
-                            var label = products[dataIndex];
-                            var sale_quantity = quantities[dataIndex];
-                            var percentage = percentages[dataIndex];
-                            return label + ': ' + sale_quantity + ' (' + percentage + '%)';
-                        }
-                    }
-                }
-            }
-        }
-    });
+  var myChart = new Chart(ctx, {
+      type: 'pie',
+      data: {
+          labels: products,
+          datasets: [{
+              label: 'Summary of Products',
+              data: quantities,
+              backgroundColor: [
+                  'rgba(255, 99, 132, 0.8)',
+                  'rgba(54, 162, 235, 0.8)',
+                  'rgba(255, 206, 86, 0.8)',
+                  'rgba(75, 192, 192, 0.8)',
+                  'rgba(153, 102, 255, 0.8)',
+                  'rgba(255, 159, 64, 0.8)',
+                  'rgba(240, 120, 50, 0.8)',
+              ],
+              borderColor: [
+                  'rgba(255, 99, 132, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 206, 86, 1)',
+                  'rgba(75, 192, 192, 1)',
+                  'rgba(153, 102, 255, 1)',
+                  'rgba(255, 159, 64, 1)',
+                  'rgba(240, 120, 50, 1)',
+              ],
+              borderWidth: 2
+          }]
+      },
+      options: {
+          scales: {
+              y: {
+                  beginAtZero: true
+              }
+          },
+          plugins: {
+              tooltip: {
+                  callbacks: {
+                      label: function(context) {
+                          var dataIndex = context.dataIndex;
+                          var label = products[dataIndex];
+                          var sale_quantity = quantities[dataIndex];
+                          var percentage = percentages[dataIndex];
+                          return label + ': ' + sale_quantity + ' (' + percentage + '%)';
+                      }
+                  }
+              },
+              title: {
+              display: true,
+              text: 'Custom Chart Title',
+              padding: {
+                  top: 10,
+                  bottom: 30
+              }
+          }
+          }
+      }
+  });
 </script>

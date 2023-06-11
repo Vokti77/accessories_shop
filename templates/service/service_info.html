@@ -4,23 +4,25 @@
 {% load static %}
 
 {% block extra_css %}
-    <style xmlns="http://www.w3.org/1999/html">
-    </style>
+<style xmlns="http://www.w3.org/1999/html">
+</style>
 {% endblock %}
 {% block page_title %}
- Servicing Info
+Servicing Info
 {% endblock %}
+{% load crispy_forms_tags %}
 {% block content %}
 
 
 <div class="page-breadcrumb pb-4">
     <div class="row">
-        <div class="col-12 d-flex no-block align-items-center">
+        <div class="col-12 d-md-flex no-block align-items-center">
             <h4 class="page-title text-success" style="font-size: xx-large;">Servicing Info</h4>
             <div class="ml-auto text-right">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a class="btn btn-success dG" href="{% url 'dashboard:dashboard' %}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a class="btn btn-success dG"
+                                href="{% url 'dashboard:dashboard' %}">Dashboard</a></li>
                         <li class="breadcrumb-item"><a class="btn btn-success dG" href="{% url 'add-service' %}">Add Servicing</a></li>
                     </ol>
                 </nav>
@@ -33,111 +35,118 @@
 <div class="card">
     <div class="card-body">
         <div class="table-responsive">
-        <div class="table-responsive">
-            <table id="zero_config" class="table table-striped table-hover table-sm">
-                <thead class="font-bold text-success text-center" style="font-size: medium; font: bold; background-color:#1f2b3d;">
-                <tr class="font-bold text-white">
-                    <th>Servicer Name</th>
-                    <th>Servicing Info</th>
-                    <th>Cost</th>
-                    <th>Status</th>
-                    <th>Date</th>
-                    <th>Action</th>  
-                </tr>
-            </thead>
-            <tbody class="text-center">    
-                {% for ins in services %}
-                   
-                    <tr onmouseover="this.style.fontWeight='bold'; this.style.backgroundColor='#B2EBF2'; this.style.color='black'" onmouseout="this.style.fontWeight='normal'; this.style.backgroundColor='white'">
-                        <td>{{ins.servicer_name}}</td>
-                        <td>{{ins.servicing_name}}</td>
-                        <td>{{ins.sevicing_cost}}</td>
-                        <td  onclick="return confirm('Are you sure you want to delete this?')">
-                            <span class="status-button text-danger test" data-hover="Mark as In Complete" data-task-id="{{ ins.id }}" data-status="complete">Pending</span>
-                        </td>
-                        <!-- {% if ins.status == "pending"%}
+            <div class="table-responsive">
+                <table id="zero_config" class="table table-striped table-hover table-sm">
+                    <thead class="font-bold text-success text-center"
+                        style="font-size: medium; font: bold; background-color:#1f2b3d;">
+                        <tr class="font-bold text-white">
+                            <th>Servicer Name</th>
+                            <th>Servicing Info</th>
+                            <th>Cost</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center">
+                        {% for ins in services %}
+
+                        <tr onmouseover="this.style.fontWeight='bold'; this.style.backgroundColor='#B2EBF2'; this.style.color='black'"
+                            onmouseout="this.style.fontWeight='normal'; this.style.backgroundColor='white'">
+                            <td>{{ins.servicer_name}}</td>
+                            <td>{{ins.servicing_name}}</td>
+                            <td>{{ins.sevicing_cost}}</td>
+                            <td onclick="return confirm('Are you sure you want to complete this service?')">
+                                <span class="status-button text-danger test" data-hover="Mark as In Complete"
+                                    data-task-id="{{ ins.id }}" data-status="complete">Pending</span>
+                            </td>
+                            <!-- {% if ins.status == "pending"%}
                         <td style="color: red;"> <a href="{% url 'update-status' ins.id %}">{{ins.status}}</a></td>
                         {% endif %} -->
-                        <td>{{ins.date_added}}</td>
-                        <td>
-                            <a href="{% url 'upadate-service' ins.id %}" data-toggle="tooltip" data-placement="top" title="Update">
-                                <i class="mdi mdi-check fa-lg text-success"></i>
-                            </a>
-                            
-                            <a href="{% url 'delete-service' ins.id %}" data-toggle="tooltip" data-placement="top" title="Delete"  onclick="return confirm('Are you sure you want to delete this?')">
-                                </i><i class="mdi mdi-close text-danger fa-lg"></i>
-                        </td>
-                    </tr>
-                {% endfor %}     
-            </tbody>
-        </table>
-    </div>
-</div>
+                            <td>{{ins.date_added}}</td>
+                            <td>
+                                <a href="{% url 'upadate-service' ins.id %}" data-toggle="tooltip" data-placement="top"
+                                    title="Update">
+                                    <i class="mdi mdi-check fa-lg text-success"></i>
+                                </a>
 
-
-
-<div class="card">
-    <div class="card-body">
-        <div class="table-responsive">
-        <div class="table-responsive">
-            <table id="zero_config" class="table table-striped table-hover table-sm">
-                <thead class="font-bold text-success text-center" style="font-size: medium; font: bold; background-color:#1f2b3d;">
-                <tr class="font-bold text-white">
-                    <th>Servicer Name</th>
-                    <th>Servicing Info</th>
-                    <th>Cost</th>
-                    <th>Status</th>
-                    <th>Date</th>
-                </tr>
-            </thead>
-            <tbody class="text-center">
-                {% for instance in service %}
-
-                    <tr onmouseover="this.style.fontWeight='bold'; this.style.backgroundColor='#B2EBF2'; this.style.color='black'" onmouseout="this.style.fontWeight='normal'; this.style.backgroundColor='white'">
-                        <td>{{instance.servicer_name}}</td>
-                        <td>{{instance.servicing_name}}</td>
-                        <td class="text-right">{{instance.sevicing_cost}}</td>
-                        {% if instance.status == "complete" %}
-                        <td style="color: gray;">{{instance.status}}</td>
-                        {% endif %}
-                        <td>{{instance.date_added}}</td>     
-                    </tr>
-                {% endfor %}     
-            </tbody>
-            <tfoot style="background-color: rgb(221, 215, 215); font-family: garamond; ">
-                <tr>
-                    <!-- <th> </th> -->
-                    <th class="text-center font-bold">Total</th>
-                    <th class="text-right font-bold" colspan="2"> {{total_amount}}</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </tfoot> 
-        </table>
+                                <a href="{% url 'delete-service' ins.id %}" data-toggle="tooltip" data-placement="top"
+                                    title="Delete" onclick="return confirm('Are you sure you want to delete this?')">
+                                    </i><i class="mdi mdi-close text-danger fa-lg"></i>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
-</div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-  $(document).ready(function() {
-    $('.status-button').click(function() {
-      var taskId = $(this).data('task-id');
-      var newStatus = $(this).data('status');
-      
-      $.ajax({
-        type: "POST",
-        url: "{% url 'update-status' 0 %}".replace('0', taskId),
-        data: { 'status': newStatus, 'csrfmiddlewaretoken': '{{ csrf_token }}' },
-        success: function() {
-          location.reload();  // Refresh the page after the status update
-        },
-        error: function(xhr, textStatus, errorThrown) {
-          console.log('Status update failed:', errorThrown);
-        }
-      });
-    });
-  });
-</script>
-{% endblock %}
 
+
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <div class="table-responsive">
+                        <table id="zero_config" class="table table-striped table-hover table-sm">
+                            <thead class="font-bold text-success text-center"
+                                style="font-size: medium; font: bold; background-color:#1f2b3d;">
+                                <tr class="font-bold text-white">
+                                    <th>Servicer Name</th>
+                                    <th>Servicing Info</th>
+                                    <th>Cost</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-center">
+                                {% for instance in service %}
+
+                                <tr onmouseover="this.style.fontWeight='bold'; this.style.backgroundColor='#B2EBF2'; this.style.color='black'"
+                                    onmouseout="this.style.fontWeight='normal'; this.style.backgroundColor='white'">
+                                    <td>{{instance.servicer_name}}</td>
+                                    <td>{{instance.servicing_name}}</td>
+                                    <td class="text-right">{{instance.sevicing_cost}}</td>
+                                    {% if instance.status == "complete" %}
+                                    <td style="color: gray;">{{instance.status}}</td>
+                                    {% endif %}
+                                    <td>{{instance.date_added}}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            <tfoot style="background-color: rgb(221, 215, 215); font-family: garamond; ">
+                                <tr>
+                                    <!-- <th> </th> -->
+                                    <th class="text-center font-bold">Total</th>
+                                    <th class="text-right font-bold" colspan="2"> {{total_amount}}</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script>
+                $(document).ready(function () {
+                    $('.status-button').click(function () {
+                        var taskId = $(this).data('task-id');
+                        var newStatus = $(this).data('status');
+
+                        $.ajax({
+                            type: "POST",
+                            url: "{% url 'update-status' 0 %}".replace('0', taskId),
+                            data: { 'status': newStatus, 'csrfmiddlewaretoken': '{{ csrf_token }}' },
+                            success: function () {
+                                location.reload();  // Refresh the page after the status update
+                            },
+                            error: function (xhr, textStatus, errorThrown) {
+                                console.log('Status update failed:', errorThrown);
+                            }
+                        });
+                    });
+                });
+            </script>
+            {% endblock %}

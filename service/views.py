@@ -10,7 +10,7 @@ def add_service(request):
    
     if form.is_valid():
         form.save()
-        return redirect('service-info', type='pending')
+        return redirect('service-info')
     else:
         form = ServicingForm()
     
@@ -38,9 +38,7 @@ def service_info(request):
     total_amount = 0
     services = Service.objects.filter(status='pending')
     service = Service.objects.filter(status='complete')
-    for x in services:
-        total_amount += x.sevicing_cost
-
+ 
     for x in service:
         total_amount += x.sevicing_cost
 

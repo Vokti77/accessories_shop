@@ -8,7 +8,11 @@ app_name = 'dashboard'
 urlpatterns = [
     path('redirect-admin/', RedirectView.as_view(url="/admin"),name="redirect-admin"),
     path('dashboard', views.index, name='dashboard'),
+
     path('add_brand/', views.add_brand, name='add-brand'),
+    path('upadate_brand/<int:brand_id>/', views.upadate_brand, name='upadate-brand'),
+    path('delete_brand/<int:brand_id>/', views.delete_brand, name='delete-brand'),
+
     path('add_model/', views.add_model, name='add-model'),
     path('add_product/', views.add_product, name='add-product'),
     path('upadate_product/<int:product_id>/', views.upadate_product, name='upadate-product'),

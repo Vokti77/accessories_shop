@@ -42,8 +42,8 @@
           <ol class="breadcrumb">
             <!-- <li class="breadcrumb-item"><a class="btn btn-success" href="{% url 'dashboard:add-brand' %}">Add Brand</a></li> -->
             <li class="breadcrumb-item">
-              <a class="btn btn-success dG" href="{% url 'dashboard:tables' %}"
-                >Back To Products</a
+              <a class="btn btn-success dG" href="{% url 'dashboard:add-brand' %}"
+                >Back To Brand</a
               >
             </li>
           </ol>
@@ -60,7 +60,7 @@
         <div class="card-body wizard-content">
           <!-- <i class="mdi mdi-motorbike"></i>
           <h2 align="center">Update Product</h2> -->
-          <h1 align="center"><i class="mdi mdi-motorbike" style="color: red;"></i> Update Product</h1>
+          <h1 align="center"><i class="mdi mdi-motorbike" style="color: red;"></i>Update Model</h1>
           <form
             method="POST"
             novalidate
@@ -77,48 +77,9 @@
                 >Product Name<span class="text-danger">*</span></label
               >
             </div>
-            <div class="form__input">{{ form.product_name }}</div>
+            <div class="form__input">{{ form.name }}</div>
             <br />
-            <div class="form__linput">
-              <label
-                class="form__label"
-                style="background-color: white"
-                for="lname"
-                >Model Name<span class="text-danger">*</span></label
-              >
-            </div>
-            <div class="form__input">{{form.model}}</div>
-            <br />
-            <div class="form__linput">
-              <label
-                class="form__label"
-                style="background-color: white"
-                for="lname"
-                >Product Quantity<span class="text-danger">*</span></label
-              >
-            </div>
-            <div class="form__input">{{form.product_quantity}}</div>
-            <br />
-            <div class="form__linput">
-              <label
-                class="form__label"
-                style="background-color: white"
-                for="lname"
-                >Buying Price<span class="text-danger">*</span></label
-              >
-            </div>
-            <div class="form__input">{{form.buying_price}}</div>
-            <br />
-            <div class="form__linput">
-              <label
-                class="form__label"
-                style="background-color: white"
-                for="lname"
-                >Expecting Saleing Price<span class="text-danger">*</span></label
-              >
-            </div>
-            <div class="form__input">{{form.expecting_Saleing_price}}</div>
-            <br />
+            
             <input
               class="btn btn-success btn-block dG"
               type="submit"
