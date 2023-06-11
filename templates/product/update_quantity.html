@@ -67,6 +67,7 @@
                     <th>Product Name</th>
                     <th>Stock Quantity</th>
                     <th>Last Buying Price</th>
+                    <th>Expecting Selling Price</th>
                   </tr>
                 </thead>
                 <tbody class="text-center font-bold">
@@ -74,6 +75,7 @@
                     <td>{{ product.product_name }}</td>
                     <td>{{ product.product_quantity}}</td>
                     <td>{{ product.buying_price}}</td>
+                    <td>{{ product.expecting_Saleing_price}}</td>
                   </tr>
                 </tbody>
               </table>
@@ -88,6 +90,11 @@
                 <div class="form__linput">
                   <input class="form__input" type="number" name="buy" id="input2" pattern="\w{1,}" required  onkeyup="mul()"/>
                   <label class="form__label"  style="background-color: white;" for="lname">Buying Price </label>
+                </div>
+                <br>
+                <div class="form__linput">
+                  <input class="form__input" type="number" name="sell" id="input3" pattern="\w{1,}" required  onkeyup="mul()"/>
+                  <label class="form__label"  style="background-color: white;" for="lname">Selling Price </label>
                 </div>
                 <!-- Add New Quantity : <input type="number" id="input1" name="quantity" onkeyup="mul()" style="padding-left: 50px;" ><br><br>
                 Buying Price : <input type="number" id="input2" name="buy" onkeyup="mul()" style="padding-left: 50px;"> -->
@@ -108,6 +115,7 @@
   function mul() {
     var input1 = document.getElementById("input1").value;
     var input2 = document.getElementById("input2").value;
+    var input2 = document.getElementById("input3").value;
     var total = input1 * input2;
     document.getElementById("total").innerHTML = "Total : " + total;
   }
@@ -115,6 +123,7 @@
   function enableSubmitButton() {
     var quantityValue = document.getElementById('input1').value;
     var priceValue = document.getElementById('input2').value;
+    var selllValue = document.getElementById('input2').value;
     var submitButton = document.getElementById('submitBtn');
 
     if (quantityValue !== '' && priceValue !== '') {
@@ -127,6 +136,7 @@
   // Call the enableSubmitButton function whenever the user types in the input fields
   document.getElementById('input1').addEventListener('input', enableSubmitButton);
   document.getElementById('input2').addEventListener('input', enableSubmitButton);
+  document.getElementById('input3').addEventListener('input', enableSubmitButton);
 
 </script>
 {% endblock %}

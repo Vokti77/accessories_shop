@@ -53,42 +53,53 @@
                   <th>Total Qunatity</th>
                   <th>Exepted Saleing Price</th>
                 </tr>
-              </thead>
               <tbody class="text-center font-bold">
                 <tr>
                   <td>{{ product.product_name }}</td>
-                  <td>{{ product.product_quantity}}</td>
-                  <td>{{ product.expecting_Saleing_price}}</td>
+                  <td>{{ product.product_quantity }}</td>
+                  <td>{{ product.expecting_Saleing_price }}</td>
                 </tr>
               </tbody>
-            </table>
-            <br>
+              </table>
+              <br>
               {% csrf_token %}
               <div class="form__linput">
-                <input class="form__input" type="number" name="quantity" id="input1" pattern="\w{1,}" required onkeyup="mul()" />
+                <input class="form__input" type="number" name="quantity" id="input1" pattern="\w{1,}" required oninput="validateSaleForm();" />
                 <label class="form__label" style="background-color: white;" for="fname">Quantity</label>
               </div>
               <br>
               <div class="form__linput">
-                <input class="form__input" type="number" name="price" id="input2" pattern="\w{1,}" required  onkeyup="mul()"/>
-                <label class="form__label"  style="background-color: white;" for="lname">Sale Price </label>
+                <input class="form__input" type="number" name="price" id="input2" pattern="\w{1,}" required oninput="validateSaleForm();" />
+                <label class="form__label" style="background-color: white;" for="lname">Sale Price</label>
               </div>
               <br>
               <span id="total"  style="font-size: 20px; font-weight: bold; text-align: center;"></span>
                 <br>
-              
               <input class="btn btn-success btn-block dG" type="submit" value="Sale" id="submitBtn" disabled>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-
-  <script>
+              </form>
+<script>
+ function mul(){
+      var input1 = document.getElementById('input1').value;
+      var input2 = document.getElementById('input2').value;
+      var total = input1 * input2;
+      document.getElementById('total').innerHTML = "Total : " + total;
+    }
+    
+  function validateSaleForm() {
+    var quantityInput = document.getElementById('input1');
+    var priceInput = document.getElementById('input2');
+    var submitButton = document.getElementById('submitBtn');
+    var quantity = parseInt(quantityInput.value);
+    var productQuantity = parseInt('{{ product.product_quantity }}');
+    
+    if (quantity > productQuantity || quantityInput.value === '' || priceInput.value === '') {
+      submitButton.disabled = true;
+    } else {
+      submitButton.disabled = false;
+    }
+  }
+</script>
+  <!-- <script>
     function mul(){
       var input1 = document.getElementById('input1').value;
       var input2 = document.getElementById('input2').value;
@@ -99,9 +110,11 @@
     function enableSubmitButton() {
       var quantityValue = document.getElementById('input1').value;
       var priceValue = document.getElementById('input2').value;
-      var submitButton = document.getElementById('submitBtn');
+      var productQuantity = parseInt('{{ product.product_quantity }}');
+      console.log(productQuantity)
+      var submitButton = document.getElementById('submitBtn')
 
-      if (quantityValue !== '' && priceValue !== '') {
+      if (quantityValue !== '' || priceValue !== '' || quantityValue > productQuantity) {
         submitButton.disabled = false;
       } else {
         submitButton.disabled = true;
@@ -111,6 +124,22 @@
     // Call the enableSubmitButton function whenever the user types in the input fields
     document.getElementById('input1').addEventListener('input', enableSubmitButton);
     document.getElementById('input2').addEventListener('input', enableSubmitButton);
+
+
+   
+    // function checkQuantity() {
+    //   var quantityInput = document.getElementById('input1');
+    //   var submitButton = document.getElementById('submitBtn');
+    //   var quantity = parseInt(quantityInput.value);
+    //   var productQuantity = parseInt('{{ product.product_quantity }}');
+      
+    //   if (quantity > productQuantity) {
+    //     submitButton.disabled = true;
+    //   } else {
+    //     submitButton.disabled = false;
+    //   }
+    // }
+
     
-  </script>
+  </script> -->
 {% endblock %}

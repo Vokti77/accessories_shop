@@ -84,6 +84,30 @@ Product Table
     </div>
 </div>
 
+
+<!-- Tabs -->
+<!-- <div class="card">
+   
+    {% for brand in brands %}
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#{{ brand.id }}" role="tab"><span class="hidden-sm-up"></span> <span class="hidden-xs-down">{{ brand.name }}</span></a> 
+        </li>
+    </ul>
+    
+    <div class="tab-content tabcontent-border">
+        <div class="tab-pane active" id="home" role="tabpanel">
+            <div class="p-20">
+                <ul style="list-style-type: none;">
+                    {% for i in brand.model_set.all %}
+                    <li><a href="{% url 'dashboard:tables' %}?brands={{i.id}}">{{i.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div> -->
+
 <div class="card">
     <div class="card-body">
         <!-- <h5 class="card-title text-success font-bold" style="font-size: xx-large;">Product Datatable</h5> -->
@@ -120,9 +144,9 @@ Product Table
                                 href="{% url 'dashboard:update-quantity' product.id %}">{{product.product_quantity}}</a>
                             </td>
                             {% else %}
-                            <td class="text-danger"> <a data-toggle="modal" data-placement="Top" title="Added More Quantity" data-target="#exampleModalLong"
-                                    href="{% url 'dashboard:update-quantity' product.id %}" >{{product.product_quantity}}</a>
-                            </td>
+                            <td class="text-danger"> <a data-toggle="tooltip" data-placement="Top" title="Added More Quantity"
+                                href="{% url 'dashboard:update-quantity' product.id %}">{{product.product_quantity}}</a>
+                        </td>
                             {% endif %}
                             <td class="text-right">{{product.buying_price}}</td>
                             <td class="text-right">{{product.expecting_Saleing_price}}</td>
@@ -178,7 +202,7 @@ Product Table
         </div>
     </div>
 </div>
-<div class="modal fade" id="exampleModalLong{{product_id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+<!-- <div class="modal fade" id="exampleModalLong{{product_id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -218,7 +242,7 @@ Product Table
               </div>
               <!-- Add New Quantity : <input type="number" id="input1" name="quantity" onkeyup="mul()" style="padding-left: 50px;" ><br><br>
               Buying Price : <input type="number" id="input2" name="buy" onkeyup="mul()" style="padding-left: 50px;"> -->
-              <br>
+              <!-- <br>
               <span id="total"  style="font-size: 20px; font-weight: bold; text-align: center;"></span>
                 <br>
               <input class="btn btn-success btn-block" type="submit"  value="Add Quantity" id="submitBtn">
@@ -231,7 +255,7 @@ Product Table
       </div>
     </div>
   </div>
-  
+   --> 
 
 <script>
     $(document).ready(function () {
