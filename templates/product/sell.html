@@ -64,12 +64,12 @@
               <br>
               {% csrf_token %}
               <div class="form__linput">
-                <input class="form__input" type="number" name="quantity" id="input1" pattern="\w{1,}" required oninput="validateSaleForm();" />
+                <input class="form__input" type="number" name="quantity" id="input1" pattern="\w{1,}" required oninput="validateSaleForm();" required onkeyup="mul()"/>
                 <label class="form__label" style="background-color: white;" for="fname">Quantity</label>
               </div>
               <br>
               <div class="form__linput">
-                <input class="form__input" type="number" name="price" id="input2" pattern="\w{1,}" required oninput="validateSaleForm();" />
+                <input class="form__input" type="number" name="price" id="input2" pattern="\w{1,}" required oninput="validateSaleForm();" required onkeyup="mul()"/>
                 <label class="form__label" style="background-color: white;" for="lname">Sale Price</label>
               </div>
               <br>

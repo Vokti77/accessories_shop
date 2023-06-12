@@ -75,7 +75,8 @@ Product Table
             <div class="panel-body">
                 <ul style="list-style-type: none;">
                     {% for i in brand.model_set.all %}
-                    <li><a href="{% url 'dashboard:tables' %}?brands={{i.id}}">{{i.name }}</a></li>
+                    <!-- <li><a href="{% url 'dashboard:tables' %}?brands={{i.id}}">{{i.name }}</a></li> -->
+                    <li>{{i.name }}<a href="{% url 'dashboard:update-model' i.id %} ">  edit</a></li>
                     {% endfor %}
                 </ul>
             </div>
@@ -84,29 +85,6 @@ Product Table
     </div>
 </div>
 
-
-<!-- Tabs -->
-<!-- <div class="card">
-   
-    {% for brand in brands %}
-    <ul class="nav nav-tabs" role="tablist">
-        <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#{{ brand.id }}" role="tab"><span class="hidden-sm-up"></span> <span class="hidden-xs-down">{{ brand.name }}</span></a> 
-        </li>
-    </ul>
-    
-    <div class="tab-content tabcontent-border">
-        <div class="tab-pane active" id="home" role="tabpanel">
-            <div class="p-20">
-                <ul style="list-style-type: none;">
-                    {% for i in brand.model_set.all %}
-                    <li><a href="{% url 'dashboard:tables' %}?brands={{i.id}}">{{i.name }}</a></li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
-    </div>
-    {% endfor %}
-</div> -->
 
 <div class="card">
     <div class="card-body">

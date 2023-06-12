@@ -180,6 +180,9 @@ def add_brand(request):
 
 @login_required(login_url='account:login')
 def add_model(request):
+    models = Model.objects.all()
+    brands = Brand.objects.all()
+
     form = ModelForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         form.save()
@@ -189,6 +192,8 @@ def add_model(request):
         form = ModelForm()
     context = {
         'form': form,
+        'models':models,
+        'brands': brands
     }
     return render(request, "dashboard/form_model.html", context)
 
@@ -223,6 +228,22 @@ def upadate_brand(request, brand_id):
     else:
         form = ProductsForm()
     return render(request, 'product/brand_update.html', context)
+
+def upadate_model(request, model_id):
+    model = Model.objects.get(id=model_id)
+    form = ModelForm(instance=model)
+    
+    context = {
+        "form": form,
+    }
+    model_inc = Model.objects.get(id=model_id)
+    form = ModelForm(request.POST or None, request.FILES or None, instance=model_inc)
+    if form.is_valid():
+        form.save()
+        return redirect('dashboard:tables')
+    else:
+        form = ProductsForm()
+    return render(request, 'product/update_model.html', context)
 
 @login_required(login_url='account:login')
 def delete_brand(request, brand_id):
