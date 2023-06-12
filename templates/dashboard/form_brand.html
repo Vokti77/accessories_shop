@@ -28,38 +28,38 @@
 </style> -->
 
 
-    <div class="page-breadcrumb">
-        <div class="row">
-            <div class="col-md-12 no-block align-items-center">
-                <h4 class="page-title">
-                    {% for message in messages %}
-                    <div class="container-fluid p-0">
-                    <div class="alert {{ message.tags }} alert-success" role="alert" >
-                    <button type="button" class="close btn-danger" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="True">&times;</span>
-                    </button>
-                    {{ message }}
-                    </div>
-                    </div>
-                    {% endfor %}
-                </h4>
-                
-            </div>
-           
-        </div>
-        <div class="row">
-            <div class="col-md-12 mx-auto">
-                <div class="mx-auto text-right">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a class="btn btn-success dG" href="{% url 'dashboard:tables' %}">Back to Add Products</a></li>
-                        </ol>
-                    </nav>
+<div class="page-breadcrumb">
+    <div class="row">
+        <div class="col-md-12 no-block align-items-center">
+            <h4 class="page-title">
+                {% for message in messages %}
+                <div class="container-fluid p-0">
+                <div class="alert {{ message.tags }} alert-success" role="alert" >
+                <button type="button" class="close btn-danger" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="True">&times;</span>
+                </button>
+                {{ message }}
                 </div>
+                </div>
+                {% endfor %}
+            </h4>
+            
+        </div>
+       
+    </div>
+    <div class="row">
+        <div class="col-md-12 mx-auto">
+            <div class="mx-auto text-right">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a class="btn btn-success dG" href="{% url 'dashboard:tables' %}">Back to Add Products</a></li>
+                    </ol>
+                </nav>
             </div>
         </div>
     </div>
-   <div class="d-md-flex justify-content-around m-20">
+</div>
+<div class="d-md-flex justify-content-around m-20">
     <div class="card col-6 m-2" style="width: 717px; margin: 0 auto;">
         <div class="card-body">
             <h2 align="center" class="card-title">List of Brand Name</h2>
@@ -88,13 +88,13 @@
                         </td>
                         </tr>
                         {% endfor %}
-    
+
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-   
+
     <div class="container-fluid col-6 m-2">
         <!-- ============================================================== -->
         <!-- Start Page Content -->
@@ -110,13 +110,13 @@
                             <!-- {{ form | crispy }} -->
                             <div class="form__linput">
                                 <label
-                                  class="form__label"
-                                  style="background-color: white"
-                                  for="lname"
-                                  >Brand Name <span class="text-danger">*</span></label
+                                class="form__label"
+                                style="background-color: white"
+                                for="lname"
+                                >Brand Name <span class="text-danger">*</span></label
                                 >
-                              </div>
-                              <div class="form__input">{{ form.name }}</div>
+                            </div>
+                            <div class="form__input">{{ form.name }}</div>
                             <br><br>
                             <input class="btn btn-success btn-block dG" type="submit" value="Add">
                         </form>
@@ -125,7 +125,7 @@
             </div>
         </div>      
     </div>
-   </div>
+</div>
     
 {% endblock %}
 

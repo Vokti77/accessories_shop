@@ -2,11 +2,11 @@
 {% load i18n %}
 {% load static %}
 {% block extra_css %}
-    <style xmlns="http://www.w3.org/1999/html">
-    </style>
+<style xmlns="http://www.w3.org/1999/html">
+</style>
 {% endblock %}
 {% block page_title %}
- Form
+Form
 {% endblock %}
 {% load crispy_forms_tags %}
 {% block content %}
@@ -27,38 +27,81 @@
     }
 </style> -->
 
-    <div class="page-breadcrumb">
-        <div class="row justify-content-center">
-            <div class="col-12 align-items-center">
-                <h4 class="page-title">
-                    {% for message in messages %}
-                    <div class="container-fluid p-0">
-                    <div class="alert {{ message.tags }} alert-success" role="alert" >
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="True">&times;</span>
-                    </button>
-                    {{ message }}
+<div class="page-breadcrumb">
+    <div class="row justify-content-center">
+        <div class="col-12 align-items-center">
+            <h4 class="page-title">
+                {% for message in messages %}
+                <div class="container-fluid p-0">
+                    <div class="alert {{ message.tags }} alert-success" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="True">&times;</span>
+                        </button>
+                        {{ message }}
                     </div>
+                </div>
+                {% endfor %}
+            </h4>
+            <div class=" text-center" style="width: 50%; margin: 0 auto;">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a class="btn btn-success dG"
+                                href="{% url 'dashboard:tables' %}">Back To Products</a></li>
+                        <!-- <li class="breadcrumb-item"><a class="btn btn-success dG" href="{% url 'dashboard:add-brand' %}">Add New Brand</a></li> -->
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+        </h4>
+        <!-- <div class="mx-auto text-center">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item" style="margin-right: 200px;"><a class="btn btn-success dG" href="{% url 'dashboard:add-product' %}">Back To Add Product</a></li>
+                        <li class="breadcrumb-item"><a class="btn btn-success dG" href="{% url 'dashboard:add-brand' %}">Add New Brand</a></li>
+                        
+                    </ol>
+                </nav>
+            </div> -->
+    </div>
+</div>
+
+<div class="d-md-flex justify-content-around m-20">
+    <div class="card col-6 m-2">
+        <div class="card-body">
+            <h5 class="card-title text-success font-bold" style="font-size: xx-large;">Brand Wise Model</h5>
+            <div class="table-responsive">
+    
+                <div id="accordian-4">
+                    <div class="card m-t-30">
+                        {% for brand in brands %}
+                        <a data-toggle="collapse" data-parent="#accordian-4" href="#{{ brand.id }}">
+                            {{ brand.name }}<span class="badge pull-right"><i
+                                    class="seticon fa fa-plus"></i></span>
+                        </a>
+                        <div id="{{ brand.id }}" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <ul style="list-style-type: none;">
+                                    {% for i in brand.model_set.all %}
+                                    <!-- <li><a href="{% url 'dashboard:tables' %}?brands={{i.id}}">{{i.name }}</a></li> -->
+                                    <li>{{i.name }}<a href="{% url 'dashboard:update-model' i.id %} "> edit</a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
-                </h4>
-                <div class=" text-center" style="width: 50%; margin: 0 auto;">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a class="btn btn-success dG" href="{% url 'dashboard:tables' %}">Back To Products</a></li>
-                            <!-- <li class="breadcrumb-item"><a class="btn btn-success dG" href="{% url 'dashboard:add-brand' %}">Add New Brand</a></li> -->  
-                        </ol>
-                    </nav>
                 </div>
             </div>
         </div>
     </div>
-    <div class="container-fluid">
+    <div class="container-fluid col-6 m-2">
         <!-- ============================================================== -->
         <!-- Start Page Content -->
         <!-- ============================================================== -->
         <div class="row">
-            <div class="col-md-6 mx-auto shadow-sm">
+            <div class="col-md-12 mx-auto shadow-sm">
                 <div class="card shadow-lg dG">
                     <div class="card-body wizard-content">
                         <h2 align="center" class="card-title">Add New Model</h2>
@@ -67,113 +110,82 @@
                             {% csrf_token %}
                             <!-- {{form | crispy}} -->
                             <div class="form__linput">
-                                <label
-                                  class="form__label"
-                                  style="background-color: white"
-                                  for="lname"
-                                  >Brand Name<span class="text-danger">*</span></label
-                                >
-                              </div>
-                              <div class="form__input">{{ form.brand }}</div>
+                                <label class="form__label" style="background-color: white" for="lname">Brand Name<span
+                                        class="text-danger">*</span></label>
+                            </div>
+                            <div class="form__input">{{ form.brand }}</div>
                             <br>
                             <div class="form__linput">
-                                <label
-                                  class="form__label"
-                                  style="background-color: white"
-                                  for="lname"
-                                  >Model Name<span class="text-danger">*</span></label
-                                >
-                              </div>
-                              <div class="form__input" style="width: 100%;">{{ form.name }}</div>
+                                <label class="form__label" style="background-color: white" for="lname">Model Name<span
+                                        class="text-danger">*</span></label>
+                            </div>
+                            <div class="form__input" style="width: 100%;">{{ form.name }}</div>
                             <!-- {{ form.name }} -->
-                              <!-- <br> -->
-                            
+                            <!-- <br> -->
+    
                             <!-- {{ form.brand}} -->
                             <br><br>
-                            <input class="btn btn-success btn-block dG" type="submit" value="Add">
+                             <input class="btn btn-success btn-block dG" type="submit" value="Add">
                         </form>
                     </div>
                 </div>
             </div>
-        </div>      
-    </div>
-
-
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title text-success font-bold" style="font-size: xx-large;">Brand Wish Model</h5>
-            <div class="table-responsive">
-                <div id="accordian-4">
-                    <div class="card m-t-30">
-                        {% for brand in brands %}
-                        <a  data-toggle="collapse" data-parent="#accordian-4" href="#{{ brand.id }}">
-                            {{ brand.name }}<span class="badge pull-right"><i class="seticon fa fa-plus"></i></span>
-                        </a>
-                        <div id="{{ brand.id }}" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                <ul style="list-style-type: none;" >
-                                    {% for i in brand.model_set.all %}
-                                    <!-- <li><a href="{% url 'dashboard:tables' %}?brands={{i.id}}">{{i.name }}</a></li> -->
-                                    <li>{{i.name }}<a href="{% url 'dashboard:update-model' i.id %} ">  edit</a></li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-                    
-            </div>
         </div>
     </div>
+</div>
+
+
+
+
     
-{% endblock %}
 
-{% block extra_js %}
-           <script>
-            //***********************************//
-            // For select 2
-            //***********************************//
-            $(".select2").select2();
 
-            /*colorpicker*/
-            $('.demo').each(function () {
-                //
-                // Dear reader, it's actually very easy to initialize MiniColors. For example:
-                //
-                //  $(selector).minicolors();
-                //
-                // The way I've done it below is just for the demo, so don't get confused
-                // by it. Also, data- attributes aren't supported at this time...they're
-                // only used for this demo.
-                //
-                $(this).minicolors({
-                    control: $(this).attr('data-control') || 'hue',
-                    position: $(this).attr('data-position') || 'bottom left',
+    
+    {% endblock %}
 
-                    change: function (value, opacity) {
-                        if (!value) return;
-                        if (opacity) value += ', ' + opacity;
-                        if (typeof console === 'object') {
-                            console.log(value);
-                        }
-                    },
-                    theme: 'bootstrap'
-                });
+    {% block extra_js %}
+    <script>
+        //***********************************//
+        // For select 2
+        //***********************************//
+        $(".select2").select2();
 
-            });
-            /*datwpicker*/
-            jQuery('.mydatepicker').datepicker();
-            jQuery('#datepicker-autoclose').datepicker({
-                autoclose: true,
-                todayHighlight: true
+        /*colorpicker*/
+        $('.demo').each(function () {
+            //
+            // Dear reader, it's actually very easy to initialize MiniColors. For example:
+            //
+            //  $(selector).minicolors();
+            //
+            // The way I've done it below is just for the demo, so don't get confused
+            // by it. Also, data- attributes aren't supported at this time...they're
+            // only used for this demo.
+            //
+            $(this).minicolors({
+                control: $(this).attr('data-control') || 'hue',
+                position: $(this).attr('data-position') || 'bottom left',
+
+                change: function (value, opacity) {
+                    if (!value) return;
+                    if (opacity) value += ', ' + opacity;
+                    if (typeof console === 'object') {
+                        console.log(value);
+                    }
+                },
+                theme: 'bootstrap'
             });
 
-            var quill = new Quill('#editor', {
-                theme: 'snow'
-            });
-        </script>
-        
-{% endblock %}
+        });
+        /*datwpicker*/
+        jQuery('.mydatepicker').datepicker();
+        jQuery('#datepicker-autoclose').datepicker({
+            autoclose: true,
+            todayHighlight: true
+        });
 
+        var quill = new Quill('#editor', {
+            theme: 'snow'
+        });
+    </script>
 
+    {% endblock %}

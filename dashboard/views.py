@@ -180,6 +180,9 @@ def add_brand(request):
 
 @login_required(login_url='account:login')
 def add_model(request):
+    models = Model.objects.all()
+    brands = Brand.objects.all()
+
     form = ModelForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         form.save()
@@ -189,6 +192,8 @@ def add_model(request):
         form = ModelForm()
     context = {
         'form': form,
+        'models':models,
+        'brands': brands
     }
     return render(request, "dashboard/form_model.html", context)
 
@@ -224,6 +229,22 @@ def upadate_brand(request, brand_id):
         form = ProductsForm()
     return render(request, 'product/brand_update.html', context)
 
+def upadate_model(request, model_id):
+    model = Model.objects.get(id=model_id)
+    form = ModelForm(instance=model)
+    
+    context = {
+        "form": form,
+    }
+    model_inc = Model.objects.get(id=model_id)
+    form = ModelForm(request.POST or None, request.FILES or None, instance=model_inc)
+    if form.is_valid():
+        form.save()
+        return redirect('dashboard:tables')
+    else:
+        form = ProductsForm()
+    return render(request, 'product/update_model.html', context)
+
 @login_required(login_url='account:login')
 def delete_brand(request, brand_id):
     brand = get_object_or_404(Brand, id=brand_id)
@@ -245,14 +266,17 @@ def update_product_quantity(request, product_id):
 def confirm_update_quantity(request, product_id):
     quantity = int(request.POST.get('quantity'))
     buy_price = int(request.POST.get('buy'))
+    sell_price = int(request.POST.get('sell'))
 
     add_q = Product.objects.get(id=product_id)
-    add_info = ProductQuantityHistory(product=add_q, quantity_added=quantity, buying_price=buy_price)
+    add_info = ProductQuantityHistory(product=add_q, quantity_added=quantity, buying_price=buy_price, new_selling_price=sell_price)
     add_info.save()
 
     add_q.product_quantity += quantity
     add_q.buying_price = buy_price
+    add_q.expecting_Saleing_price = sell_price
     add_q.save()
+
     return redirect('dashboard:tables')
 
 @login_required(login_url='account:login')
@@ -301,9 +325,11 @@ def delete_product(request, product_id):
 @login_required(login_url='account:login')
 def sale_quantity(request, product_id):
     product = Product.objects.get(id=product_id)
+    stock_quantity = product.product_quantity
     context = {
         'product_id': product_id,
-        'product' : product
+        'product' : product,
+        'stock_quantity' : stock_quantity
     }
     return render(request, 'product/sell.html', context)
 
