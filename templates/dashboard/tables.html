@@ -174,11 +174,11 @@ Product Table
                         <th>Date_Update</th>
                     </tr>
                 </thead>
-                <p>{console.log()}</p>
-                <tbody class="text-center">
+                <!-- <p>{console.log()}</p> -->
+                <tbody class="text-center align-items-center">
                     {% for product in product_item %}
                     <tr onmouseover="this.style.fontWeight='bold'; this.style.backgroundColor='#B2EBF2'; this.style.color='black'"
-                        onmouseout="this.style.fontWeight='normal'; this.style.backgroundColor='white'">
+                        onmouseout="this.style.fontWeight='normal'; this.style.backgroundColor='white'" >
                         <td>{{product.product_name}}</td>
                         <td>{{product.model.brand.name}}</td>
                         <td>{{product.model.name}}</td>
