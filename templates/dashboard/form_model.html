@@ -97,6 +97,35 @@
             </div>
         </div>      
     </div>
+
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title text-success font-bold" style="font-size: xx-large;">Brand Wish Model</h5>
+            <div class="table-responsive">
+                <div id="accordian-4">
+                    <div class="card m-t-30">
+                        {% for brand in brands %}
+                        <a  data-toggle="collapse" data-parent="#accordian-4" href="#{{ brand.id }}">
+                            {{ brand.name }}<span class="badge pull-right"><i class="seticon fa fa-plus"></i></span>
+                        </a>
+                        <div id="{{ brand.id }}" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <ul style="list-style-type: none;" >
+                                    {% for i in brand.model_set.all %}
+                                    <!-- <li><a href="{% url 'dashboard:tables' %}?brands={{i.id}}">{{i.name }}</a></li> -->
+                                    <li>{{i.name }}<a href="{% url 'dashboard:update-model' i.id %} ">  edit</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                    
+            </div>
+        </div>
+    </div>
     
 {% endblock %}
 
