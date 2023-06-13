@@ -86,16 +86,10 @@
         }
     });
 </script>
-<!-- In this example, we added a select element with two options: "Search by Date" and "Search by Month". We also added an event listener to the select element to update the action attribute of the form based on the selected option. When the user selects "Search by Date", the action attribute is set to the URL of the "date_search" view. When the user selects "Search by Month", the action attribute is set to the URL of the "month_search" view. -->
-
-
-
-
 
 <div class="card">
 <div class="card-body">
    <div class="table-responsive">
-        
             <table id="zero_config" class="table table-striped table-hover table-sm">
                 <thead class="text-center" style="font-size: medium; background-color: #1f2b3d;">
                 <tr class="font-bold text-white">
@@ -133,42 +127,7 @@
                 </tr>
             </tfoot> 
         </table>
-        <div class="col-md-12">
-            {% if products.has_other_pages %}
-          <ul class="pagination">
-                {% if products.has_previous %}
-                    <li class="page-item">
-                      <a class="page-link" href="?page={{ products.previous_page_number }}">&laquo;</a>
-                    </li>
-                {% else %}
-                    <li class="page-item disabled">
-                      <a class="page-link">&laquo;</a>
-                    </li>
-                {% endif %}
-            {% for i in products.paginator.page_range %}
-                {% if listing_list.number == i %}
-                <li class="page-item active">
-                  <a class="page-link">{{ i }}</a>
-                </li>
-                {% else %}
-                <li class="page-item">
-                  <a class="page-link" href="?page={{ i }}">{{ i }}</a>
-                </li>
-                {% endif %}
-            {% endfor %}
-                {% if products.has_next %}
-                    <li class="page-item">
-                      <a class="page-link" href="?page={{ products.next_page_number }}">&raquo;</a>
-                    </li>
-                {% else %}
-                    <li class="page-item disabled">
-                      <a class="page-link">&laquo;</a>
-                    </li>
-                {% endif %}
-          </ul>
-          {% endif %}
-        </div>
-       
+
 </div>
 
 {% endblock %}
