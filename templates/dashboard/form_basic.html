@@ -52,16 +52,6 @@
     <div class="col-md-6 mx-auto shadow-sm">
       <div class="card shadow-lg dG">
         <div class="card-body wizard-content">
-          <!-- <div class="d-flex justify-content-between m-b-20">
-            <a class="btn btn-success dG" href="{% url 'dashboard:tables' %}"
-                  >Back To Products</a
-                >
-                <a
-                class="btn btn-success dG"
-                href="{% url 'dashboard:add-model' %}"
-                >Add New Model</a
-                >
-              </div> -->
               <h2 align="center" class="card-title block">Add New Product</h2>
           <h6 class="card-subtitle"></h6>
           <form
@@ -78,7 +68,8 @@
               <label
                 class="form__label"
                 style="background-color: white"
-                for="lname"
+                for="p_name"
+                id="p_name"
                 >Product Name<span class="text-danger">*</span></label
               >
             </div>
@@ -88,28 +79,29 @@
               <label
                 class="form__label"
                 style="background-color: white"
-                for="lname"
+                for="b_name"
+                id="b_name"
+                
                 >Brand Name<span class="text-danger">*</span></label
               >
             </div>
-            <div class="form__input">{{form.brand}}</div>
+            <div class="form__input" id="b_name">{{form.brand}}</div>
             <br>
             <div class="form__linput">
               <label
                 class="form__label"
                 style="background-color: white"
-                for="lname"
+                for="m_name"
                 >Model Name<span class="text-danger">*</span></label
               >
             </div>
-            
             <div class="form__input">{{form.model}}</div>
             <br />
             <div class="form__linput">
               <label
                 class="form__label"
                 style="background-color: white"
-                for="lname"
+                for="p_quantity"
                 >Product Quantity<span class="text-danger">*</span></label
               >
             </div>
@@ -119,7 +111,7 @@
               <label
                 class="form__label"
                 style="background-color: white"
-                for="lname"
+                for="b_price"
                 >Buying Price<span class="text-danger">*</span></label
               >
             </div>
@@ -129,7 +121,7 @@
               <label
                 class="form__label"
                 style="background-color: white"
-                for="lname"
+                for="e_s_price"
                 >Expecting Saleing Price<span class="text-danger">*</span></label
               >
             </div>
@@ -185,8 +177,5 @@
   });
 </script>
 
-<script>
-  console.log('{{brand.name}}');
-</script>
 
 {% endblock %}
