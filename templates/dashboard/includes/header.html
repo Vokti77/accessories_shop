@@ -80,6 +80,7 @@
                             <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark pro-pic" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="{% static 'images/users/1.jpg' %}" alt="user" class="rounded-circle" width="31"></a>
                             <div class="dropdown-menu dropdown-menu-right user-dd animated">
                                 <a class="dropdown-item" href="{% url 'dashboard:redirect-admin' %}"><i class="ti ti-user m-r-5 m-l-5"></i> {{user.user_name}} </a>
+                                <a class="dropdown-item" href="{% url 'account:profile' %}"><i class="ti ti-user m-r-5 m-l-5"></i> Profile </a>
                                 <div class="dropdown-divider"></div> <hr>
                                 <a class="dropdown-item" href="{% url 'logout' %}"><i class="fa fa-power-off m-r-5 m-l-5"></i> Logout</a>
                             </div>

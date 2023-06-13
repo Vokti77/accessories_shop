@@ -108,7 +108,6 @@ Product Table
 </div>
 
 <div class="d-md-flex justify-content-end p-20">
-   
     <div class="page-breadcrumb p-0">
         <div class="row">
             <div class="col-12 d-flex align-items-end">
@@ -120,7 +119,7 @@ Product Table
                             <li class="breadcrumb-item"><a class="btn btn-success"
                                     href="{% url 'dashboard:add-model' %}">Add New Model</a></li>
                             <!-- <li class="breadcrumb-item"><a class="btn btn-success" href="{% url 'dashboard:dashboard' %}">Home</a></li> -->
-                            <li class="breadcrumb-item"><a class="btn btn-success  "
+                            <li class="breadcrumb-item"><a class="btn btn-success"
                                     href="{% url 'dashboard:add-product' %}">Add Product</a></li>
                         </ol>
                     </nav>
@@ -171,8 +170,7 @@ Product Table
                         <th>Date_Update</th>
                     </tr>
                 </thead>
-                <!-- <p>{console.log()}</p> -->
-                <tbody class="text-center align-items-center">
+                <tbody class="text-center">
                     {% for product in product_item %}
                     <tr onmouseover="this.style.fontWeight='bold'; this.style.backgroundColor='#B2EBF2'; this.style.color='black'"
                         onmouseout="this.style.fontWeight='normal'; this.style.backgroundColor='white'" >
@@ -180,20 +178,19 @@ Product Table
                         <td>{{product.model.brand.name}}</td>
                         <td>{{product.model.name}}</td>
 
-                        {% if product.product_quantity < 5 %} <td class="text-danger"> <a class="text-danger"
+                        {% if product.product_quantity < 5 %} 
+                        <td class="text-danger"> <a class="text-danger"
                                 data-toggle="tooltip" data-placement="Top" title="Added More Quantity"
                                 href="{% url 'dashboard:update-quantity' product.id %}">{{product.product_quantity}}</a>
                             </td>
                             {% else %}
-                            <td class="text-danger"> <a data-toggle="modal" data-placement="Top"
-                                    title="Added More Quantity" data-target="{{product.product_name}}"
+                            <td class="text-danger"> <a data-toggle="tooltip" data-placement="Top" title="Added More Quantity"
                                     href="{% url 'dashboard:update-quantity' product.id %}">{{product.product_quantity}}</a>
                             </td>
                             {% endif %}
                             <td class="text-right">{{product.buying_price}}</td>
                             <td class="text-right">{{product.expecting_Saleing_price}}</td>
-                            <td class="text-right">{{ product.buying_price |mul:product.product_quantity|intcomma }}
-                            </td>
+                            <td class="text-right">{{ product.buying_price |mul:product.product_quantity|intcomma }}</td>
                             <td class="text-right">{{product.sale_quantity }}</td>
                             <td class="text-right">{{product.actual_Sale_price}}</td>
                             <td class="text-right">{{product.actual_Sale_price|sub:product.remining_quantity|intcomma}}</td>
@@ -233,9 +230,7 @@ Product Table
                 <tfoot style="background-color: rgb(221, 215, 215);">
                     <tr>
                         <th class="font-bold text-center">Total </th>
-
                         <th colspan="6" class="text-right font-bold">{{ total_amount|intcomma }}</th>
-
                         <th colspan="2" class="text-right font-bold">{{ total_Sale_amount|intcomma }}</th>
                         <th class="text-right font-bold">{{ total_profit|intcomma }}</th>
                         <th></th>

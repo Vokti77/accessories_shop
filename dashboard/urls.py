@@ -17,6 +17,7 @@ urlpatterns = [
     path('upadate_model/<int:model_id>/', views.upadate_model, name='update-model'),
 
     path('add_product/', views.add_product, name='add-product'),
+    path('get_models/', views.get_models, name='get_models'),
     path('upadate_product/<int:product_id>/', views.upadate_product, name='upadate-product'),
     path('delete_product/<int:product_id>/', views.delete_product, name='delete-product'),
 

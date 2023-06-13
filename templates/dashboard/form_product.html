@@ -63,7 +63,18 @@
           >
             {% csrf_token %}
             <!-- {{form | crispy }} -->
-            <br />
+            <div class="form__linput">
+              <label style="background-color: white" for="id_brand"> Select Brand<span class="text-danger">*</span></label>
+              {{ form.brand }}
+            </div>
+            <br>
+            <div>
+              <div class="form-group">
+                <label style="background-color: white" for="id_model"> Select Model <span class="text-danger">*</span></label>
+                {{ form.model }}
+              </div>
+            </div>
+
             <div class="form__linput">
               <label
                 class="form__label"
@@ -79,29 +90,7 @@
               <label
                 class="form__label"
                 style="background-color: white"
-                for="b_name"
-                id="b_name"
-                
-                >Brand Name<span class="text-danger">*</span></label
-              >
-            </div>
-            <div class="form__input" id="b_name">{{form.brand}}</div>
-            <br>
-            <div class="form__linput">
-              <label
-                class="form__label"
-                style="background-color: white"
-                for="m_name"
-                >Model Name<span class="text-danger">*</span></label
-              >
-            </div>
-            <div class="form__input">{{form.model}}</div>
-            <br />
-            <div class="form__linput">
-              <label
-                class="form__label"
-                style="background-color: white"
-                for="p_quantity"
+                for="lname"
                 >Product Quantity<span class="text-danger">*</span></label
               >
             </div>
@@ -128,21 +117,41 @@
             <div class="form__input">{{form.expecting_Saleing_price}}</div>
             <br /><br />
            
-             
-                    <input
-                  class="btn btn-success btn-block dG"
-                  type="submit"
-                  value="Add"
-                  />
-                  
-            
+            <input
+            class="btn btn-success btn-block dG"
+            type="submit"
+            value="Add"
+            />
           </form>
         </div>
       </div>
     </div>
   </div>
 </div>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+  $('#id_brand').change(function() {
+    var brandId = $(this).val();
+    $.ajax({
+      url: 'http://127.0.0.1:8000/dashboard/get_models/',
+      data: {
+        'brand_id': brandId
+      },
+      success: function(data) {
+        var modelSelect = $('#id_model');
+        modelSelect.empty();
+        $.each(data, function(index, item) {
+          modelSelect.append($('<option>', {
+            value: item.id,
+            text: item.name
+          }));
+        });
+      }
+    });
+  });
+});
+</script>
 {% endblock %} {% block extra_js %}
 <script>
 
@@ -177,5 +186,55 @@
   });
 </script>
 
+
+
+<!-- <form method="POST">
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="id_product_name">Product Name<span class="text-danger">*</span></label>
+    {{ form.product_name }}
+  </div>
+
+
+
+  <div class="form-group">
+    <label for="id_brand">Brand Name<span class="text-danger">*</span></label>
+    {{ form.brand }}
+  </div>
+
+
+
+  <div class="form-group">
+    <label for="id_model">Model Name<span class="text-danger">*</span></label>
+    {{ form.model }}
+  </div>
+
+
+
+
+
+  <div class="form-group">
+    <label for="id_product_quantity">Product Quantity<span class="text-danger">*</span></label>
+    {{ form.product_quantity }}
+  </div>
+  <div class="form-group">
+    <label for="id_buying_price">Buying Price<span class="text-danger">*</span></label>
+    {{ form.buying_price }}
+  </div>
+  <div class="form-group">
+    <label for="id_expecting_Saleing_price">Expecting Selling Price<span class="text-danger">*</span></label>
+    {{ form.expecting_Saleing_price }}
+  </div>
+  <button type="submit" class="btn btn-primary">Add Product</button>
+</form> -->
+
+     
+     <!-- <form method="POST"> 
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit">Add Product</button>
+        </form> -->
+        
+      
 
 {% endblock %}

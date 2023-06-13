@@ -2,7 +2,7 @@ from django.contrib.auth.models import auth
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from account.forms import RegistrationForm, ProfileForm
-from .models import Profile
+from .models import Profile, MyUser
 
 # Authentication Building Function import
 from django.contrib.auth.decorators import login_required
@@ -67,11 +67,12 @@ def userlogin(request):
 class ProfileView(TemplateView):
     def get(self, request, *args, **kwargs):
         profile_obj = Profile.objects.get(user=request.user)
+        queary_set = MyUser.objects.all()
         profileForm = ProfileForm(instance=profile_obj)
-
         context = {
-
-            'profileForm':profileForm,
+            'queary_set': queary_set,
+            'profile_obj': profile_obj,
+            'profileForm': profileForm,
         }
         return render(request, 'profile.html', context)
 
