@@ -7,7 +7,7 @@
 
 <div class="page-breadcrumb">
   <div class="row">
-    <div class="col-12 d-flex no-block align-items-center">
+    <div class="col-12 align-items-center">
       <h4 class="page-title">
         {% for message in messages %}
         <div class="container-fluid p-0">
@@ -25,10 +25,10 @@
         </div>
         {% endfor %}
       </h4>
-      <div class="mx-auto text-center">
+      <div class=" text-center" style="width: 50%; margin: 0 auto;">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb">
-            <li class="breadcrumb-item">
+            <li class="breadcrumb-item" style="margin-right: 200px;">
               <a class="btn btn-success dG" href="{% url 'dashboard:tables' %}"
               >Back To Products</a
               >
@@ -89,9 +89,20 @@
                 class="form__label"
                 style="background-color: white"
                 for="lname"
+                >Brand Name<span class="text-danger">*</span></label
+              >
+            </div>
+            <div class="form__input">{{form.brand}}</div>
+            <br>
+            <div class="form__linput">
+              <label
+                class="form__label"
+                style="background-color: white"
+                for="lname"
                 >Model Name<span class="text-danger">*</span></label
               >
             </div>
+            
             <div class="form__input">{{form.model}}</div>
             <br />
             <div class="form__linput">
@@ -172,6 +183,10 @@
   var quill = new Quill("#editor", {
     theme: "snow",
   });
+</script>
+
+<script>
+  console.log('{{brand.name}}');
 </script>
 
 {% endblock %}

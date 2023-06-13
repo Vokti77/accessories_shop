@@ -28,8 +28,8 @@
 </style> -->
 
     <div class="page-breadcrumb">
-        <div class="row">
-            <div class="col-12 d-flex no-block align-items-center">
+        <div class="row justify-content-center">
+            <div class="col-12 align-items-center">
                 <h4 class="page-title">
                     {% for message in messages %}
                     <div class="container-fluid p-0">
@@ -42,12 +42,11 @@
                     </div>
                     {% endfor %}
                 </h4>
-                <div class="mx-auto text-center">
+                <div class=" text-center" style="width: 50%; margin: 0 auto;">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a class="btn btn-success dG" href="{% url 'dashboard:add-product' %}">Back To Add Product</a></li>
-                            <li class="breadcrumb-item"><a class="btn btn-success dG" href="{% url 'dashboard:add-brand' %}">Add New Brand</a></li>
-                            
+                            <li class="breadcrumb-item"><a class="btn btn-success dG" href="{% url 'dashboard:tables' %}">Back To Products</a></li>
+                            <!-- <li class="breadcrumb-item"><a class="btn btn-success dG" href="{% url 'dashboard:add-brand' %}">Add New Brand</a></li> -->  
                         </ol>
                     </nav>
                 </div>
@@ -72,21 +71,23 @@
                                   class="form__label"
                                   style="background-color: white"
                                   for="lname"
-                                  >Model Name<span class="text-danger">*</span></label
+                                  >Brand Name<span class="text-danger">*</span></label
                                 >
                               </div>
-                              <div class="form__input" style="width: 100%;">{{ form.name }}</div>
-                            <!-- {{ form.name }} -->
-                              <br>
+                              <div class="form__input">{{ form.brand }}</div>
+                            <br>
                             <div class="form__linput">
                                 <label
                                   class="form__label"
                                   style="background-color: white"
                                   for="lname"
-                                  >Brand Name<span class="text-danger">*</span></label
+                                  >Model Name<span class="text-danger">*</span></label
                                 >
                               </div>
-                              <div class="form__input">{{ form.brand }}</div>
+                              <div class="form__input" style="width: 100%;">{{ form.name }}</div>
+                            <!-- {{ form.name }} -->
+                              <!-- <br> -->
+                            
                             <!-- {{ form.brand}} -->
                             <br><br>
                             <input class="btn btn-success btn-block dG" type="submit" value="Add">

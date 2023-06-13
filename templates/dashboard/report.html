@@ -35,22 +35,22 @@ Product Table
         </svg>
 </div> -->
 
-<div class="d-md-flex justify-content-between p-10 p-md-40 m-l-20 m-r-20">
+<div class="d-lg-flex justify-content-between p-10 p-md-40 ml-md-20 mr-md-20">
     <div class=" m-b-20">
         <form method="POST" id="example-form" action="{% url 'dashboard:report' %}" class=" dG" novalidate="novalidate">
             {% csrf_token %}
 
             <div class="d-md-flex my-auto">
-                <div class="form__linput m-r-10 m-2">
-                    <input class="form__input" type="date" name="from_date" id="input" value="date"/>
+                <div class="form__linput m-r-10 m-30 m-md-40">
+                    <input class="form__input p-10" type="date" name="from_date" id="input" value="date"/>
                     <label class="form__label" style="background-color: #eeeeee;" for="fname">From Date</label>
-                  </div>
+                </div>
                 
-                  <div class="form__linput m-2">
-                    <input class="form__input" type="date" name="to_date" id="input" value="date"/>
+                <div class="form__linput m-30 m-md-40">
+                    <input class="form__input p-10" type="date" name="to_date" id="input" value="date"/>
                     <label class="form__label"  style="background-color: #eeeeee;" for="lname">To Date</label>
-                  </div>
-                <div class="m-2">
+                </div>
+                <div class="m-40 m-md-10">
                     <input type="submit" value="Search" class="btn btn-info m-l-90 ml-md-20 p-2">
                 </div>
 
@@ -61,8 +61,8 @@ Product Table
         <form method="POST" id="example-form" action="{% url 'dashboard:report' %}" class="dG" novalidate="novalidate">
             {% csrf_token %}
 
-            <div class="form__linput m-2 d-flex">
-                <select class="form__input" name="month">
+            <div class="form__linput m-30 d-flex">
+                <select class="form__input m-r-20" name="month">
                     <option value="">Select A Month </option>
                     <option value="01" {% if current_month == 1 %}selected{% endif %}>January</option>
                     <option value="02" {% if current_month == 2 %}selected{% endif %}>February</option>

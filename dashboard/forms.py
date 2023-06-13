@@ -6,7 +6,7 @@ from accessories.models import Product, Sale, Brand, Model
 class ProductsForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ['product_name', 'model', 'product_quantity', 'buying_price', 'expecting_Saleing_price']
+        fields = ['product_name','brand', 'model', 'product_quantity', 'buying_price', 'expecting_Saleing_price']
 
 class SaleForm(forms.ModelForm):
     class Meta:
