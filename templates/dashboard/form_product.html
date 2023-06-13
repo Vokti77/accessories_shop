@@ -52,16 +52,6 @@
     <div class="col-md-6 mx-auto shadow-sm">
       <div class="card shadow-lg dG">
         <div class="card-body wizard-content">
-          <!-- <div class="d-flex justify-content-between m-b-20">
-            <a class="btn btn-success dG" href="{% url 'dashboard:tables' %}"
-                  >Back To Products</a
-                >
-                <a
-                class="btn btn-success dG"
-                href="{% url 'dashboard:add-model' %}"
-                >Add New Model</a
-                >
-              </div> -->
               <h2 align="center" class="card-title block">Add New Product</h2>
           <h6 class="card-subtitle"></h6>
           <form
@@ -73,37 +63,28 @@
           >
             {% csrf_token %}
             <!-- {{form | crispy }} -->
-            <br />
+            <div class="form__linput">
+              <label style="background-color: white" for="id_brand"> Select Brand<span class="text-danger">*</span></label>
+              {{ form.brand }}
+            </div>
+            <br>
+            <div>
+              <div class="form-group">
+                <label style="background-color: white" for="id_model"> Select Model <span class="text-danger">*</span></label>
+                {{ form.model }}
+              </div>
+            </div>
+
             <div class="form__linput">
               <label
                 class="form__label"
                 style="background-color: white"
-                for="lname"
+                for="p_name"
+                id="p_name"
                 >Product Name<span class="text-danger">*</span></label
               >
             </div>
             <div class="form__input">{{ form.product_name }}</div>
-            <br />
-            <div class="form__linput">
-              <label
-                class="form__label"
-                style="background-color: white"
-                for="lname"
-                >Brand Name<span class="text-danger">*</span></label
-              >
-            </div>
-            <div class="form__input">{{form.brand}}</div>
-            <br>
-            <div class="form__linput">
-              <label
-                class="form__label"
-                style="background-color: white"
-                for="lname"
-                >Model Name<span class="text-danger">*</span></label
-              >
-            </div>
-            
-            <div class="form__input">{{form.model}}</div>
             <br />
             <div class="form__linput">
               <label
@@ -119,7 +100,7 @@
               <label
                 class="form__label"
                 style="background-color: white"
-                for="lname"
+                for="b_price"
                 >Buying Price<span class="text-danger">*</span></label
               >
             </div>
@@ -129,28 +110,48 @@
               <label
                 class="form__label"
                 style="background-color: white"
-                for="lname"
+                for="e_s_price"
                 >Expecting Saleing Price<span class="text-danger">*</span></label
               >
             </div>
             <div class="form__input">{{form.expecting_Saleing_price}}</div>
             <br /><br />
            
-             
-                    <input
-                  class="btn btn-success btn-block dG"
-                  type="submit"
-                  value="Add"
-                  />
-                  
-            
+            <input
+            class="btn btn-success btn-block dG"
+            type="submit"
+            value="Add"
+            />
           </form>
         </div>
       </div>
     </div>
   </div>
 </div>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+  $('#id_brand').change(function() {
+    var brandId = $(this).val();
+    $.ajax({
+      url: 'http://127.0.0.1:8000/dashboard/get_models/',
+      data: {
+        'brand_id': brandId
+      },
+      success: function(data) {
+        var modelSelect = $('#id_model');
+        modelSelect.empty();
+        $.each(data, function(index, item) {
+          modelSelect.append($('<option>', {
+            value: item.id,
+            text: item.name
+          }));
+        });
+      }
+    });
+  });
+});
+</script>
 {% endblock %} {% block extra_js %}
 <script>
 
@@ -185,8 +186,55 @@
   });
 </script>
 
-<script>
-  console.log('{{brand.name}}');
-</script>
+
+
+<!-- <form method="POST">
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="id_product_name">Product Name<span class="text-danger">*</span></label>
+    {{ form.product_name }}
+  </div>
+
+
+
+  <div class="form-group">
+    <label for="id_brand">Brand Name<span class="text-danger">*</span></label>
+    {{ form.brand }}
+  </div>
+
+
+
+  <div class="form-group">
+    <label for="id_model">Model Name<span class="text-danger">*</span></label>
+    {{ form.model }}
+  </div>
+
+
+
+
+
+  <div class="form-group">
+    <label for="id_product_quantity">Product Quantity<span class="text-danger">*</span></label>
+    {{ form.product_quantity }}
+  </div>
+  <div class="form-group">
+    <label for="id_buying_price">Buying Price<span class="text-danger">*</span></label>
+    {{ form.buying_price }}
+  </div>
+  <div class="form-group">
+    <label for="id_expecting_Saleing_price">Expecting Selling Price<span class="text-danger">*</span></label>
+    {{ form.expecting_Saleing_price }}
+  </div>
+  <button type="submit" class="btn btn-primary">Add Product</button>
+</form> -->
+
+     
+     <!-- <form method="POST"> 
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit">Add Product</button>
+        </form> -->
+        
+      
 
 {% endblock %}

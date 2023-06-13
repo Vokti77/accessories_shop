@@ -1,0 +1,94 @@
+{% extends 'base.html' %} {% load crispy_forms_tags %} {% block content %}
+
+<!-- <style>
+  .dG {
+      font-size: large;
+      color: black;
+      border: 2px double transparent;
+      /* background-image: linear-gradient(#046491,#046491); */
+      background-image: linear-gradient(#14A44D,#14A4),radial-gradient(circle at left top,#016eda,#d900c0);
+      /* background-color: aliceblue; */
+      background-origin: border-box;
+      background-clip: padding-box,border-box;
+      box-shadow: 20px 10px linear-gradient(90deg,red,#ffc800 22%,#ff117c 50%,#4e1dff 79%,#0f0);
+      padding: 10px;
+      border-radius: 10px;
+  }
+</style> -->
+
+
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 d-flex no-block align-items-center">
+      <h4 class="page-title">
+        {% for message in messages %}
+        <div class="container-fluid p-0">
+          <div class="alert {{ message.tags }} alert-success" role="alert">
+            <button
+              type="button"
+              class="close"
+              data-dismiss="alert"
+              aria-label="Close"
+            >
+              <span aria-hidden="True">&times;</span>
+            </button>
+            {{ message }}
+          </div>
+        </div>
+        {% endfor %}
+      </h4>
+      <div class="text-right">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <!-- <li class="breadcrumb-item"><a class="btn btn-success" href="{% url 'dashboard:add-brand' %}">Add Brand</a></li> -->
+            <li class="breadcrumb-item">
+              <a class="btn btn-success dG" href="{% url 'dashboard:add-model' %}"
+                >Back To Model</a
+              >
+            </li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-6 mx-auto shadow-sm">
+      <div class="card shadow-lg dG">
+        <div class="card-body wizard-content">
+          <!-- <i class="mdi mdi-motorbike"></i>
+          <h2 align="center">Update Product</h2> -->
+          <h1 align="center"><i class="mdi mdi-motorbike" style="color: red;"></i>Update Model</h1>
+          <form
+            method="POST"
+            novalidate
+            style="margin-top: 50px"
+            enctype="multipart/form-data"
+          >
+            {% csrf_token %} 
+            <!-- {{ form | crispy }} -->
+            <div class="form__linput">
+              <label
+                class="form__label"
+                style="background-color: white"
+                for="lname"
+                >Model Name<span class="text-danger">*</span></label
+              >
+            </div>
+            <div class="form__input">{{ form.name }}</div>
+            <br />
+            
+            <input
+              class="btn btn-success btn-block dG"
+              type="submit"
+              value="Update"
+            />
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
