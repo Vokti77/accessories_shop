@@ -14,7 +14,7 @@ from datetime import datetime, date
 from django.http import JsonResponse
 import datetime
 from django.db.models.functions import ExtractYear, ExtractMonth
-from django.http import JsonResponse
+from django.db.models.functions import Lower
 from django.shortcuts import render
 from utils.charts import months, colorPrimary, colorSuccess, colorDanger, generate_color_palette, get_year_dict
 
@@ -28,31 +28,30 @@ def index(request):
     profit = 0
 
     now = datetime.now()
+    today = date.today()
     current_year = now.strftime("%Y")
     current_month = now.strftime("%m")
     current_day = now.strftime("%d")
     
     sales = len(Sale.objects.all())
     service = Service.objects.all()
-    today_servicing_amount = 0
+    total_servicing_cost = 0
     for i in service:
-        print(i)
+        total_servicing_cost += i.sevicing_cost
+    today_servicing_amount = 0
+    service = Service.objects.filter(date_added__year=today.year, date_added__month=today.month, date_added__day=today.day, status='complete')
+    for i in service:
         today_servicing_amount += i.sevicing_cost
-    print(today_servicing_amount)
-    # today_service = len(Service.objects.filter(
-    #     date_added__year=current_year,
-    #     date_added__month = current_month,
-    #     date_added__day = current_day
 
-    # )).all()
-
-    # monthly_service_amount = sum(today_service.values_list('sevicing_cost', flat=True))
-    # print(monthly_service_amount)
-
+    # Add New Quantity Buying Amount
+    daily_total = ProductQuantityHistory.get_daily_total_buying_amount()
+    total_quantity = ProductQuantityHistory.get_daily_total_quantity()
+    monthly_total = ProductQuantityHistory.get_monthly_total_buying_amount()
+    
     today_sales = Sale.objects.filter(
         sale_at__year=current_year,
-        sale_at__month = current_month,
-        sale_at__day = current_day
+        sale_at__month=current_month,
+        sale_at__day=current_day
     ).all()
 
     today_sale_amount = sum(today_sales.values_list('total_Sale_price', flat=True))
@@ -88,8 +87,12 @@ def index(request):
         'profit' : profit,
         'low_quantity_products': low_quantity_products,
         'today_sale_amount': today_sale_amount,
-        'today_profit': today_profit
-        
+        'today_profit': today_profit,
+        'today_servicing_amount': today_servicing_amount,
+        'total_servicing_cost': total_servicing_cost,
+        'daily_total': daily_total,
+        'monthly_total': monthly_total,
+        'total_quantity': total_quantity
     } 
     return render(request, 'dashboard/index.html', context)
 
@@ -104,9 +107,19 @@ def tables(request):
 
     models = Model.objects.all()
     brands = Brand.objects.all()
-
     brandID = request.GET.get('brands')
-    
+
+    # pagination
+    page = request.GET.get('page', 1)
+    paginator = Paginator(brands, 3)
+    try:
+        brands = paginator.page(page)
+    except PageNotAnInteger:
+        # fall back to first page
+        brands = paginator.page(1)
+    except EmptyPage:
+        # fall back to last page
+        brands = paginator.page(paginator.num_pages)
 
    # Search
     if 'quary_set' in request.GET:
@@ -184,11 +197,16 @@ def add_brand(request):
     brands = Brand.objects.all()
     form = BrandForm(request.POST or None, request.FILES or None)
     if form.is_valid():
-        form.save()
-        messages.success(request, "The brand has been added successfully!")
+
+        brand_name = form.cleaned_data.get('name')
+        existing_brand = Brand.objects.annotate(lower_name=Lower('name')).filter(lower_name=brand_name.lower()).first()
+        
+        if existing_brand:
+            messages.warning(request, "A brand with the same name already exists!")
+        else:
+            form.save()
+            messages.success(request, "The brand has been added successfully!")
         return redirect('dashboard:add-brand')
-    else:
-        form = BrandForm()
     context = {
         'form': form,
         'brands': brands,

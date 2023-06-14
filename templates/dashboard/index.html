@@ -76,7 +76,7 @@
                 </div>
                 <div class="col-md-6 col-lg-2 col-xlg-3 card card-hover rounded">
                   <div class="bg-info p-10 text-white text-center h-100 rounded shadow-sm">
-                    <i class="fa fa-cart-plus m-b-5 font-16"></i>
+                    <i class="mdi mdi-cash m-b-5 font-16"></i>
                     <h5 class="m-b-0 m-t-5">
                       {{ total_Sale_amount|intcomma }}
                     </h5>
@@ -102,38 +102,39 @@
                 <div class="col-md-6 col-lg-2 col-xlg-3 card card-hover rounded">
                   <div class="bg-success p-10 text-white text-center h-100 rounded shadow-sm">
                     <i class="m-r-10 mdi mdi-cash m-b-5 font-16"></i>
-                    <h5 class="m-b-0 m-t-5">{{ total_Sale_amount|intcomma }} TK.</h5>
-                    <small class="font-light">Total Services</small>
+                    <h5 class="m-b-0 m-t-5">{{ today_servicing_amount|intcomma }} TK.</h5>
+                    <small class="font-light">Today Servicing Amount</small>
                   </div>
                 </div>
                 <div class="col-md-6 col-lg-2 col-xlg-3 card card-hover rounded">
                   <div class="bg-success p-10 text-white text-center h-100 rounded shadow-sm">
                     <i class="m-r-10 mdi mdi-cash m-b-5 font-16"></i>
-                    <h5 class="m-b-0 m-t-5">{{ total_Sale_amount|intcomma }} TK.</h5>
-                    <small class="font-light">Today Servicing</small>
+                    <h5 class="m-b-0 m-t-5">{{ total_servicing_cost|intcomma }} TK.</h5>
+                    <small class="font-light">Total Servicing Servicing</small>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-2 col-xlg-3 card card-hover rounded">
+                  <div class="bg-success p-10 text-white text-center h-100 rounded shadow-sm">
+                    <i class="m-r-10 fa fa-cart-plus m-b-5 font-16"></i>
+                    <h5 class="m-b-0 m-t-5">{{ total_quantity|intcomma }}</h5>
+                    <small class="font-light">Today Quantity Buying </small>
                   </div>
                 </div>
                 <div class="col-md-6 col-lg-2 col-xlg-3 card card-hover rounded">
                   <div class="bg-success p-10 text-white text-center h-100 rounded shadow-sm">
                     <i class="m-r-10 mdi mdi-cash m-b-5 font-16"></i>
-                    <h5 class="m-b-0 m-t-5">{{ total_Sale_amount|intcomma }} TK.</h5>
-                    <small class="font-light">Sales Report</small>
+                    <h5 class="m-b-0 m-t-5">{{ daily_total|intcomma }} TK.</h5>
+                    <small class="font-light">Today Quantity Buying Amount</small>
                   </div>
                 </div>
                 <div class="col-md-6 col-lg-2 col-xlg-3 card card-hover rounded">
                   <div class="bg-success p-10 text-white text-center h-100 rounded shadow-sm">
                     <i class="m-r-10 mdi mdi-cash m-b-5 font-16"></i>
-                    <h5 class="m-b-0 m-t-5">{{ total_Sale_amount|intcomma }} TK.</h5>
-                    <small class="font-light">Total Update Quantity</small>
+                    <h5 class="m-b-0 m-t-5">{{ monthly_total|intcomma }} TK.</h5>
+                    <small class="font-light">Update Quantity Buying Amount</small>
                   </div>
                 </div>
-                <div class="col-md-6 col-lg-2 col-xlg-3 card card-hover rounded">
-                  <div class="bg-success p-10 text-white text-center h-100 rounded shadow-sm">
-                    <i class="m-r-10 mdi mdi-cash m-b-5 font-16"></i>
-                    <h5 class="m-b-0 m-t-5">{{ total_Sale_amount|intcomma }} TK.</h5>
-                    <small class="font-light">Monthly Update Quantity</small>
-                  </div>
-                </div>
+                
                 <div class="col-md-6 col-lg-2 col-xlg-3 card card-hover rounded">
                   <div class="bg-success p-10 text-white text-center h-100 rounded shadow-sm">
                     <i class="m-r-10 mdi mdi-cash m-b-5 font-16"></i>

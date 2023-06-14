@@ -30,7 +30,7 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.messages',
+    
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     
@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'dashboard',
     'base', 
     'service',
+    'django.contrib.messages',
 ]
 
 BOOTSTRAP_DATEPICKER_PLUS = {
@@ -66,6 +67,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+   
+
 ]
 
 ROOT_URLCONF = 'accessories_shop.urls'
@@ -174,3 +177,10 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticFiles')
+
+
+# Messages
+from django.contrib.messages import constants as messages
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger'
+}

@@ -5,8 +5,7 @@ from accessories.models import Product, Sale, Brand, Model
 
 
 class ProductsForm(forms.ModelForm):
-    brand = forms.ModelChoiceField(queryset=Brand.objects.all())
-    model = forms.ModelChoiceField(queryset=Model.objects.none())
+   
     class Meta:
         model = Product
         fields = ['product_name', 'brand', 'model', 'product_quantity', 'buying_price', 'expecting_Saleing_price']
