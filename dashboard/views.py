@@ -103,10 +103,20 @@ def tables(request):
     total_profit = 0
 
     models = Model.objects.all()
-    brands = Brand.objects.all()
+    brands = Brand.objects.all().order_by('pk')
 
     brandID = request.GET.get('brands')
-    
+
+    page = request.GET.get('page', 1)
+    paginator = Paginator(brands, 5)
+    try:
+        brands = paginator.page(page)
+    except PageNotAnInteger:
+        # fall back to first page
+        brands = paginator.page(1)
+    except EmptyPage:
+        # fall back to last page
+        brands = paginator.page(paginator.num_pages)
 
    # Search
     if 'quary_set' in request.GET:
