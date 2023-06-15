@@ -30,11 +30,11 @@
 
     <div class="page-breadcrumb">
         <div class="row">
-            <div class="col-12 d-flex no-block align-items-center">
+            <div class="col-12 align-items-center">
                 <h4 class="page-title">
                     {% for message in messages %}
                         <div class="container-fluid p-0">
-                            <div class="alert {{ message.tags }}" role="alert">
+                            <div class="alert {{ message.tags }} alert-success" role="alert">
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="True">&times;</span>
                                 </button>
@@ -43,18 +43,22 @@
                         </div>
                     {% endfor %}
                 </h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 mx-auto">
                 <div class="mx-auto text-right">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a class="btn btn-success dG" href="{% url 'dashboard:add-model' %}">Back to Add Model</a></li>
+                            <li class="breadcrumb-item"><a class="btn btn-success dG" href="{% url 'dashboard:tables' %}">Back to Add Products</a></li>
                         </ol>
                     </nav>
                 </div>
             </div>
         </div>
     </div>
-    
-    <div class="card">
+    <div class="d-md-flex justify-content-around m-20">
+    <div class="card col-12 col-md-6 m-2">
         <div class="card-body">
             <!-- <h5 class="card-title text-success font-bold" style="font-size: xx-large;">Product Datatable</h5> -->
             <div class="table-responsive">
@@ -70,7 +74,7 @@
                         <tr onmouseover="this.style.fontWeight='bold'; this.style.backgroundColor='#B2EBF2'; this.style.color='black'"
                             onmouseout="this.style.fontWeight='normal'; this.style.backgroundColor='white'">
                             <td>{{brand.name}}</td>
-                            <td class="d-flex ">
+                            <td class="d-flex justify-content-center">
                                 <a href="{% url 'dashboard:upadate-brand' brand.id %}" data-toggle="tooltip"
                                     data-placement="top" title="Update" class="hover-zoom">
                                     <i class="mdi mdi-check fa-lg text-success"></i>
@@ -88,13 +92,13 @@
             </div>
         </div>
     </div>
-   
-    <div class="container-fluid">
+
+    <div class="container-fluid col-12 col-md-6 m-2">
         <!-- ============================================================== -->
         <!-- Start Page Content -->
         <!-- ============================================================== -->
         <div class="row">
-            <div class="col-md-6 mx-auto shadow-sm">
+            <div class="col-md-12 mx-auto shadow-sm">
                 <div class="card shadow-lg dG">
                     <div class="card-body wizard-content">
                         <h2 align="center" class="card-title">Add New Brand</h2>
@@ -104,13 +108,13 @@
                             <!-- {{ form | crispy }} -->
                             <div class="form__linput">
                                 <label
-                                  class="form__label"
-                                  style="background-color: white"
-                                  for="lname"
-                                  >Brand Name <span class="text-danger">*</span></label
+                                class="form__label"
+                                style="background-color: white"
+                                for="lname"
+                                >Brand Name <span class="text-danger">*</span></label
                                 >
-                              </div>
-                              <div class="form__input">{{ form.name }}</div>
+                            </div>
+                            <div class="form__input">{{ form.name }}</div>
                             <br><br>
                             <input class="btn btn-success btn-block dG" type="submit" value="Add">
                         </form>
@@ -119,6 +123,7 @@
             </div>
         </div>      
     </div>
+</div>
     
 {% endblock %}
 

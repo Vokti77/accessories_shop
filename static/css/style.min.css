@@ -5125,9 +5125,9 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
     border-radius: 2px
 }
 
-.breadcrumb-item + .breadcrumb-item {
+/* .breadcrumb-item + .breadcrumb-item {
     padding-left: 0.5rem
-}
+} */
 
 /* .breadcrumb-item + .breadcrumb-item:before {
     display: inline-block;
@@ -11242,7 +11242,7 @@ ul.list-style-none li a:hover {
 }
 
 .page-breadcrumb .breadcrumb .breadcrumb-item + .breadcrumb-item:before {
-    content: "\e649";
+    /* content: "\e649"; */
     font-family: themify;
     color: #ced4da;
     font-size: 11px

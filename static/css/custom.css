@@ -97,8 +97,8 @@ aside.left-sidebar {
 
 
 .accordion {
-  margin: 3em auto;
-  max-width: 30em;
+  display: flex;
+  justify-content: space-around;
 }
 .toggle {
   display: none;
@@ -118,6 +118,8 @@ aside.left-sidebar {
   display: block;
   color: #7a7572;
   font-weight: bold;
+  padding-right: 50px;
+  margin-right: 10px;
 }
 .title:after, .title:before {
   content: '';
@@ -136,6 +138,7 @@ aside.left-sidebar {
   max-height: 0;
   overflow: hidden;
   background-color: #fff;
+  width: 200px;
 }
 .content p {
   margin: 0;
@@ -144,7 +147,11 @@ aside.left-sidebar {
   line-height: 1.5;
 }
 .toggle:checked + .title, .toggle:checked + .title + .content {
+  padding: 10px;
+  padding-left: 10px;
   box-shadow: 3px 3px 6px #ddd, -3px 3px 6px #ddd;
+  width: 200px;
+  line-height: 30px;
 }
 .toggle:checked + .title + .content {
   max-height: 500px;
@@ -152,7 +159,19 @@ aside.left-sidebar {
 .toggle:checked + .title:before {
   transform: rotate(90deg) !important;
 }
-
+@media only screen and (max-width:600px) 
+{
+ .accordion{
+     display: block;
+ }
+ .toggle:checked+.title,
+ .toggle:checked+.title+.content {
+   padding: 10px;
+   padding-left: 10px;
+     box-shadow: 3px 3px 6px #ddd, -3px 3px 6px #ddd;
+     width: auto;
+ }
+}
 
 
 
@@ -217,8 +236,8 @@ input[type="checkbox"] {
   display: none;
 }
 
-@media only screen and (max-width: 600px) {
+/* @media only screen and (max-width: 600px) {
   .container {
     padding: 80px;
   }
-}
+} */

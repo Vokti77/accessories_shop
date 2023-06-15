@@ -106,12 +106,12 @@ def tables(request):
     total_profit = 0
 
     models = Model.objects.all()
-    brands = Brand.objects.all()
+    brands = Brand.objects.all().order_by('pk')
+
     brandID = request.GET.get('brands')
 
-    # pagination
     page = request.GET.get('page', 1)
-    paginator = Paginator(brands, 3)
+    paginator = Paginator(brands, 5)
     try:
         brands = paginator.page(page)
     except PageNotAnInteger:
@@ -279,7 +279,7 @@ def upadate_model(request, model_id):
     form = ModelForm(request.POST or None, request.FILES or None, instance=model_inc)
     if form.is_valid():
         form.save()
-        return redirect('dashboard:tables')
+        return redirect('dashboard:add-model')
     else:
         form = ProductsForm()
     return render(request, 'product/update_model.html', context)

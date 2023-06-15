@@ -15,88 +15,6 @@ Product Table
 {% load crispy_forms_tags %}
 {% block content %}
 
-<style>
-    .accordion {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .toggle {
-        display: none;
-    }
-
-    .option {
-        position: relative;
-        /* display: inline-flex; */
-        margin-bottom: 1em;
-        /* display: flex;    */
-    }
-
-    .title,
-    .content {
-        backface-visibility: hidden;
-        transform: translateZ(0);
-        transition: all 0.2s;
-    }
-
-    .title {
-        background: #fff;
-        padding: 1em;
-        display: block;
-        color: #7a7572;
-        width: auto;
-        font-weight: bold;
-        padding-left: 10px;
-    }
-
-    .title:after,
-    .title:before {
-        content: '';
-        position: absolute;
-        right: 1.25em;
-        top: 1.25em;
-        width: 2px;
-        height: 0.75em;
-        background-color: #7a7572;
-        transition: all 0.2s;
-    }
-
-    .title:after {
-        transform: rotate(90deg);
-    }
-
-    .content {
-        max-height: 0;
-        overflow: hidden;
-        background-color: #fff;
-        width: auto;
-        /* padding-right: 10px; */
-    }
-
-    .content li {
-        margin: 0;
-        padding: 0.5em 1em 1em;
-        font-size: 0.9em;
-        line-height: 1.5;
-    }
-
-    .toggle:checked+.title,
-    .toggle:checked+.title+.content {
-        padding-left: 10px;
-        box-shadow: 3px 3px 6px #ddd, -3px 3px 6px #ddd;
-        width: 200px;
-    }
-
-    .toggle:checked+.title+.content {
-        max-height: 500px;
-    }
-
-    .toggle:checked+.title:before {
-        transform: rotate(90deg) !important;
-    }
-</style>
-
-
 <div class="page-breadcrumb">
     <div class="row">
         <div class="col-12 d-flex no-block align-items-center">
@@ -144,218 +62,215 @@ Product Table
         </div>
         {% endfor %}
     </div>
-    <!-- Pagination for Brands -->
+
     <div class="row">
         <div class="col-md-12">
-            <div class="row">
-                <div class="col-md-12">
-                {% if brands.has_other_pages %}
-                    <ul class="pagination">
-                        {% if brands.has_previous %}
-                            <li class="page-item">
-                                <a class="page-link" href="?page={{ brands.previous_page_number }}">&laquo;</a>
-                            </li>
-                        {% else %}
-                            <li class="page-item disabled">
-                                <a class="page-link">&laquo;</a>
-                            </li>
-                        {% endif %}
-                        {% for i in brands.paginator.page_range %}
-                            {% if brands.number == i %}
-                                <li class="page-item active">
-                                <a class="page-link">{{ i }}</a>
-                                </li>
-                            {% else %}
-                                <li class="page-item">
-                                <a class="page-link" href="?page={{ i }}">{{ i }}</a>
-                                </li>
-                            {% endif %}
-                        {% endfor %}
-
-                        {% if brands.has_next %}
-                            <li class="page-item">
-                            <a class="page-link" href="?page={{ brands.next_page_number }}">&raquo;</a>
-                            </li>
-                        {% else %}
-                            <li class="page-item disabled">
-                            <a class="page-link">&raquo;</a>
-                            </li>
-                        {% endif %}
-                    </ul>
+            {% if brands.has_other_pages %}
+            <ul class="pagination">
+                {% if brands.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ brands.previous_page_number }}">&laquo;</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link">&laquo;</a>
+                </li>
                 {% endif %}
-            </div>
+                {% for i in brands.paginator.page_range %}
+                {% if brands.number == i %}
+                <li class="page-item active">
+                    <a class="page-link">{{ i }}</a>
+                </li>
+                {% else %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                </li>
+                {% endif %}
+                {% endfor %}
+
+                {% if brands.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ brands.next_page_number }}">&raquo;</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link">&raquo;</a>
+                </li>
+                {% endif %}
+            </ul>
+            {% endif %}
         </div>
+
     </div>
-</div>
 
-<div class="card">
-    <div class="card-body">
-        <!-- <h5 class="card-title text-success font-bold" style="font-size: xx-large;">Product Datatable</h5> -->
-        <div class="table-responsive">
-            <table id="zero_config" class="table table-striped table-bordered table-sm tablecenterheadCSS">
-                <thead style="font-weight: 900; background-color: #1f2b3d; color: antiquewhite;" class="text-center">
-                    <tr class="text-center text-white " style="font-weight: 900;">
-                        <th id="link" data-toggle="tooltip">Name</th>
-                        <th>Brand</th>
-                        <th>Model</th>
-                        <th>Quantity</th>
-                        <th>Buy Price</th>
-                        <th data-toggle="tooltip" data-placement="Top" title="Expected Selling Price">ES Price</th>
-                        <th data-toggle="tooltip" data-placement="Top" title="Total Buying Amount">TB Amount</th>
-                        <th>Sale Quantity</th>
-                        <th data-toggle="tooltip" data-placement="Top" title="Actual Sale Amount">AS Amount</th>
-                        <th>Total Profit</th>
-                        <th>Action</th>
-                        <th>Date_Added</th>
-                        <th>Date_Update</th>
-                    </tr>
-                </thead>
-                <!-- <p>{console.log()}</p> -->
-                <tbody class="text-center align-items-center">
-                    {% for product in product_item %}
-                    <tr onmouseover="this.style.fontWeight='bold'; this.style.backgroundColor='#B2EBF2'; this.style.color='black'"
-                        onmouseout="this.style.fontWeight='normal'; this.style.backgroundColor='white'" >
-                        <td>{{product.product_name}}</td>
-                        <td>{{product.model.brand.name}}</td>
-                        <td>{{product.model.name}}</td>
+    <div class="card">
+        <div class="card-body">
+            <!-- <h5 class="card-title text-success font-bold" style="font-size: xx-large;">Product Datatable</h5> -->
+            <div class="table-responsive">
+                <table id="zero_config" class="table table-striped table-bordered table-sm tablecenterheadCSS">
+                    <thead style="font-weight: 900; background-color: #1f2b3d; color: antiquewhite;"
+                        class="text-center">
+                        <tr class="text-center text-white " style="font-weight: 900;">
+                            <th id="link" data-toggle="tooltip">Name</th>
+                            <th>Brand</th>
+                            <th>Model</th>
+                            <th>Quantity</th>
+                            <th>Buy Price</th>
+                            <th data-toggle="tooltip" data-placement="Top" title="Expected Selling Price">ES Price</th>
+                            <th data-toggle="tooltip" data-placement="Top" title="Total Buying Amount">TB Amount</th>
+                            <th>Sale Quantity</th>
+                            <th data-toggle="tooltip" data-placement="Top" title="Actual Sale Amount">AS Amount</th>
+                            <th>Total Profit</th>
+                            <th>Action</th>
+                            <th>Date_Added</th>
+                            <th>Date_Update</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center">
+                        {% for product in product_item %}
+                        <tr onmouseover="this.style.fontWeight='bold'; this.style.backgroundColor='#B2EBF2'; this.style.color='black'"
+                            onmouseout="this.style.fontWeight='normal'; this.style.backgroundColor='white'">
+                            <td>{{product.product_name}}</td>
+                            <td>{{product.model.brand.name}}</td>
+                            <td>{{product.model.name}}</td>
 
-                        {% if product.product_quantity < 5 %} 
-                        <td class="text-danger"> <a class="text-danger"
-                                data-toggle="tooltip" data-placement="Top" title="Added More Quantity"
-                                href="{% url 'dashboard:update-quantity' product.id %}">{{product.product_quantity}}</a>
-                            </td>
-                            {% else %}
-                            <td class="text-danger"> <a data-toggle="tooltip" data-placement="Top" title="Added More Quantity"
+                            {% if product.product_quantity < 5 %} <td class="text-danger"> <a class="text-danger"
+                                    data-toggle="tooltip" data-placement="Top" title="Added More Quantity"
                                     href="{% url 'dashboard:update-quantity' product.id %}">{{product.product_quantity}}</a>
-                            </td>
-                            {% endif %}
-                            <td class="text-right">{{product.buying_price}}</td>
-                            <td class="text-right">{{product.expecting_Saleing_price}}</td>
-                            <td class="text-right">{{ product.buying_price |mul:product.product_quantity|intcomma }}</td>
-                            <td class="text-right">{{product.sale_quantity }}</td>
-                            <td class="text-right">{{product.actual_Sale_price}}</td>
-                            <td class="text-right">{{product.actual_Sale_price|sub:product.remining_quantity|intcomma}}</td>
-                            <td class="d-flex ">
-                                <a href="{% url 'dashboard:upadate-product' product.id %}" data-toggle="tooltip"
-                                    data-placement="top" title="Update" class="hover-zoom">
-                                    <i class="mdi mdi-check fa-lg text-success"></i>
-                                </a>
-                                <!-- 
+                                </td>
+                                {% else %}
+                                <td class="text-danger"> <a data-toggle="tooltip" data-placement="Top"
+                                        title="Added More Quantity"
+                                        href="{% url 'dashboard:update-quantity' product.id %}">{{product.product_quantity}}</a>
+                                </td>
+                                {% endif %}
+                                <td class="text-right">{{product.buying_price}}</td>
+                                <td class="text-right">{{product.expecting_Saleing_price}}</td>
+                                <td class="text-right">{{ product.buying_price |mul:product.product_quantity|intcomma }}
+                                </td>
+                                <td class="text-right">{{product.sale_quantity }}</td>
+                                <td class="text-right">{{product.actual_Sale_price}}</td>
+                                <td class="text-right">
+                                    {{product.actual_Sale_price|sub:product.remining_quantity|intcomma}}</td>
+                                <td class="d-flex ">
+                                    <a href="{% url 'dashboard:upadate-product' product.id %}" data-toggle="tooltip"
+                                        data-placement="top" title="Update" class="hover-zoom">
+                                        <i class="mdi mdi-check fa-lg text-success"></i>
+                                    </a>
+                                    <!-- 
                             <a href="#deleteEmployeeModal" data-toggle="modal" data-target="#deleteEmployeeModal" class="mdi mdi-close">
                                 <i></i>
                             </a> -->
-                                <a href="{% url 'dashboard:delete-product' product.id %}" data-toggle="tooltip"
-                                    data-placement="top" title="Delete" class="hover-zoom"
-                                    onclick="return confirm('Are you sure you want to delete this?')">
-                                    </i><i class="mdi mdi-close text-danger fa-lg"></i> </a>
+                                    <a href="{% url 'dashboard:delete-product' product.id %}" data-toggle="tooltip"
+                                        data-placement="top" title="Delete" class="hover-zoom"
+                                        onclick="return confirm('Are you sure you want to delete this?')">
+                                        </i><i class="mdi mdi-close text-danger fa-lg"></i> </a>
 
-                                {% if product.product_quantity == 0 %}
-                                <a href="{% url 'dashboard:Sale-quantity' product.id %}" data-toggle="tooltip"
-                                    data-placement="top" title="Sale" class="Sale hover-zoom">
-                                    </i><i
-                                        class="mdi mdi-cart-outline text-success fa-lg hover-zoom confirm-delete"></i>
-                                </a>
-                                {% else %}
-                                <a href="{% url 'dashboard:Sale-quantity' product.id %}" data-toggle="tooltip"
-                                    data-placement="top" title="Sale" class="Sale hover-zoom">
-                                    </i><i
-                                        class="mdi mdi-cart-outline text-success fa-lg hover-zoom confirm-delete"></i>
-                                </a>
-                                {% endif %}
-                            </td>
-                            <td>{{product.added_at }}</td>
-                            <td>{{product.update_at }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-                <tfoot style="background-color: rgb(221, 215, 215);">
-                    <tr>
-                        <th class="font-bold text-center">Total </th>
-                        <th colspan="6" class="text-right font-bold">{{ total_amount|intcomma }}</th>
-                        <th colspan="2" class="text-right font-bold">{{ total_Sale_amount|intcomma }}</th>
-                        <th class="text-right font-bold">{{ total_profit|intcomma }}</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </tfoot>
-            </table>
+                                    {% if product.product_quantity == 0 %}
+                                    <a href="{% url 'dashboard:Sale-quantity' product.id %}" data-toggle="tooltip"
+                                        data-placement="top" title="Sale" class="Sale hover-zoom">
+                                        </i><i
+                                            class="mdi mdi-cart-outline text-success fa-lg hover-zoom confirm-delete"></i>
+                                    </a>
+                                    {% else %}
+                                    <a href="{% url 'dashboard:Sale-quantity' product.id %}" data-toggle="tooltip"
+                                        data-placement="top" title="Sale" class="Sale hover-zoom">
+                                        </i><i
+                                            class="mdi mdi-cart-outline text-success fa-lg hover-zoom confirm-delete"></i>
+                                    </a>
+                                    {% endif %}
+                                </td>
+                                <td>{{product.added_at }}</td>
+                                <td>{{product.update_at }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    <tfoot style="background-color: rgb(221, 215, 215);">
+                        <tr>
+                            <th class="font-bold text-center">Total </th>
+                            <th colspan="6" class="text-right font-bold">{{ total_amount|intcomma }}</th>
+                            <th colspan="2" class="text-right font-bold">{{ total_Sale_amount|intcomma }}</th>
+                            <th class="text-right font-bold">{{ total_profit|intcomma }}</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
         </div>
     </div>
-</div>
-<div class="modal fade" id="{{product.product_name}}" tabindex="-1" role="dialog"
-    aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form action="" method="POST" novalidate style="margin-top: 50px;" enctype="multipart/form-data">
-                    <table id="zero-config" class="table table-striped table-hover table-sm">
-                        <thead class="text-center" style="font-size: medium; background-color: #1f2b3d;">
-                            <tr class="font-bold text-white">
-                                <th>Product Name</th>
-                                <th>Stock Quantity</th>
-                                <th>Last Buying Price</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-center font-bold">
-                            <tr>
-                                <td>{{ product.product_name }}</td>
-                                <td>{{ product.product_quantity}}</td>
-                                <td>{{ product.buying_price}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <br><br>
-                    {% csrf_token %}
-                    <div class="form__linput">
-                        <input class="form__input" type="number" name="quantity" id="input1" pattern="\w{1,}" required
-                            onkeyup="mul()" />
-                        <label class="form__label" style="background-color: white;" for="fname">Add New
-                            Quantity</label>
-                    </div>
-                    <br>
-                    <div class="form__linput">
-                        <input class="form__input" type="number" name="buy" id="input2" pattern="\w{1,}" required
-                            onkeyup="mul()" />
-                        <label class="form__label" style="background-color: white;" for="lname">Buying Price
-                        </label>
-                    </div>
-                    <!-- Add New Quantity : <input type="number" id="input1" name="quantity" onkeyup="mul()" style="padding-left: 50px;" ><br><br>
+    <div class="modal fade" id="{{product.product_name}}" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="" method="POST" novalidate style="margin-top: 50px;" enctype="multipart/form-data">
+                        <table id="zero-config" class="table table-striped table-hover table-sm">
+                            <thead class="text-center" style="font-size: medium; background-color: #1f2b3d;">
+                                <tr class="font-bold text-white">
+                                    <th>Product Name</th>
+                                    <th>Stock Quantity</th>
+                                    <th>Last Buying Price</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-center font-bold">
+                                <tr>
+                                    <td>{{ product.product_name }}</td>
+                                    <td>{{ product.product_quantity}}</td>
+                                    <td>{{ product.buying_price}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br><br>
+                        {% csrf_token %}
+                        <div class="form__linput">
+                            <input class="form__input" type="number" name="quantity" id="input1" pattern="\w{1,}"
+                                required onkeyup="mul()" />
+                            <label class="form__label" style="background-color: white;" for="fname">Add New
+                                Quantity</label>
+                        </div>
+                        <br>
+                        <div class="form__linput">
+                            <input class="form__input" type="number" name="buy" id="input2" pattern="\w{1,}" required
+                                onkeyup="mul()" />
+                            <label class="form__label" style="background-color: white;" for="lname">Buying Price
+                            </label>
+                        </div>
+                        <!-- Add New Quantity : <input type="number" id="input1" name="quantity" onkeyup="mul()" style="padding-left: 50px;" ><br><br>
               Buying Price : <input type="number" id="input2" name="buy" onkeyup="mul()" style="padding-left: 50px;"> -->
-                    <br>
-                    <span id="total" style="font-size: 20px; font-weight: bold; text-align: center;"></span>
-                    <br>
-                    <input class="btn btn-success btn-block" type="submit" value="Add Quantity" id="submitBtn">
-                </form>
-            </div>
-            <!-- <div class="modal-footer">
+                        <br>
+                        <span id="total" style="font-size: 20px; font-weight: bold; text-align: center;"></span>
+                        <br>
+                        <input class="btn btn-success btn-block" type="submit" value="Add Quantity" id="submitBtn">
+                    </form>
+                </div>
+                <!-- <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary">Save changes</button>
             </div> -->
+            </div>
         </div>
     </div>
-</div>
 
 
-<script>
-    $(document).ready(function () {
-        $('#zero_config').DataTable();
-    });
+    <script>
+        $(document).ready(function () {
+            $('#zero_config').DataTable();
+        });
 
 
-</script>
-<script>
-    $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
-    })
-</script>
+    </script>
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
 
-
-
-{% endblock %}
+    {% endblock %}
