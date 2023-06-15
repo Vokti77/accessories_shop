@@ -14,7 +14,7 @@
   var ctx = document.getElementById('myChart').getContext('2d');
 
   // Generate an array of product names and sale quantities
-  var products = [{% for product in product_item %} '{{ product.product_name }}', {% endfor %}];
+  var products = [{% for product in product_item %} '{{ product.product_name }}',{% endfor %}];
   var quantities = [{% for product in product_item %} {{ product.sale_quantity }}, {% endfor %}];
 
   // Calculate the total quantity

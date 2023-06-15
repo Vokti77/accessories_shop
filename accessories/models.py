@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.db.models import Sum, F
 
 # Create your models here.
 class Brand(models.Model):
@@ -63,11 +64,31 @@ class ProductQuantityHistory(models.Model):
     product = models.ForeignKey('Product', on_delete=models.CASCADE)
     quantity_added = models.PositiveIntegerField()
     buying_price = models.DecimalField(max_digits=10, decimal_places=2)
+    new_selling_price = models.DecimalField(max_digits=10, decimal_places=2)
     added_at = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.quantity_added} added to {self.product.product_name} at {self.added_at}"
     
+
+    @classmethod
+    def get_daily_total_buying_amount(cls):
+        today = timezone.now().date()
+        total_amount = cls.objects.filter(added_at=today).aggregate(total=Sum(F('buying_price') * F('quantity_added')))['total']
+        return total_amount
+    
+    @classmethod
+    def get_daily_total_quantity(cls):
+        today = timezone.now().date()
+        total_qantity = cls.objects.filter(added_at=today).aggregate(total=Sum(('quantity_added')))['total']
+        return total_qantity
+
+    @classmethod
+    def get_monthly_total_buying_amount(cls):
+        today = timezone.now().date()
+        start_of_month = today.replace(day=1)
+        total_amount = cls.objects.filter(added_at__gte=start_of_month, added_at__lte=today).aggregate(total=Sum(F('buying_price') * F('quantity_added')))['total']
+        return total_amount
 
 
 class MonthlySaleProfitHistory(models.Model):

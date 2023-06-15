@@ -14,7 +14,7 @@ from datetime import datetime, date
 from django.http import JsonResponse
 import datetime
 from django.db.models.functions import ExtractYear, ExtractMonth
-from django.http import JsonResponse
+from django.db.models.functions import Lower
 from django.shortcuts import render
 from utils.charts import months, colorPrimary, colorSuccess, colorDanger, generate_color_palette, get_year_dict
 
@@ -28,25 +28,30 @@ def index(request):
     profit = 0
 
     now = datetime.now()
+    today = date.today()
     current_year = now.strftime("%Y")
     current_month = now.strftime("%m")
     current_day = now.strftime("%d")
     
     sales = len(Sale.objects.all())
-    service = len(Service.objects.all())
+    service = Service.objects.all()
+    total_servicing_cost = 0
+    for i in service:
+        total_servicing_cost += i.sevicing_cost
+    today_servicing_amount = 0
+    service = Service.objects.filter(date_added__year=today.year, date_added__month=today.month, date_added__day=today.day, status='complete')
+    for i in service:
+        today_servicing_amount += i.sevicing_cost
 
-    # monthly_service = len(Service.objects.filter(
-    #     date_added__year=current_year,
-    #     date_added__month = current_month,
-    # )).all()
-
-    # monthly_service_amount = sum(monthly_service.values_list('sevicing_cost', flat=True))
-    # print(monthly_service_amount)
-
+    # Add New Quantity Buying Amount
+    daily_total = ProductQuantityHistory.get_daily_total_buying_amount()
+    total_quantity = ProductQuantityHistory.get_daily_total_quantity()
+    monthly_total = ProductQuantityHistory.get_monthly_total_buying_amount()
+    
     today_sales = Sale.objects.filter(
         sale_at__year=current_year,
-        sale_at__month = current_month,
-        sale_at__day = current_day
+        sale_at__month=current_month,
+        sale_at__day=current_day
     ).all()
 
     today_sale_amount = sum(today_sales.values_list('total_Sale_price', flat=True))
@@ -58,6 +63,8 @@ def index(request):
     model_item = Model.objects.all()
     users = MyUser.objects.count()
     total_item = product_item.count()
+
+
     low_quantity_products = Product.objects.filter(product_quantity__lt=5).count()
     for product in product_item:
         if product.product_quantity < 5:
@@ -80,10 +87,15 @@ def index(request):
         'profit' : profit,
         'low_quantity_products': low_quantity_products,
         'today_sale_amount': today_sale_amount,
-        'today_profit': today_profit
-        
+        'today_profit': today_profit,
+        'today_servicing_amount': today_servicing_amount,
+        'total_servicing_cost': total_servicing_cost,
+        'daily_total': daily_total,
+        'monthly_total': monthly_total,
+        'total_quantity': total_quantity
     } 
     return render(request, 'dashboard/index.html', context)
+
 
 @login_required(login_url='account:login')
 def tables(request):
@@ -95,9 +107,19 @@ def tables(request):
 
     models = Model.objects.all()
     brands = Brand.objects.all()
-
     brandID = request.GET.get('brands')
-    
+
+    # pagination
+    page = request.GET.get('page', 1)
+    paginator = Paginator(brands, 3)
+    try:
+        brands = paginator.page(page)
+    except PageNotAnInteger:
+        # fall back to first page
+        brands = paginator.page(1)
+    except EmptyPage:
+        # fall back to last page
+        brands = paginator.page(paginator.num_pages)
 
    # Search
     if 'quary_set' in request.GET:
@@ -148,6 +170,7 @@ def tables(request):
     }
     return render(request, 'dashboard/tables.html', context)
 
+
 @login_required(login_url='account:login')
 def add_product(request):
     form = ProductsForm(request.POST or None, request.FILES or None)
@@ -160,26 +183,42 @@ def add_product(request):
     context = {
         'form': form,
     }
-    return render(request, "dashboard/form_basic.html", context)
+    return render(request, "dashboard/form_product.html", context)
+
+
+def get_models(request):
+    brand_id = request.GET.get('brand_id')
+    models = Model.objects.filter(brand_id=brand_id).values('id', 'name')
+    return JsonResponse(list(models), safe=False)
+
 
 @login_required(login_url='account:login')
 def add_brand(request):
     brands = Brand.objects.all()
     form = BrandForm(request.POST or None, request.FILES or None)
     if form.is_valid():
-        form.save()
-        messages.success(request, "The brand has been added successfully!")
+
+        brand_name = form.cleaned_data.get('name')
+        existing_brand = Brand.objects.annotate(lower_name=Lower('name')).filter(lower_name=brand_name.lower()).first()
+        
+        if existing_brand:
+            messages.warning(request, "A brand with the same name already exists!")
+        else:
+            form.save()
+            messages.success(request, "The brand has been added successfully!")
         return redirect('dashboard:add-brand')
-    else:
-        form = BrandForm()
     context = {
         'form': form,
         'brands': brands,
     }
     return render(request, "dashboard/form_brand.html", context)
 
+
 @login_required(login_url='account:login')
 def add_model(request):
+    models = Model.objects.all()
+    brands = Brand.objects.all()
+
     form = ModelForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         form.save()
@@ -189,8 +228,11 @@ def add_model(request):
         form = ModelForm()
     context = {
         'form': form,
+        'models':models,
+        'brands': brands
     }
     return render(request, "dashboard/form_model.html", context)
+
 
 def upadate_product(request, product_id):
     product = Product.objects.get(id=product_id)
@@ -208,6 +250,7 @@ def upadate_product(request, product_id):
         form = ProductsForm()
     return render(request, 'product/update.html', context)
 
+
 def upadate_brand(request, brand_id):
     brand = Brand.objects.get(id=brand_id)
     form = BrandForm(instance=brand)
@@ -224,6 +267,24 @@ def upadate_brand(request, brand_id):
         form = ProductsForm()
     return render(request, 'product/brand_update.html', context)
 
+
+def upadate_model(request, model_id):
+    model = Model.objects.get(id=model_id)
+    form = ModelForm(instance=model)
+    
+    context = {
+        "form": form,
+    }
+    model_inc = Model.objects.get(id=model_id)
+    form = ModelForm(request.POST or None, request.FILES or None, instance=model_inc)
+    if form.is_valid():
+        form.save()
+        return redirect('dashboard:tables')
+    else:
+        form = ProductsForm()
+    return render(request, 'product/update_model.html', context)
+
+
 @login_required(login_url='account:login')
 def delete_brand(request, brand_id):
     brand = get_object_or_404(Brand, id=brand_id)
@@ -231,6 +292,7 @@ def delete_brand(request, brand_id):
     messages.success(request, "The product has been delete successfully!")
     # return redirect('dashboard:tables')
     return redirect('dashboard:add-brand')
+
 
 @login_required(login_url='account:login')
 def update_product_quantity(request, product_id):
@@ -241,19 +303,24 @@ def update_product_quantity(request, product_id):
     }
     return render(request, 'product/update_quantity.html', context)
 
+
 @login_required(login_url='account:login')
 def confirm_update_quantity(request, product_id):
     quantity = int(request.POST.get('quantity'))
     buy_price = int(request.POST.get('buy'))
+    sell_price = int(request.POST.get('sell'))
 
     add_q = Product.objects.get(id=product_id)
-    add_info = ProductQuantityHistory(product=add_q, quantity_added=quantity, buying_price=buy_price)
+    add_info = ProductQuantityHistory(product=add_q, quantity_added=quantity, buying_price=buy_price, new_selling_price=sell_price)
     add_info.save()
 
     add_q.product_quantity += quantity
     add_q.buying_price = buy_price
+    add_q.expecting_Saleing_price = sell_price
     add_q.save()
+
     return redirect('dashboard:tables')
+
 
 @login_required(login_url='account:login')
 def update_quntity_history(request):
@@ -301,11 +368,14 @@ def delete_product(request, product_id):
 @login_required(login_url='account:login')
 def sale_quantity(request, product_id):
     product = Product.objects.get(id=product_id)
+    stock_quantity = product.product_quantity
     context = {
         'product_id': product_id,
-        'product' : product
+        'product' : product,
+        'stock_quantity' : stock_quantity
     }
     return render(request, 'product/sell.html', context)
+
 
 @login_required(login_url='account:login')
 def confirm_Sale(request, product_id):
