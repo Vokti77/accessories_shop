@@ -45,7 +45,13 @@ def index(request):
 
     # Add New Quantity Buying Amount
     daily_total = ProductQuantityHistory.get_daily_total_buying_amount()
+    if daily_total is None:
+        daily_total = 0
+
     total_quantity = ProductQuantityHistory.get_daily_total_quantity()
+    if total_quantity is None:
+        total_quantity = 0
+        
     monthly_total = ProductQuantityHistory.get_monthly_total_buying_amount()
     
     today_sales = Sale.objects.filter(

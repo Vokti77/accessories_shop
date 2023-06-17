@@ -20,21 +20,7 @@ def add_service(request):
     return render(request, 'service/service_add.html', context)
 
 def service_info(request):
-    # current_date = timezone.now().date()  # Get the current date
-    # start_of_month = date(current_date.year, current_date.month, 1)  # Calculate the start of the current month
-
-    # monthly_total_cost = Service.objects.filter(date_added__gte=start_of_month) \
-    #     .aggregate(total_cost=Sum('sevicing_cost'))['total_cost']
-
-    # print(monthly_total_cost)
-    # # 'monthly_total_cost' will contain the sum of 'sevicing_cost' for all services added this month.
-
-    # if monthly_total_cost is not None:
-    #     print(f"Monthly total servicing cost: {monthly_total_cost}")
-    # else:
-    #     print("No services added this month.")
-
-
+    
     total_amount = 0
     services = Service.objects.filter(status='pending')
     service = Service.objects.filter(status='complete')
@@ -59,7 +45,6 @@ def update_status(request, service_id):
             task.status = new_status
             task.save()
             return HttpResponse()  # Return a success response
-
     return HttpResponseBadRequest('Invalid request')
 
 # @login_required
