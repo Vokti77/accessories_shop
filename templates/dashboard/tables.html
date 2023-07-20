@@ -18,7 +18,7 @@ Product Table
 <style>
     .accordion {
         display: flex;
-        justify-content: space-between;
+        justify-content: space-around;
     }
 
     .toggle {
@@ -46,7 +46,8 @@ Product Table
         color: #7a7572;
         width: auto;
         font-weight: bold;
-        padding-left: 10px;
+        padding-right: 50px;
+        margin-right: 10px;
     }
 
     .title:after,
@@ -69,7 +70,8 @@ Product Table
         max-height: 0;
         overflow: hidden;
         background-color: #fff;
-        width: auto;
+        width: 100px;
+        
         /* padding-right: 10px; */
     }
 
@@ -213,7 +215,7 @@ Product Table
                 <tbody class="text-center">
                     {% for product in product_item %}
                     <tr onmouseover="this.style.fontWeight='bold'; this.style.backgroundColor='#B2EBF2'; this.style.color='black'"
-                        onmouseout="this.style.fontWeight='normal'; this.style.backgroundColor='white'">
+                        onmouseout="this.style.fontWeight='normal'; this.style.backgroundColor='white'" >
                         <td>{{product.product_name}}</td>
                         <td>{{product.model.brand.name}}</td>
                         <td>{{product.model.name}}</td>

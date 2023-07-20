@@ -10,29 +10,31 @@ from django.contrib.auth import login, logout, authenticate
 from django.views.generic import TemplateView
 from django.contrib import messages
 
+def register(request, *args, **kwargs):
+	user = request.user
+	if user.is_authenticated: 
+		return HttpResponse("You are already authenticated as " + str(user.email))
 
+	context = {}
+	if request.POST:
+		form = RegistrationForm(request.POST)
+		if form.is_valid():
+			form.save()
+			email = form.cleaned_data.get('email').lower()
+			raw_password = form.cleaned_data.get('password1')
+			account = authenticate(email=email, password=raw_password)
+			# login(request, account)
+			destination = kwargs.get("next")
+			if destination:
+				return redirect(destination)
+			return redirect('account:login')
+		else:
+			context['registration_form'] = form
 
-
-def register(request):
-    if request.user.is_authenticated:
-        return HttpResponse("You Are Authenticate!")
-    else:
-        form = RegistrationForm
-        if request.method == 'post' or request.method == 'POST':
-            form = RegistrationForm(request.POST)
-
-            if form.is_valid():
-                form.save()
-                messages.success(request, 'Your account create Successfully!')
-                return redirect('accounts:login')
-                # return HttpResponse("Account bas been Created!")
-
-        contex = {
-            'form': form
-        }
-
-    return render(request, 'accounts/register.html', contex)
-
+	else:
+		form = RegistrationForm()
+		context['registration_form'] = form
+	return render(request, 'accounts/register.html', context)
 
 
 def userlogin(request):

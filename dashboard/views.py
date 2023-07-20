@@ -112,7 +112,7 @@ def tables(request):
     total_profit = 0
 
     models = Model.objects.all()
-    brands = Brand.objects.all()
+    brands = Brand.objects.all().order_by('id')
     brandID = request.GET.get('brands')
 
     # pagination
@@ -159,7 +159,7 @@ def tables(request):
             profit = product.actual_Sale_price - product.remining_quantity
             total_amount += product.buying_price*product.product_quantity
             total_Sale_amount += product.actual_Sale_price
-            total_profit += profit 
+            total_profit += profit
   
 
     context = {
@@ -285,7 +285,7 @@ def upadate_model(request, model_id):
     form = ModelForm(request.POST or None, request.FILES or None, instance=model_inc)
     if form.is_valid():
         form.save()
-        return redirect('dashboard:tables')
+        return redirect('dashboard:add-model')
     else:
         form = ProductsForm()
     return render(request, 'product/update_model.html', context)

@@ -88,8 +88,8 @@
             </div>
         </div>
     </div>
-   
-    <div class="container-fluid">
+
+    <div class="container-fluid col-6 m-2">
         <!-- ============================================================== -->
         <!-- Start Page Content -->
         <!-- ============================================================== -->
@@ -104,13 +104,13 @@
                             <!-- {{ form | crispy }} -->
                             <div class="form__linput">
                                 <label
-                                  class="form__label"
-                                  style="background-color: white"
-                                  for="lname"
-                                  >Brand Name <span class="text-danger">*</span></label
+                                class="form__label"
+                                style="background-color: white"
+                                for="lname"
+                                >Brand Name <span class="text-danger">*</span></label
                                 >
-                              </div>
-                              <div class="form__input">{{ form.name }}</div>
+                            </div>
+                            <div class="form__input">{{ form.name }}</div>
                             <br><br>
                             <input class="btn btn-success btn-block dG" type="submit" value="Add">
                         </form>
@@ -119,6 +119,7 @@
             </div>
         </div>      
     </div>
+</div>
     
 {% endblock %}
 
