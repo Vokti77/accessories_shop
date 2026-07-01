@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+{% block extra_css %}
+<style xmlns="http://www.w3.org/1999/html">
+</style>
+{% endblock %}
+{% block page_title %}
+Form
+{% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<!-- <style>
+    .dG {
+        font-size: large;
+        color: black;
+        border: 2px double transparent;
+        /* background-image: linear-gradient(#046491,#046491); */
+        background-image: linear-gradient(#14A44D,#14A4),radial-gradient(circle at left top,#016eda,#d900c0);
+        /* background-color: aliceblue; */
+        background-origin: border-box;
+        background-clip: padding-box,border-box;
+        box-shadow: 20px 10px linear-gradient(90deg,red,#ffc800 22%,#ff117c 50%,#4e1dff 79%,#0f0);
+        padding: 10px;
+        border-radius: 10px;
+    }
+</style> -->
+
+<div class="page-breadcrumb">
+    <div class="row ">
+        <div class="col-12 align-items-center">
+            <h4 class="page-title">
+                {% for message in messages %}
+                <div class="container-fluid p-0">
+                    <div class="alert {{ message.tags }} alert-success" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="True">&times;</span>
+                        </button>
+                        {{ message }}
+                    </div>
+                </div>
+                {% endfor %}
+            </h4>
+        </div>
+        <div class="row">
+            <div class="col-md-12 mx-auto">
+                <div class="mx-auto text-right">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a class="btn btn-success dG" href="{% url 'dashboard:tables' %}">Back to Add Products</a></li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        
+
+        
+        <!-- <div class="mx-auto text-center">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item" style="margin-right: 200px;"><a class="btn btn-success dG" href="{% url 'dashboard:add-product' %}">Back To Add Product</a></li>
+                        <li class="breadcrumb-item"><a class="btn btn-success dG" href="{% url 'dashboard:add-brand' %}">Add New Brand</a></li>
+                        
+                    </ol>
+                </nav>
+            </div> -->
+    </div>
+</div>
+
+<div class="d-md-flex justify-content-around m-20">
+    <div class="card col-6 m-2">
+        <div class="card-body">
+            <!-- <h5 class="card-title text-success font-bold" style="font-size: xx-large;">Brand Wise Model</h5> -->
+            <h2 align="center" class="card-title">Brand Wise Model</h2>
+            <div class="table-responsive">
+    
+                <div id="accordian-4">
+                    <div class="card m-t-30">
+                        {% for brand in brands %}
+                        <a style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;" data-toggle="collapse" data-parent="#accordian-4" href="#{{ brand.id }}">
+                            {{ brand.name }}<span class="badge pull-right"><i
+                                    class="seticon fa fa-plus"></i></span>
+                        </a>
+                        <div id="{{ brand.id }}" class="panel-collapse collapse m-l-10">
+                            <div class="panel-body">
+                                <ul style="list-style-type: none;">
+                                    {% for i in brand.model_set.all %}
+                                    <!-- <li><a href="{% url 'dashboard:tables' %}?brands={{i.id}}">{{i.name }}</a></li> -->
+                                    <li style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;" >{{i.name }}<a class="text-danger" href="{% url 'dashboard:update-model' i.id %} "> edit</a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid col-6 m-2">
+        <!-- ============================================================== -->
+        <!-- Start Page Content -->
+        <!-- ============================================================== -->
+        <div class="row">
+            <div class="col-md-12 mx-auto shadow-sm">
+                <div class="card shadow-lg dG">
+                    <div class="card-body wizard-content">
+                        <h2 align="center" class="card-title">Add New Model</h2>
+                        <h6 class="card-subtitle"></h6>
+                        <form method="POST" id="example-form" action="#" class="m-t-40" novalidate="novalidate">
+                            {% csrf_token %}
+                            <!-- {{form | crispy}} -->
+                            <div class="form__linput">
+                                <label class="form__label" style="background-color: white" for="lname">Brand Name<span
+                                        class="text-danger">*</span></label>
+                            </div>
+                            <div class="form__input">{{ form.brand }}</div>
+                            <br>
+                            <div class="form__linput">
+                                <label class="form__label" style="background-color: white" for="lname">Model Name<span
+                                        class="text-danger">*</span></label>
+                            </div>
+                            <div class="form__input" style="width: 100%;">{{ form.name }}</div>
+                            <br><br>
+                             <input class="btn btn-success btn-block dG" type="submit" value="Add">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+    
+
+
+    
+    {% endblock %}
+
+    {% block extra_js %}
+    <script>
+        //***********************************//
+        // For select 2
+        //***********************************//
+        $(".select2").select2();
+
+        /*colorpicker*/
+        $('.demo').each(function () {
+            //
+            // Dear reader, it's actually very easy to initialize MiniColors. For example:
+            //
+            //  $(selector).minicolors();
+            //
+            // The way I've done it below is just for the demo, so don't get confused
+            // by it. Also, data- attributes aren't supported at this time...they're
+            // only used for this demo.
+            //
+            $(this).minicolors({
+                control: $(this).attr('data-control') || 'hue',
+                position: $(this).attr('data-position') || 'bottom left',
+
+                change: function (value, opacity) {
+                    if (!value) return;
+                    if (opacity) value += ', ' + opacity;
+                    if (typeof console === 'object') {
+                        console.log(value);
+                    }
+                },
+                theme: 'bootstrap'
+            });
+
+        });
+        /*datwpicker*/
+        jQuery('.mydatepicker').datepicker();
+        jQuery('#datepicker-autoclose').datepicker({
+            autoclose: true,
+            todayHighlight: true
+        });
+
+        var quill = new Quill('#editor', {
+            theme: 'snow'
+        });
+    </script>
+
+    {% endblock %}
