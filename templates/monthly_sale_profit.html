@@ -1,0 +1,64 @@
+<h1>Monthly Sale Profit</h1>
+<p>Current Month: {{ current_month }}</p>
+
+{% for month, data in data_by_month.items %}
+    <h2>{{ month }}</h2>
+    <p>Stock Quantity: {{ data.stock_quantity }}</p>
+    <p>Stock Amount: {{ data.stock_amount }}</p>
+    <p>Sale Quantity: {{ data.sale_quantity }}</p>
+    <p>Sale Amount: {{ data.sale_amount }}</p>
+    <p>Profit: {{ data.profit }}</p>
+{% endfor %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
+    Launch demo modal
+  </button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>

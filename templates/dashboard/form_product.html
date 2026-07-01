@@ -1,0 +1,240 @@
+{% extends "base.html" %} {% load i18n %} {% load static %} 
+{% block extra_css%}
+<style xmlns="http://www.w3.org/1999/html"></style>
+{% endblock %} {% block page_title %} Form {% endblock %} 
+{% load crispy_forms_tags %} {% block content %}
+
+
+<div class="page-breadcrumb">
+  <div class="row">
+    <div class="col-12 align-items-center">
+      <h4 class="page-title">
+        {% for message in messages %}
+        <div class="container-fluid p-0">
+          <div class="alert {{ message.tags }} alert-success" role="alert">
+            <button
+              type="button"
+              class="close"
+              data-dismiss="alert"
+              aria-label="Close"
+            >
+              <span aria-hidden="True">&times;</span>
+            </button>
+            {{ message }}
+          </div>
+        </div>
+        {% endfor %}
+      </h4>
+      <div class=" text-center" style="width: 50%; margin: 0 auto;">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item" style="margin-right: 200px;">
+              <a class="btn btn-success dG" href="{% url 'dashboard:tables' %}"
+              >Back To Products</a
+              >
+            </li>
+            <li class="breadcrumb-item">
+              <a
+                class="btn btn-success dG"
+                href="{% url 'dashboard:add-model' %}"
+                >Add New Model</a
+              >
+            </li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid mx-auto">
+  <div class="row mx-auto">
+    <div class="col-md-6 mx-auto shadow-sm">
+      <div class="card shadow-lg dG">
+        <div class="card-body wizard-content">
+              <h2 align="center" class="card-title block">Add New Product</h2>
+          <h6 class="card-subtitle"></h6>
+          <form
+            method="POST"
+            id="example-form"
+            action="#"
+            class="m-t-20"
+            novalidate="novalidate"
+          >
+            {% csrf_token %}
+            <!-- {{form | crispy }} -->
+            <div class="form__linput">
+              <label style="background-color: white" for="id_brand"> Select Brand<span class="text-danger">*</span></label>
+              {{ form.brand }}
+            </div>
+            <br>
+            <div>
+              <div class="form-group">
+                <label style="background-color: white" for="id_model"> Select Model <span class="text-danger">*</span></label>
+                {{ form.model }}
+              </div>
+            </div>
+
+            <div class="form__linput">
+              <label
+                class="form__label"
+                style="background-color: white"
+                for="p_name"
+                id="p_name"
+                >Product Name<span class="text-danger">*</span></label
+              >
+            </div>
+            <div class="form__input">{{ form.product_name }}</div>
+            <br />
+            <div class="form__linput">
+              <label
+                class="form__label"
+                style="background-color: white"
+                for="lname"
+                >Product Quantity<span class="text-danger">*</span></label
+              >
+            </div>
+            <div class="form__input">{{form.product_quantity}}</div>
+            <br />
+            <div class="form__linput">
+              <label
+                class="form__label"
+                style="background-color: white"
+                for="b_price"
+                >Buying Price<span class="text-danger">*</span></label
+              >
+            </div>
+            <div class="form__input">{{form.buying_price}}</div>
+            <br />
+            <div class="form__linput">
+              <label
+                class="form__label"
+                style="background-color: white"
+                for="e_s_price"
+                >Expecting Saleing Price<span class="text-danger">*</span></label
+              >
+            </div>
+            <div class="form__input">{{form.expecting_Saleing_price}}</div>
+            <br /><br />
+           
+            <input
+            class="btn btn-success btn-block dG"
+            type="submit"
+            value="Add"
+            />
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+  $('#id_brand').change(function() {
+    var brandId = $(this).val();
+    $.ajax({
+      url: 'http://127.0.0.1:8000/dashboard/get_models/',
+      data: {
+        'brand_id': brandId
+      },
+      success: function(data) {
+        var modelSelect = $('#id_model');
+        modelSelect.empty();
+        $.each(data, function(index, item) {
+          modelSelect.append($('<option>', {
+            value: item.id,
+            text: item.name
+          }));
+        });
+      }
+    });
+  });
+});
+</script>
+{% endblock %} {% block extra_js %}
+<script>
+
+  $(".select2").select2();
+
+  /*colorpicker*/
+  $(".demo").each(function () {
+  
+    $(this).minicolors({
+      control: $(this).attr("data-control") || "hue",
+      position: $(this).attr("data-position") || "bottom left",
+
+      change: function (value, opacity) {
+        if (!value) return;
+        if (opacity) value += ", " + opacity;
+        if (typeof console === "object") {
+          console.log(value);
+        }
+      },
+      theme: "bootstrap",
+    });
+  });
+  /*datwpicker*/
+  jQuery(".mydatepicker").datepicker();
+  jQuery("#datepicker-autoclose").datepicker({
+    autoclose: true,
+    todayHighlight: true,
+  });
+
+  var quill = new Quill("#editor", {
+    theme: "snow",
+  });
+</script>
+
+
+
+<!-- <form method="POST">
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="id_product_name">Product Name<span class="text-danger">*</span></label>
+    {{ form.product_name }}
+  </div>
+
+
+
+  <div class="form-group">
+    <label for="id_brand">Brand Name<span class="text-danger">*</span></label>
+    {{ form.brand }}
+  </div>
+
+
+
+  <div class="form-group">
+    <label for="id_model">Model Name<span class="text-danger">*</span></label>
+    {{ form.model }}
+  </div>
+
+
+
+
+
+  <div class="form-group">
+    <label for="id_product_quantity">Product Quantity<span class="text-danger">*</span></label>
+    {{ form.product_quantity }}
+  </div>
+  <div class="form-group">
+    <label for="id_buying_price">Buying Price<span class="text-danger">*</span></label>
+    {{ form.buying_price }}
+  </div>
+  <div class="form-group">
+    <label for="id_expecting_Saleing_price">Expecting Selling Price<span class="text-danger">*</span></label>
+    {{ form.expecting_Saleing_price }}
+  </div>
+  <button type="submit" class="btn btn-primary">Add Product</button>
+</form> -->
+
+     
+     <!-- <form method="POST"> 
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit">Add Product</button>
+        </form> -->
+        
+      
+
+{% endblock %}
